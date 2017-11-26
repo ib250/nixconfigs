@@ -1,0 +1,42 @@
+#! /bin/sh
+[ -e $HOME/.local/bspwm.log ] && rm $HOME/.local/bspwm.log 
+{
+	xrdb ~/.Xresources
+  xset r rate 370 150
+
+	urxvtd -q -f -o & 
+	polybar example &
+  unclutter -idle 1 &
+
+  barFG="$(xrdb -query | grep -e "^*foreground:" | awk '{print $NF}')"
+  barBG="$(xrdb -query | grep -e "^*background:" | awk '{print $NF}')"
+
+	# Gaps and such:
+	bspc config border_width	 5
+	bspc config window_gap		8
+	bspc config split_ratio			0.50
+	bspc config gapless_monocle	  false
+	bspc config borderless_monocle false
+	bspc config focus_follows_pointer true
+	bspc config pointer_follows_focus false
+	bspc config pointer_follows_monitor true
+
+	# output colours:
+	bspc config normal_border_color $barBG
+	bspc config focused_border_color $barFG
+	bspc config active_border_color $barFG
+	bspc config presel_feedback_color $barFG
+
+	# monitors:
+	bspc monitor eDP1 -d 'I' 'II' 'III' 'IV' 'V'
+
+	bspc rule -a "Firefox" desktop="^2" follow=on
+	bspc rule -a "Zathura" state=tiled follow=on
+	bspc rule -a "URxvtQuake" state=floating sticky=on
+	bspc rule -a "URxvtRun" state=floating sticky=on
+	bspc rule -a "Butter" desktop="^1" follow=on
+
+	squeezewin.sh +0 +bar
+  hsetroot -solid "${barBG}"
+
+} 2> $HOME/.local/bspwm.log 

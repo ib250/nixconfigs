@@ -1,0 +1,66 @@
+#include </home/ismail/.termcolors/xuse>
+#include </home/ismail/.xrdb.d/urxvt_settings>
+#include </home/ismail/.xrdb.d/rofi_settings>
+#include </home/ismail/.xrdb.d/polybar_settings>
+
+#ifndef bblk
+#define bblk blk
+#endif
+
+#ifndef bred
+#define bred red
+#endif
+
+#ifndef bgrn
+#define bgrn grn
+#endif
+
+#ifndef bylw
+#define bylw ylw
+#endif
+
+#ifndef bblu
+#define bblu blu
+#endif
+
+#ifndef bmag
+#define bmag mag
+#endif
+
+#ifndef bwht
+#define bwht wht
+#endif
+
+#ifndef bcyn
+#define bcyn cyn
+#endif
+
+
+! XColors {{{
+*background:   bg
+*foreground:   fg
+*cursorColor:  ylw
+*color0:      blk
+*color8:      bblk
+*color1:      red
+*color9:      bred
+*color2:      grn
+*color10:     bgrn
+*color3:      ylw
+*color11:     bylw
+*color4:      blu
+*color12:     bblu
+*color5:      mag
+*color13:     bmag
+*color6:      cyn
+*color14:     bcyn
+*color7:      wht
+*color15:     bwht
+! if 256 is available
+*.color16:     red
+*.color17:     grn
+*.color18:     blu
+*.color19:     cyn
+*.color20:     mag
+*.color21:     ylw
+! }}}

@@ -1,0 +1,8 @@
+
+! Polybar {{{
+polybar.background: bg
+polybar.foreground: fg
+polybar.font: Source\ Code\ Pro\ for\ Powerline:size=9
+!}}}
+
+!vim :set ft=conf

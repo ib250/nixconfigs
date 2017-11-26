@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+source "/home/ismail/.bash_profile"
+source "/home/ismail/.bash_aliases"
+
+thebg="$(xrdb -query | grep "*background" | awk '{print $NF}')"
+thefg="$(xrdb -query | grep "*color8" | awk '{print $NF}')"
+wht="$(xrdb -query | grep "*color7" | awk '{print $NF}')"
+compton_opts="withcompton"
+wall_opt=-center
+
+case ${2:-${compton_opts}} in
+  withcompton ) comptontoggle start &
+    ;;
+  withoutcompton ) comptontoggle stop &
+    ;;
+esac
+
+case ${1:-${blend_options}} in
+	tile ) 
+		comptontoggle stop &
+		xsetroot -bitmap ${noComptonTile} -bg "${thebg}" -fg "${thefg}"
+		;;
+	tile-light ) 
+		comptontoggle stop &
+		xsetroot -bitmap ${noComptonTile} -bg "${wht}" -fg "${thebg}"
+		;;
+	notile )
+		comptontoggle stop &
+		hsetroot -solid  "${thebg}"
+		;;
+	notile-light )
+		hsetroot -solid  "${wht}"
+		;;
+	patterns )
+		hsetroot -tile ${comptonTile}
+		;;
+	patterns-light )
+		hsetroot -tile ${comptonTile_light}
+		;;
+  wall )
+    case ${2:-${wall_opt}} in
+      fill ) hsetroot -fill ${wallSingle} ;;
+      *    ) hsetroot -center ${wallSingle} ;;
+    esac
+    ;;
+esac
+

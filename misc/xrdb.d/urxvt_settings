@@ -1,0 +1,26 @@
+
+URxvt.depth: 32
+URxvt.termName:  rxvt-unicode-256color
+URxvt.loginShell:         true
+URxvt.scrollBar:         false
+URxvt.secondaryScroll:    true
+URxvt.saveLines:         65535
+URxvt.cursorBlink:       false
+URxvt.internalBorder:   15
+URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select,resize-font
+URxvt.url-select.launcher:  vimb
+URxvt.url-select.underline: true
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.clipboard.autocopy: true
+
+URxvt.font: \
+    xft:Source\ Code\ Pro\ for\ Powerline:size=9,style=Light, \
+    xft:Misc\ Fixed:size=9,style=regular:antialias=False:outline=False,\
+    xft:Terminal:pixelsize=9:antialias=True,\
+    xft:Inconsolata for Powerline:pixelsize=16,\
+    xft:InconsolataForPowerline Nerd Font:pixelsize=16\
+
+xft.dpi: 109
+
+!vim :set ft=conf
