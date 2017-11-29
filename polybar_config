@@ -37,7 +37,7 @@
   font-0 = ${xrdb:polybar.font}
   font-1 = unifont:size=6:heavy:fontformat=truetype;-2
   font-2 = siji:pixelsize=9;0
-	modules-left = powermenu xwindow
+	modules-left = xwindow
 	modules-center = bspwm 
 	modules-right = backlight volume wlan battery temperature date 
 	;tray-position = right

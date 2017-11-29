@@ -10,6 +10,16 @@
         ];
 
     # Use the systemd-boot EFI boot loader. 
+    boot.kernelModules = [
+        "kvm-intel" "ipv6" "cpufreq_powersave"
+        "loop" "atkbd" "snd_pcm_oss" "vboxdrv"
+        "vboxnetadp" "vboxnetft"
+    ];
+
+    boot.extraModulePackages = [
+        pkgs.linuxPackages.virtualbox
+    ];
+
     boot.loader = {
         systemd-boot.enable = true;
         efi.canTouchEfiVariables = true;
@@ -48,22 +58,28 @@
         vaapiVdpau
     ];
 
+    hardware.pulseaudio.enable = true;
+
     # List packages installed in system profile. To search by name, run:
     # $ nix-env -qaP | grep wget
     environment.systemPackages = with pkgs; [
-        wget sudo nix-repl w3m
 
-        (import ./vim.nix)
+        virtualbox
+        linuxPackages.virtualbox
+
+        wget sudo w3m
+
+        nox nix-index nix-info nix-repl
+        vimHugeX
 
         manpages
 
         wpa_supplicant_gui
+
         pulseaudioFull
-        vaapiIntel vaapiVdpau
-        libvdpau
-        libvdpau-va-gl
 
         rxvt_unicode bspwm-unstable
+
         sxhkd-unstable rofi unclutter
         xorg.xorgserver xorg.xdm
         xorg.xinit xorg.xrdb
@@ -74,14 +90,12 @@
         wmutils-opt compton zsh
 
         polybar # fonts for polybar
-            siji unifont
 
         font-manager
 
         acpi htop
-        gitAndTools.gitFull
-
-        exa ranger
+        
+        git exa ranger
 
         ghc stack  # ihaskell
         haskellPackages.hlint
@@ -90,7 +104,6 @@
 
         python3Full 
             python36Packages.ipython
-            python36Packages.jupyter
             python36Packages.pip
             python36Packages.pylint
             python36Packages.flake8
@@ -102,49 +115,51 @@
             python27Packages.flake8
             python27Packages.virtualenvwrapper
 
-        firefox 
+        firefox
+
+        zsync binutils autoconf gnumake fuse
+        xzgv gnum4 glib openssl libtool
+        cmake inotify-tools lz4 gcc
+        desktop_file_utils cairo
+        libarchive automake
     ];
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
     programs = let
         customAliases = {
-            _ = "sudo"; c = "clear";
-            l = "exa --long --all --git";
-            ls = "exa"; r = "ranger";
-            vim = "vim_custom_minimal -U ~/.vimrc";
-            ll = "exa --long --git";
-            rmi = "rm -iv"; cpi = "cp -iv";
-            mvi = "mv -iv";
-            sxconf = "cat ~/.config/sxhkd/sxhkdrc \n";
-            xsxconf = "vim $HOME/.config/sxhkd/sxhkdrc";
+            c = "clear"; l = "exa --long --all --git";
+            ls = "exa"; r = "ranger"; ll = "exa --long --git";
+            rmi = "rm -iv"; cpi = "cp -iv"; mvi = "mv -iv";
             trls = "exa -T -L 1"; tree = "exa -T";
             quickLuaTex = "latexmk -lualatex";
-            quickPdfTex = "latexmk -pdf";
-            alsi = "alsi -n"; q = "exit"; };
-
-        shellFunctions =
-            builtins.readFile ./shell_functions.sh;
+            quickPdfTex = "latexmk -pdf"; q = "exit"; };
 
         bashConfig = {
             enableCompletion = true;
-            shellAliases = customAliases; }; 
+            shellAliases = customAliases;
+	}; 
 
         zhighlighting = {
             enable = true;
-            highlighters = [
-                "main" "brackets" "pattern"
-                "cursor" "root" "line" ]; };
+            highlighters =
+		[ "main"
+		  "brackets"
+		  "pattern"
+		  "root"
+		  "line"
+		];
+	};
 
         zshConfig = with zhighlighting; {
             enable = true;
             enableAutosuggestions = true;
             enableCompletion = true;
             shellAliases = customAliases;
-            shellInit = ''${shellFunctions}
-                          bindkey jk vi-cmd-mode
+            shellInit = ''bindkey jk vi-cmd-mode
                           bindkey kj vi-cmd-mode'';
-            syntaxHighlighting = zhighlighting; };
+            syntaxHighlighting = zhighlighting;
+	};
         
         in { mtr = { enable = true; };
              bash = bashConfig;
@@ -171,17 +186,20 @@
 
     # Enable the X11 windowing system.
     services.xserver = {
+
         enable = true;
         layout = "gb";
+
         libinput.enable = true;
         enableCtrlAltBackspace = true;
         exportConfiguration = true;
+
         videoDrivers = [ "intel" ];
-        xkbOptions = "grp:caps_toggle, grp_led:caps, terminate:ctrl_alt_bksp";
-        desktopManager.default = "xterm";
+        # desktopManager.default = "xterm";
 
         displayManager = {
-            lightdm.enable = true;
+
+            slim.enable = true;
 
             job = {
                 logsXsession = true;
@@ -192,6 +210,7 @@
                 with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
 
             session = let
+
                 # Xterm session
                 xterm_session = {
                     manage = "desktop";
@@ -212,7 +231,7 @@
                 xmonad_session = {
                     manage = "window";
                     name = "xmonad";
-                    start = ''xmonad'';
+                    start = "xmonad";
                 };
 
                 # expose all
@@ -224,7 +243,8 @@
 
             xmonad = {
                 enable = true;
-                enableContribAndExtras = true; };
+                enableContribAndExtras = true;
+	    };
         };
     };
 
@@ -241,7 +261,8 @@
     users.extraUsers.ismail = {
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "video"
+        extraGroups = [ "wheel" "video" 
+                        "vboxusers"
                         "networkmanager" ];
     };
 
