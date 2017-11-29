@@ -1,0 +1,14 @@
+! warmth
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg #2A281C
+#define fg #ED9531
+#define blk #1F2421 
+#define bblk #171A15 
+#define wht #FEEAB0
+#define red #673C1A
+#define grn #2B4423
+#define ylw #673C1A
+#define blu #3B3D41
+#define mag #3D4244
+#define cyn #605E62

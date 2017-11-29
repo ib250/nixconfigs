@@ -1,0 +1,73 @@
+#!/usr/bin/env sh
+
+# remove the old one
+[ -e "xuse" ] && rm xuse
+
+# copy target
+cat "$1" > xuse
+
+# sed change stuff to add transparency
+sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
+
+# reload Xresources
+xrdb $HOME/.Xresources
+
+export barBG=$(xrdb -query | grep "*background" | awk '{print $NF}')
+export barFG=$(xrdb -query | grep "*foreground" | awk '{print $NF}')
+
+# reset wall
+hsetroot -solid "${barBG}"
+
+# chang bsp stuff
+pgrep bspwm && {
+
+  bspc config normal_border_color "${barBG}"
+  bspc config focused_border_color "${barFG}"
+  bspc config active_border_color "${barFG}"
+
+  bargaps.sh && bargaps.sh 2> /dev/null
+
+}
+
+# update zathurarc
+ZRC=${HOME}/.config/zathura/zathurarc 
+
+[ -e ${ZRC} ] && {
+
+  rm ${ZRC}
+
+  echo "
+# Open document in fit-width mode by default
+set adjust-open "width"
+
+# One page per row by default
+set pages-per-row 1
+set recolor-reverse-video True
+set recolor-keephue
+set recolor
+
+# Appearance
+set default-bg "${barBG}"
+set default-fg "${barFG}"
+set inputbar-bg "${barBG}"
+set inputbar-fg "${barFG}"
+set statusbar-bg "${barBG}"
+set statusbar-fg "${barFG}"
+set recolor-lightcolor "${barBG}"
+set recolor-darkcolor "${barFG}"
+set highlight-color "${barFG}"
+set highlight-active-color "${barBG}"
+set completion-bg "${barBG}"
+set completion-fg "${barFG}"
+set completion-group-fg "${barFG}"
+set completion-group-bg "${barBG}"
+set completion-highlight-bg "${barFG}"
+set completion-highlight-fg "${barBG}"
+set index-bg "${barBG}"
+set index-fg "${barFG}"
+set index-active-bg "${barFG}"
+set index-active-fg "${barBG}"
+" > ${HOME}/.config/zathura/zathurarc
+
+}
+

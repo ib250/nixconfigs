@@ -1,0 +1,13 @@
+! springinfrance 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+#define bg #191716
+#define fg  #CECECE
+#define blk #313758
+#define bblk #AFA19C
+#define red #3E4164
+#define grn #5D5971
+#define ylw #757585
+#define blu #838489
+#define mag #887B85
+#define cyn #8A6D79
+#define wht #938D8F

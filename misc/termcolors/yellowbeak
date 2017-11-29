@@ -1,0 +1,13 @@
+! yellowbeak 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+#define bg #111111
+#define fg #d3d3d3
+#define blk  #0B0B0B
+#define bblk  #8E8E8E
+#define red  #262516
+#define grn  #303030
+#define ylw  #4C4B31
+#define blu  #4F4F4F
+#define mag  #666658
+#define cyn  #6E6E6E
+#define wht  #7F796A

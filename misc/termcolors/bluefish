@@ -1,0 +1,14 @@
+! bluefish 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg #282828
+#define fg #E0E0E0
+#define blk #373737
+#define bblk #505050
+#define red #D3D3D3
+#define grn #888888
+#define ylw #989898
+#define blu #228CD3
+#define mag #A8A8A8
+#define wht #E0E0E0
+#define cyn #C7C7C7

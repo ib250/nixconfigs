@@ -1,20 +1,27 @@
 
-! ! rofi Color theme {{{
+! ! rofi Color theme
 rofi.font: mono 10
+
 ! Use extended color scheme
  rofi.color-enabled:                  true
+
 ! Color scheme for normal row
  rofi.color-normal:                   argb:00000000, fg, argb:00000000,  awht, bg
+
 ! Color scheme for urgent row
  rofi.color-urgent:                   argb:00000000, fg, argb:00000000,  awht, bg
+
 ! Color scheme for active row
  rofi.color-active:                   argb:00000000, fg, argb:00000000,  awht, bg
+
 ! Color scheme window bg: :boarder
  rofi.color-window: bg, fg
+
 ! Separator style (none, dash, solid)
  rofi.separator-style:                solid
+
 ! lines
  rofi.lines: 5
-! }}}
 
-! vim :set ft=conf
+! vim:ft=xdefaults
+

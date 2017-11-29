@@ -1,0 +1,14 @@
+! drown 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg #32404E
+#define fg #BCBFBD
+#define blk #445869
+#define bblk #445869
+#define wht #BCBFBD
+#define ylw #CD897A
+#define grn #826E91
+#define blu #59738A 
+#define red #A96764
+#define mag #0C6F8A
+#define cyn #399AA8

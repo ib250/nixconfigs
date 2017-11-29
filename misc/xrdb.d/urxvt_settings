@@ -23,4 +23,5 @@ URxvt.font: \
 
 xft.dpi: 109
 
-!vim :set ft=conf
+! vim:ft=xdefaults
+

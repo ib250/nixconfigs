@@ -7,7 +7,8 @@
             name = "user-packages";
             paths = [ (import ./vim.nix)
                       zip unzip
-                      coreutils ];
+                      coreutils
+                      zathura ];
         };
 
         disposables = pkgs.buildEnv {

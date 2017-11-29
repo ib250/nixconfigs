@@ -1,0 +1,13 @@
+! ninjaDark 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+#define bg  #1a1a1a
+#define fg  #d3d3d3
+#define blk   #333333
+#define bblk   #444444
+#define red   #4f2517
+#define grn   #667350
+#define ylw   #8d7041
+#define blu   #384555
+#define mag   #2e231c
+#define cyn   #6a5e44
+#define wht   #c6c2ab
