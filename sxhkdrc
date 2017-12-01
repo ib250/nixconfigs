@@ -21,7 +21,7 @@ F6
 
 # terminal emulator with zsh normally
 super + Return
-	pgred urxvtd && urxvtc || urxvt
+	pgrep urxvtd && urxvtc || urxvt
 
 # terminal emulator in bash
 super + {shift,alt} + Return
@@ -70,9 +70,9 @@ super + Escape
 # quit bspwm normally
 super + alt + Escape
 	pgrep polybar && pkill polybar; \
-  comtontoggle stop & \
+	pkill compton; \
 	bspc quit; \
-	pkill x
+	exit;
 
 # close and kill
 super + {_,shift + }w

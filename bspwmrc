@@ -3,9 +3,9 @@
 {
   xrdb ~/.Xresources
   xset r rate 370 150
+  xset s off -dpms
   
   urxvtd -q -f -o & 
-  polybar example &
   unclutter -idle 1 &
   
   barFG="$(xrdb -query | grep -e "^*foreground:" | awk '{print $NF}')"
@@ -28,7 +28,7 @@
   bspc config presel_feedback_color $barFG
   
   # monitors:
-  bspc monitor eDP1 -d 'I' 'II' 'III' 'IV' 'V'
+  bspc monitor -d 'I' 'II' 'III' 'IV' 'V'
   
   bspc rule -a "Firefox" desktop="^2" follow=on
   bspc rule -a "Zathura" state=tiled follow=on
@@ -36,8 +36,9 @@
   bspc rule -a "URxvtRun" state=floating sticky=on
   bspc rule -a "Butter" desktop="^1" follow=on
   
-  squeezewin.sh +10 +bar
   hsetroot -solid "${barBG}"
   compton &
+  polybar example &
+  squeezewin.sh +10 +bar
 
 } 2> $HOME/.local/bspwm.log 

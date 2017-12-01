@@ -3,7 +3,7 @@
 
 polybar.background: bg
 polybar.foreground: fg
-polybar.font: Source\ Code\ Pro\ for\ Powerline:size=9
+polybar.font: xftfnt
 
 
 ! vim:ft=xdefaults

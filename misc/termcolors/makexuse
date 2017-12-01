@@ -9,6 +9,9 @@ cat "$1" > xuse
 # sed change stuff to add transparency
 sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
 
+echo "#define xftfnt xft:Fira Mono:style=regular:size=9" >> xuse
+echo "#define fnt Fira Mono Regular 9" >> xuse
+
 # reload Xresources
 xrdb $HOME/.Xresources
 

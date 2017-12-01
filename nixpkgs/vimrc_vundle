@@ -1,0 +1,6 @@
+set nocompatible
+filetype off
+call vundle#begin()
+Plugin 'VisIncr'
+call vundle#end()
+filetype plugin indent on    " required

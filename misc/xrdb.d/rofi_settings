@@ -1,6 +1,6 @@
 
 ! ! rofi Color theme
-rofi.font: mono 10
+rofi.font: fnt
 
 ! Use extended color scheme
  rofi.color-enabled:                  true

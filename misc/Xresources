@@ -35,6 +35,8 @@
 #define bcyn cyn
 #endif
 
+*font: xftfnt
+
 
 ! XColors {{{
 *background:   bg

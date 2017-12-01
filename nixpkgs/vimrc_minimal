@@ -1,12 +1,7 @@
+  set nocompatible              " be iMproved, required
 " General Leader shortcuts {
   let g:mapleader = ";"
 "}
-  set nocompatible              " be iMproved, required
-  filetype off
-  call vundle#begin()
-  Plugin 'VisIncr'
-  call vundle#end()
-  filetype plugin indent on    " required
   set autoindent		" always set autoindenting on
 "}
 " General settings {
