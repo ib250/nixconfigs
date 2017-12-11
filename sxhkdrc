@@ -4,7 +4,7 @@
 
 # lights
 {F2,F3}
-	xbacklight -{dec,inc} 2
+	intelbacklight -{dec,inc} 2
 
 # volume mute/unmute
 F6
@@ -19,7 +19,7 @@ F6
 #super + alt + Escape
 	#lemtoggle stop  && bspc quit 2> /dev/null
 
-# terminal emulator with zsh normally
+# terminal emulator
 super + Return
 	pgrep urxvtd && urxvtc || urxvt
 
@@ -70,7 +70,7 @@ super + Escape
 # quit bspwm normally
 super + alt + Escape
 	pgrep polybar && pkill polybar; \
-	pkill compton; \
+	pgrep compton && pkill compton; \
 	bspc quit; \
 	exit;
 

@@ -1,10 +1,5 @@
 # some possibly useless functions
 
-ddboot() {
-	# reminder for bootable stuff
-	echo "dd bs=\$\3 if=\$\1 of=\$\2 status=progress && sync"
-}
-
 # not much use now that i've got locate but...
 doihave() {
 	# the 2 input case
@@ -70,7 +65,7 @@ the quick brown fox jumps over the lazy dog
 
 # dump a list of packages
 pacmanEmList() {
-	packages="$HOME/packageList"
+	packages="$HOME/.config/basic_packages.conf"
 	[ -e "${packages}" ] && rm -f ${packages}
 	pacman --query > ${packages}
 }
@@ -155,11 +150,11 @@ mybibtex() {
 																 #s/"${currfg}"/\""${barFG}"\"/" > $HOME/.config/zathura/zathurarc
 #}
 
-lowerbar() {
-	barid="$(xdo id -a mybar)"
-	rootid="$(xdo id -a eDP1)"
-	xdo below -t "${rootid}" "${barid}"
-}
+#lowerbar() {
+	#barid="$(xdo id -a mybar)"
+	#rootid="$(xdo id -a eDP1)"
+	#xdo below -t "${rootid}" "${barid}"
+#}
 
 
 ofoam() {
@@ -172,17 +167,6 @@ movebooks() {
   exa -l *.${1} && {
     mv *.${1} $HOME/.Library
   }
-}
-
-haskeleton() {
-  stack new haskeleton
-  rename haskeleton ${1} haskeleton
-  cat ${1}/haskeleton.cabal | \
-    sed -e "s/haskeleton/${1}/g" \
-    > ${1}/${1}.cabal
-  rm -rf ${1}/haskeleton.cabal
-  echo "\nGo on then..."
-  exa -T ${1}
 }
 
 clean_src() {

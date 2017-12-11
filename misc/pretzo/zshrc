@@ -10,6 +10,17 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+alias c="clear"
+alias l="exa --long --all --git"
+alias ls="exa"
+alias ll="exa --long --git"
+alias trls="exa -T -L 1"
+alias tree="exa -T"
+alias quickLuaTex="latexmk -lualatex"
+alias quickPdfTex="latexmk -pdf"
+alias q="exit" 
+alias nix='. /home/ismail/.nix-profile/etc/profile.d/nix.sh'
+
 # Customize to your needs...
 bindkey jk vi-cmd-mode
 bindkey kj vi-cmd-mode
