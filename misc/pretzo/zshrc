@@ -11,15 +11,28 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 alias c="clear"
-alias l="exa --long --all --git"
-alias ls="exa"
-alias ll="exa --long --git"
-alias trls="exa -T -L 1"
-alias tree="exa -T"
-alias quickLuaTex="latexmk -lualatex"
-alias quickPdfTex="latexmk -pdf"
+
+which exa > /dev/null && {
+  alias l="exa --long --all --git"
+  alias ls="exa"
+  alias ll="exa --long --git"
+  alias trls="exa -T -L 1"
+  alias tree="exa -T"
+} || {
+  alias l="ls -lah"
+  alias ll="ls -l"
+}
+
+which lataxmk > /dev/null && {
+  alias quickLuaTex="latexmk -lualatex"
+  alias quickPdfTex="latexmk -pdf"
+}
+
 alias q="exit" 
-alias nix='. /home/ismail/.nix-profile/etc/profile.d/nix.sh'
+
+which pacman > /dev/null && {
+  alias nix='. /home/ismail/.nix-profile/etc/profile.d/nix.sh'
+}
 
 # Customize to your needs...
 bindkey jk vi-cmd-mode
