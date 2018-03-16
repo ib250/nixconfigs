@@ -115,19 +115,23 @@ startmatlab() {
 }
 
 makecolors() {
+
 	printheader() {
 		echo "! $@ \n! bg fg blk bblk wht red grn ylw blu mag cyn"
 	}
+
 	makeandlink() {
 		pathprefix="/home/ismail/.GitDots/ib250/${1}"
 		printheader ${1} > ${pathprefix}
 		ln -s ${pathprefix} $HOME/.termcolors/.
 	}
+
 	[ $# -eq 0 ] && echo "Must specify filename" || {
 		for i in "$@" ; do
 			makeandlink ${i}
 		done
 	}
+
 }
 
 mypdflatex() {
@@ -158,7 +162,7 @@ mybibtex() {
 
 
 ofoam() {
-  source /opt/OpenFOAM/OpenFOAM-3.0.1/etc/bashrc 
+  source /opt/OpenFOAM/OpenFOAM-3.0.x/etc/bashrc 
   PATH=/opt/paraview/bin:${PATH}
 }
 
@@ -184,3 +188,4 @@ show_imports() {
 interracts() {
   jupyter notebook --NotebookApp.iopub_data_rate_limit=1e10 $*
 }
+

@@ -15,8 +15,13 @@ echo "#define fnt Fira Mono Regular 9" >> xuse
 # reload Xresources
 xrdb $HOME/.Xresources
 
-export barBG=$(xrdb -query | grep "*background" | awk '{print $NF}')
-export barFG=$(xrdb -query | grep "*foreground" | awk '{print $NF}')
+export barBG=$(xrdb -query | \
+               grep "*background" | \
+               awk '{print $NF}')
+
+export barFG=$(xrdb -query | \
+               grep "*foreground" | \
+               awk '{print $NF}')
 
 # reset wall
 hsetroot -solid "${barBG}"
@@ -28,7 +33,8 @@ pgrep bspwm && {
   bspc config focused_border_color "${barFG}"
   bspc config active_border_color "${barFG}"
 
-  bargaps.sh && bargaps.sh 2> /dev/null
+  pgrep polybar && pkill polybar 2> /dev/null
+  pgrep polybar || bargaps.sh 2> /dev/null
 
 }
 
@@ -36,12 +42,12 @@ pgrep bspwm && {
 ZRC=${HOME}/.config/zathura/zathurarc 
 
 [ -e ${ZRC} ] && {
-
   rm ${ZRC}
+} 
 
-  echo "
+echo "
 # Open document in fit-width mode by default
-set adjust-open "width"
+set adjust-open \"width\"
 
 # One page per row by default
 set pages-per-row 1
@@ -50,27 +56,24 @@ set recolor-keephue
 set recolor
 
 # Appearance
-set default-bg "${barBG}"
-set default-fg "${barFG}"
-set inputbar-bg "${barBG}"
-set inputbar-fg "${barFG}"
-set statusbar-bg "${barBG}"
-set statusbar-fg "${barFG}"
-set recolor-lightcolor "${barBG}"
-set recolor-darkcolor "${barFG}"
-set highlight-color "${barFG}"
-set highlight-active-color "${barBG}"
-set completion-bg "${barBG}"
-set completion-fg "${barFG}"
-set completion-group-fg "${barFG}"
-set completion-group-bg "${barBG}"
-set completion-highlight-bg "${barFG}"
-set completion-highlight-fg "${barBG}"
-set index-bg "${barBG}"
-set index-fg "${barFG}"
-set index-active-bg "${barFG}"
-set index-active-fg "${barBG}"
+set default-bg \""${barBG}"\"
+set default-fg \""${barFG}"\"
+set inputbar-bg \""${barBG}"\"
+set inputbar-fg \""${barFG}"\"
+set statusbar-bg \""${barBG}"\"
+set statusbar-fg \""${barFG}"\"
+set recolor-lightcolor \""${barBG}"\"
+set recolor-darkcolor \""${barFG}"\"
+set highlight-color \""${barFG}"\"
+set highlight-active-color \""${barBG}"\"
+set completion-bg \""${barBG}"\"
+set completion-fg \""${barFG}"\"
+set completion-group-fg \""${barFG}"\"
+set completion-group-bg \""${barBG}"\"
+set completion-highlight-bg \""${barFG}"\"
+set completion-highlight-fg \""${barBG}"\"
+set index-bg \""${barBG}"\"
+set index-fg \""${barFG}"\"
+set index-active-bg \""${barFG}"\"
+set index-active-fg \""${barBG}"\"
 " > ${HOME}/.config/zathura/zathurarc
-
-}
-

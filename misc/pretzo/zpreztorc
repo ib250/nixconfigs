@@ -38,7 +38,8 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'syntax-highlighting' \
   'git' \
-  'pacman'
+  'pacman' \
+  'archive'
 
 
 #
