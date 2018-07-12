@@ -41,8 +41,8 @@
   set number
   set autoindent
   set expandtab
-  set tabstop=2
-  set shiftwidth=2
+  set tabstop=4
+  set shiftwidth=4
   set lazyredraw          " redraw only when we need to.
   set relativenumber
   autocmd InsertEnter * :set norelativenumber
@@ -104,8 +104,10 @@
   " File types to setup space indentation:
   augroup vimrc_file_type_indentation
     au!
+    autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 expandtab
     autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
     autocmd FileType haskell setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+    autocmd FileType elm setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
     autocmd FileType nix setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
     autocmd FileType vim setlocal shiftwidth=2 tabstop=2 expandtab
     autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 expandtab
