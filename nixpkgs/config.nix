@@ -6,13 +6,14 @@
         myPythonPackages = pkgs.buildEnv {
             name = "my-python-packages";
             paths = [
-                python36Packages.jupyter
-                python36Packages.virtualenv
-                python36Packages.virtualenvwrapper
-                python36Packages.coverage
-                python36Packages.hypothesis
-                python36Packages.pytest
-                python36Packages.pytest-sugar ];
+                python37Packages.jupyter
+                python37Packages.virtualenv
+                python37Packages.virtualenvwrapper
+                python37Packages.coverage
+                python37Packages.hypothesis
+                python37Packages.pytest
+                python37Packages.pytest-sugar
+            ];
         };
 
         /*
@@ -23,7 +24,11 @@
 
         usefulNixTools = pkgs.buildEnv {
             name = "useful-nix-tools";
-            paths = [nox nix-index nix-repl];
+            paths = [
+                nox
+                nix-index
+                nix-repl
+            ];
         };
 
         /*

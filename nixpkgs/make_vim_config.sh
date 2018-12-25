@@ -1,15 +1,35 @@
 #! /usr/bin/env bash
 
+status_=1
+rcend="
+source $(pwd)/vimrc_minimal
+\" add new stuff here
+"
+
 mkdir -p ~/.vim/bundle
 
 [ -d ~/.vim/bundle/Vundle.vim ] || {
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-} || {
-    echo "Vundle already found..."
+
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim || {
+        status_=0
+        echo "couldn't find vundle and was unable to clone into .vim"
+        exit status_
+    }
+
+} || echo "Vundle already found..."
+
+
+[ -e ~/.vimrc ] && echo "An existing vimrc aready found" || {
+
+    cp vimrc_vundle ~/.vimrc || {
+        status_=0
+        echo "unable to create template vimrc"
+        exit status_
+    }
+
+    echo ${rcend} >> ~/.vimrc
+
 }
 
-[ -e ~/.vimrc ] && {
-    echo "An existing vimrc aready found"
-} || {
-    cat ./vimrc_vundle > ~/.vimrc
-}
+
+[ ${status_} -eq 1 ] && vim "+:PluginInstall"
