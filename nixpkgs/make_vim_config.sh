@@ -1,5 +1,12 @@
 #! /usr/bin/env bash
 
+__USAGE__="
+./make_vim_config.sh: links approprate configurations and setups for vim
+"
+
+
+make_vim_config() {
+
 status_=1
 rcend="
 source $(pwd)/vimrc_minimal
@@ -16,7 +23,7 @@ mkdir -p ~/.vim/bundle
         exit status_
     }
 
-} || echo "Vundle already found..."
+} && echo "Vundle already found..."
 
 
 [ -e ~/.vimrc ] && echo "An existing vimrc aready found" || {
@@ -33,3 +40,13 @@ mkdir -p ~/.vim/bundle
 
 
 [ ${status_} -eq 1 ] && vim "+:PluginInstall"
+
+}
+
+
+
+[ ${1} ] || {
+    make_vim_config 
+} && {
+    echo ${__USAGE__}
+}
