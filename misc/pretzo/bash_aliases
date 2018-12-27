@@ -1,0 +1,35 @@
+
+alias c=clear
+alias q=exit
+
+
+[ -e "$(which exa)" ] && {
+  alias ls='exa --group-directories-first'
+  alias tree='exa -T --group-directories-first'
+}
+
+
+alias l='ls -l'
+alias ll='ls -la'
+
+
+export WINDHOME='/mnt/c/Users/ib250'
+
+
+HOME_LOCAL_BIN="${HOME}/.local/bin"
+
+for d in $(/bin/ls ${HOME}/.local/bin/* | grep ":" | sed "s/://g")
+do
+    HOME_LOCAL_BIN="${d}:${HOME_LOCAL_BIN}"
+done
+
+export PATH=${HOME_LOCAL_BIN}:${PATH}
+
+
+cppformat() {
+
+    clang-format --style="{BasedOnStyle: llvm, IndentWidth: 4}" ${1} > ${1}.format && {
+    mv ${1}.format ${1}
+    }
+
+}

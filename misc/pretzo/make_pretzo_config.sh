@@ -4,7 +4,6 @@
 [ -e "${ZDOTDIR:-$HOME}/.zpretzo" ] || {
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto" || {
         echo "unable to clone pretzo, probable you already have this available..."
-        exit
     }
 }
 
@@ -18,3 +17,8 @@ do
     }
 
 done
+
+
+[ -e ${HOME}/.bash_aliases ] || {
+    cp -s $(pwd)/bash_aliases ${HOME}/.bash_aliases
+}

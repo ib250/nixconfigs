@@ -17,11 +17,11 @@ fi
 
 # enable stack autocompletion if i have stack setup
 # slow on pretzo in WSL :(
-# [ -e "$(which stack)" ] && {
-#   autoload -U +X compinit && compinit
-#   autoload -U +X bashcompinit && bashcompinit
-#   eval "$(stack --bash-completion-script stack)"
-# }
+[ -e "$(which stack)" ] && {
+    autoload -U +X compinit && compinit
+    autoload -U +X bashcompinit && bashcompinit
+    eval "$(stack --bash-completion-script stack)"
+}
 
 bindkey jk vi-cmd-mode
 bindkey kj vi-cmd-mode
