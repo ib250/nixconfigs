@@ -27,9 +27,11 @@ export PATH=${HOME_LOCAL_BIN}:${PATH}
 
 
 cppformat() {
-
-    clang-format --style="{BasedOnStyle: llvm, IndentWidth: 4}" ${1} > ${1}.format && {
-    mv ${1}.format ${1}
-    }
+    for i in $@
+    do
+        clang-format --style="{BasedOnStyle: llvm, IndentWidth: 4}" ${i} > ${i}.format && {
+            /bin/mv -v ${i}.format ${i}
+        }
+    done
 
 }
