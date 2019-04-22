@@ -12,11 +12,11 @@ make_bsp() {
     which bspc && {
 
         mkdir -p ~/.config/bspwm
-        cp -s $(pwd)/bspwmrc ~/.config/bspwm/bspwmrc && {
+        cp -sf $(pwd)/bspwmrc ~/.config/bspwm/bspwmrc && {
 
             which sxhkd && {
                 mkdir -p ~/.config/skhkd
-                cp -s $(pwd)/sxhkdrc ~/.config/sxhkd/sxhkdrc || {
+                cp -sf $(pwd)/sxhkdrc ~/.config/sxhkd/sxhkdrc || {
                     echo "unable to copy sxhkd config"
                 }
 
@@ -33,7 +33,7 @@ make_polybar() {
     which polybar && {
 
         mkdir -p ~/.config/polybar
-        cp -s $(pwd)/polybar_config ~/.config/polybar/config || {
+        cp -sf $(pwd)/polybar_config ~/.config/polybar/config || {
             echo "unable to copy polybar config"
         }
 

@@ -16,7 +16,7 @@ make_term_colors() {
         mkdir -p ${HOME}/.termcolors
         for i in $(ls termcolors)
         do
-            cp -s $(pwd)/termcolors/${i} ${HOME}/.termcolors/${i}
+            cp -sf $(pwd)/termcolors/${i} ${HOME}/.termcolors/${i}
         done
 
     } || echo "you need xrdb installed for this... xrdb not found"
@@ -29,7 +29,7 @@ make_xresources() {
         mkdir -p ${HOME}/.xrdb.d
         for i in $(ls xrdb.d)
         do
-            cp -s $(pwd)/xrdb.d/${i} ${HOME}/.xrdb.d/${i}
+            cp -sf $(pwd)/xrdb.d/${i} ${HOME}/.xrdb.d/${i}
         done
         cp $(pwd)/Xresources ${HOME}/.Xresources
 
@@ -40,7 +40,7 @@ make_scripts() {
     mkdir -p ${HOME}/.local/bin
     for i in $(ls scripts)
     do
-        cp -s $(pwd)/scripts/${i} ~/.local/bin/${i}
+        cp -sf $(pwd)/scripts/${i} ~/.local/bin/${i}
     done
 }
 

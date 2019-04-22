@@ -4,6 +4,7 @@
   xrdb ~/.Xresources
   xset r rate 370 150
   xset s off -dpms
+  xset b off
   
   urxvtd -q -f -o & 
   unclutter -idle 1 &

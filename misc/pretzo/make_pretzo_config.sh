@@ -11,7 +11,7 @@
 for rcfile in $(ls z*);
 do
     [ -e ~/.${rcfile} ] || {
-        cp -s $(pwd)/${rcfile} ~/.${rcfile}
+        cp -sf $(pwd)/${rcfile} ~/.${rcfile}
     } && {
         echo "~/.${rcfile} is already available, skipping..."
     }

@@ -211,11 +211,11 @@ super + {a,d}
 
 # change gap sizes
 super + G
-	pgrep polybar && squeezewin.sh +10 +bar || squeezewin.sh +10
+	pgrep polybar && ${HOME}/.local/bin/squeezewin.sh +10 +bar || squeezewin.sh +10
 
 
 super + g
-	pgrep polybar && squeezewin.sh -10 +bar || squeezewin.sh -10
+	pgrep polybar && ${HOME}/.local/bin/squeezewin.sh -10 +bar || squeezewin.sh -10
 
 #
 # pointer focus/move/resize

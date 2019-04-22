@@ -1,7 +1,7 @@
-#include </home/ismail/.termcolors/xuse>
-#include </home/ismail/.xrdb.d/urxvt_settings>
-#include </home/ismail/.xrdb.d/rofi_settings>
-#include </home/ismail/.xrdb.d/polybar_settings>
+#include ".termcolors/xuse"
+#include ".xrdb.d/urxvt_settings"
+#include ".xrdb.d/rofi_settings"
+#include ".xrdb.d/polybar_settings"
 
 #ifndef bblk
 #define bblk blk
