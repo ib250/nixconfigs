@@ -81,7 +81,8 @@
 
         pulseaudioFull
 
-        rxvt_unicode bspwm-unstable
+        rxvt_unicode_with-plugins
+	bspwm-unstable
 
         sxhkd-unstable rofi unclutter
         xorg.xorgserver xorg.xdm
@@ -118,6 +119,8 @@
             python27Packages.flake8
             python27Packages.virtualenvwrapper
 
+	sbt scala ammonite-repl
+
         firefox
 
         zsync binutils autoconf gnumake fuse
@@ -125,6 +128,21 @@
         cmake inotify-tools lz4 gcc
         desktop_file_utils cairo
         libarchive automake
+    ];
+
+    fonts.fonts = with pkgs; [
+	noto-fonts
+	noto-fonts-cjk
+	noto-fonts-emoji
+	liberation_ttf
+	fira-mono
+	fira-code
+	fira-code-symbols
+	mplus-outline-fonts
+	dina-font
+	proggyfonts
+	siji
+	unifont
     ];
 
     # Some programs need SUID wrappers, can be configured further or are
@@ -239,7 +257,7 @@
     };
 
     services.compton = rec {
-        enable = false;
+        enable = true;
         fade = false;
         shadow = true;
         backend = "xrender";
@@ -256,6 +274,10 @@
                         "networkmanager" ];
     };
 
+    system.autoUpgrade = {
+	enable = true;
+	channel = https://nixos.org/channels/nixos-19.03;
+    };
     # This value determines the NixOS release with which your system is to be
     # compatible, in order to avoid breaking some software such as database
     # servers. You should change this only after NixOS release notes say you
