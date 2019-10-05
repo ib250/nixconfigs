@@ -21,12 +21,14 @@
     ];
 
     boot.loader = {
-        systemd-boot.enable = true;
-        efi.canTouchEfiVariables = true;
+        # systemd-boot.enable = true;
+        efi.canTouchEfiVariables = false;
         grub = {
-            enable = true;
-            version = 2;
-            device = "/dev/sda";
+            # enable = true;
+            # version = 2;
+	    efiSupport = true;
+	    efiInstallAsRemovable = true;
+            device = "nodev";
         };
     };
 
@@ -34,8 +36,9 @@
     # Enables wireless support via wpa_supplicant.
     networking = {
         hostName = "ib250nix";
-        wireless.enable = true;
-        useDHCP = true;
+	networkmanager.enable = true;
+	# wireless.enable = true;
+        # useDHCP = true;
         nameservers = [ "8.8.8.8" ];
     };
 
@@ -74,7 +77,7 @@
 
         manpages
 
-        wpa_supplicant_gui
+        # wpa_supplicant_gui
 
         pulseaudioFull
 
@@ -195,7 +198,6 @@
         exportConfiguration = true;
 
         videoDrivers = [ "intel" ];
-        # desktopManager.default = "xterm";
 
         displayManager = {
 
@@ -227,24 +229,12 @@
                               ${pkgs.bspwm}/bin/bspwm'';
                 };
 
-                # Xmodnad session
-                xmonad_session = {
-                    manage = "window";
-                    name = "xmonad";
-                    start = "xmonad";
-                };
-
                 # expose all
-                in [ xterm_session bspwm_session xmonad_session ]; };
+                in [ xterm_session bspwm_session ]; };
                 
         windowManager = {
             default = "bspwm";
             bspwm = { enable = true; };
-
-            xmonad = {
-                enable = true;
-                enableContribAndExtras = true;
-	    };
         };
     };
 

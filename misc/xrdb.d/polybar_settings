@@ -3,7 +3,5 @@
 
 polybar.background: bg
 polybar.foreground: fg
-polybar.font: xftfnt
-
 
 ! vim:ft=xdefaults

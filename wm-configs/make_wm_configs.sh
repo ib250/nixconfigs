@@ -15,7 +15,7 @@ make_bsp() {
         cp -sf $(pwd)/bspwmrc ~/.config/bspwm/bspwmrc && {
 
             which sxhkd && {
-                mkdir -p ~/.config/skhkd
+                mkdir -p ~/.config/sxhkd
                 cp -sf $(pwd)/sxhkdrc ~/.config/sxhkd/sxhkdrc || {
                     echo "unable to copy sxhkd config"
                 }
