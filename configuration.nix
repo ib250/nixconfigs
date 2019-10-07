@@ -125,6 +125,7 @@
     git
     exa
     ranger
+    zathura
     ghc
     stack # ihaskell
     haskellPackages.hlint
