@@ -24,19 +24,14 @@
   boot.extraModulePackages = [ pkgs.linuxPackages.virtualbox ];
 
   boot.loader = {
-    # systemd-boot.enable = true;
     efi.canTouchEfiVariables = false;
     grub = {
-      # enable = true;
-      # version = 2;
       efiSupport = true;
       efiInstallAsRemovable = true;
       device = "nodev";
     };
   };
 
-  # Define your hostname.
-  # Enables wireless support via wpa_supplicant.
   networking = {
     hostName = "ib250nix";
     networkmanager.enable = true;
@@ -93,7 +88,13 @@
           ];
           opt = [ haskell-vim vim-scala vim-nix vim-javascript ];
         };
-        customRC = builtins.readFile ./rc/minimal.vim;
+        customRC = ''
+          ${builtins.readFile ./dots/minimal.vim}
+          autocmd FileType scala :packadd vim-scala
+          autocmd FileType nix :packadd vim-nix
+          autocmd FileType javascript :packadd vim-javascript
+          autocmd FIleType haskell :packadd haskell-vim
+          '';
       };
     })
     manpages
@@ -246,28 +247,25 @@
       };
 
       sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
-
       session = let
 
-        # Xterm session
         xterm_session = {
           manage = "desktop";
           name = "xterm";
           start = ''
-            ${pkgs.xterm}/bin/xterm &
-                                          waitPID=$!'';
+            ${pkgs.xterm}/bin/xterm & 
+            waitPID=$!'';
         };
 
-        # bspwm session
         bspwm_session = {
           manage = "window";
           name = "bspwm";
           start = let
             scriptsDir = ''${builtins.getEnv "HOME"}/.local/bin'';
             envPath = builtins.getEnv "PATH";
-            first = ''PATH=${envPath}:${scriptsDir} ${pkgs.sxhkd}/bin/sxhkd &''; 
-            second = ''${pkgs.bspwm}/bin/bspwm'';
-          in first + "\n" + second;
+          in '' 
+            PATH=${envPath}:${scriptsDir} ${pkgs.sxhkd}/bin/sxhkd & 
+            ${pkgs.bspwm}/bin/bspwm'';
         };
 
       in [ xterm_session bspwm_session ];
