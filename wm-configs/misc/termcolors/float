@@ -1,0 +1,14 @@
+! float
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg #534F57
+#define fg #C4D1BE
+#define bblk #1B1B2E
+#define blk #292838
+#define red #632121
+#define ylw #AE8342
+#define grn #7A9BA3
+#define blu #91ADB1
+#define cyn #A9C1BF
+#define mag #C3D5CE
+#define wht #E0EADD

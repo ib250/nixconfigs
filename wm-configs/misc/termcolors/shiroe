@@ -1,0 +1,13 @@
+! shiroe 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+#define bg #1a1a1a
+#define fg #d3d3d3
+#define blk #23202E
+#define bblk #7488AC
+#define red #2D2C54
+#define grn #3246AA
+#define ylw #433C5C
+#define blu #556EE5
+#define mag #59546A
+#define cyn #636598
+#define wht #6B90F3

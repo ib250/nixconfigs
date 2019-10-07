@@ -1,1 +1,1 @@
-nixos configuration and some archy bits
+nixos configuration

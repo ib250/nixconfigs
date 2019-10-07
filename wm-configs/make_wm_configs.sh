@@ -42,9 +42,17 @@ make_polybar() {
 }
 
 
+make_scripts() {
+    mkdir -p ${HOME}/.local/bin
+    for i in $(ls scripts)
+    do
+        cp -sf $(pwd)/scripts/${i} ~/.local/bin/${i}
+    done
+}
+
 case ${1} in
-    bsp ) make_bsp;;
-    polybar ) make_polybar;;
-    all ) make_bsp && make_polybar;;
+    bsp ) make_scripts && make_bsp;;
+    polybar ) make_scripts && make_polybar;;
+    all ) make_scrips && make_bsp && make_polybar;;
     * ) echo ${__USAGE__};;
 esac

@@ -1,0 +1,12 @@
+! utahn 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+#define bg #111111
+#define fg #d3d3d3
+#define blk #0c0605
+#define bblk #5d6174
+#define red #1c1110
+#define ylw #2b1b1a
+#define blu #352727
+#define mag #4e2726
+#define cyn #6c403c
+#define wht #4d4b56

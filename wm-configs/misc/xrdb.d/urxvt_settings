@@ -1,0 +1,18 @@
+
+URxvt.depth: 32
+URxvt.termName:  rxvt-unicode-256color
+URxvt.loginShell:         true
+URxvt.scrollBar:         false
+URxvt.secondaryScroll:    true
+URxvt.saveLines:         65535
+URxvt.cursorBlink:       false
+URxvt.internalBorder:   15
+URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
+URxvt.url-select.underline: true
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.clipboard.autocopy: true
+xft.dpi: 109
+
+! vim:ft=xdefaults
+

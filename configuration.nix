@@ -4,283 +4,301 @@
 
 { config, pkgs, ... }: {
 
-    imports =
-        [ # Include the results of the hardware scan.
-            ./hardware-configuration.nix
-        ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
-    # Use the systemd-boot EFI boot loader. 
-    boot.kernelModules = [
-        "kvm-intel" "ipv6" "cpufreq_powersave"
-        "loop" "atkbd" "snd_pcm_oss" "vboxdrv"
-        "vboxnetadp" "vboxnetft"
-    ];
+  # Use the systemd-boot EFI boot loader. 
+  boot.kernelModules = [
+    "kvm-intel"
+    "ipv6"
+    "cpufreq_powersave"
+    "loop"
+    "atkbd"
+    "snd_pcm_oss"
+    "vboxdrv"
+    "vboxnetadp"
+    "vboxnetft"
+  ];
 
-    boot.extraModulePackages = [
-        pkgs.linuxPackages.virtualbox
-    ];
+  boot.extraModulePackages = [ pkgs.linuxPackages.virtualbox ];
 
-    boot.loader = {
-        # systemd-boot.enable = true;
-        efi.canTouchEfiVariables = false;
-        grub = {
-            # enable = true;
-            # version = 2;
-	    efiSupport = true;
-	    efiInstallAsRemovable = true;
-            device = "nodev";
+  boot.loader = {
+    # systemd-boot.enable = true;
+    efi.canTouchEfiVariables = false;
+    grub = {
+      # enable = true;
+      # version = 2;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev";
+    };
+  };
+
+  # Define your hostname.
+  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "ib250nix";
+    networkmanager.enable = true;
+    # wireless.enable = true;
+    # useDHCP = true;
+    nameservers = [ "8.8.8.8" ];
+  };
+
+  # Select internationalisation properties.
+  i18n = {
+    consoleFont = "Lat2-Terminus16";
+    consoleKeyMap = "uk";
+    defaultLocale = "en_GB.UTF-8";
+  };
+
+  # Set your time zone.
+  time.timeZone = "Europe/London";
+
+  # opengl
+  hardware.opengl.extraPackages = with pkgs; [
+    vaapiIntel
+    libvdpau-va-gl
+    libvdpau
+    vaapiVdpau
+  ];
+
+  hardware.pulseaudio.enable = true;
+
+  # List packages installed in system profile. To search by name, run:
+  # $ nix-env -qaP | grep wget
+  environment.systemPackages = with pkgs; [
+    virtualbox
+    linuxPackages.virtualbox
+    wget
+    sudo
+    w3m
+    nodejs
+    nox
+    nix-index
+    nix-info
+    (vim_configurable.customize {
+      name = "vimx";
+      vimrcConfig = {
+        packages.myVimPackages = with vimPlugins; {
+          start = [
+            deoplete-nvim
+            fugitive
+            ctrlp
+            nerdtree
+            syntastic
+            vim-surround
+            rainbow_parentheses
+            vim-indent-guides
+          ];
+          opt = [ haskell-vim vim-scala vim-nix vim-javascript ];
         };
+        customRC = builtins.readFile ./rc/minimal.vim;
+      };
+    })
+    manpages
+    pulseaudioFull
+    rxvt_unicode_with-plugins
+    bspwm
+    sxhkd
+    rofi
+    unclutter
+    xorg.xorgserver
+    xorg.xdm
+    xorg.xinit
+    xorg.xrdb
+    xorg.xrandr
+    xorg.xprop
+    xorg.xmodmap
+    xorg.xauth
+    hsetroot
+    xorg_sys_opengl
+    wmutils-core
+    wmutils-opt
+    compton
+    zsh
+    polybar # fonts for polybar
+    font-manager
+    acpi
+    htop
+    git
+    exa
+    ranger
+    ghc
+    stack # ihaskell
+    haskellPackages.hlint
+    gcc
+    clang # cling
+    clang-tools
+    python3Full
+    python36Packages.ipython
+    python36Packages.pip
+    sbt
+    scala
+    ammonite-repl
+    firefox
+    zsync
+    binutils
+    autoconf
+    gnumake
+    fuse
+    xzgv
+    gnum4
+    glib
+    openssl
+    libtool
+    cmake
+    inotify-tools
+    lz4
+    gcc
+    desktop_file_utils
+    cairo
+    libarchive
+    automake
+  ];
+
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-mono
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts
+    dina-font
+    proggyfonts
+    siji
+    unifont
+  ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  programs = let
+    customAliases = {
+      c = "clear";
+      l = "exa --long --all --git";
+      ls = "exa";
+      r = "ranger";
+      ll = "exa --long --git";
+      rmi = "rm -iv";
+      cpi = "cp -iv";
+      mvi = "mv -iv";
+      trls = "exa -T -L 1";
+      tree = "exa -T";
+      quickLuaTex = "latexmk -lualatex";
+      quickPdfTex = "latexmk -pdf";
+      q = "exit";
+      vim = "vimx";
     };
 
-    # Define your hostname.
-    # Enables wireless support via wpa_supplicant.
-    networking = {
-        hostName = "ib250nix";
-	networkmanager.enable = true;
-	# wireless.enable = true;
-        # useDHCP = true;
-        nameservers = [ "8.8.8.8" ];
+    bashConfig = {
+      enableCompletion = true;
+      shellAliases = customAliases;
     };
 
-
-    # Select internationalisation properties.
-    i18n = {
-        consoleFont = "Lat2-Terminus16";
-        consoleKeyMap = "uk";
-        defaultLocale = "en_GB.UTF-8";
+    zhighlighting = {
+      enable = true;
+      highlighters = [ "main" "brackets" "pattern" "root" "line" ];
     };
 
-    # Set your time zone.
-    time.timeZone = "Europe/London";
+    zshConfig = with zhighlighting; {
+      enable = true;
+      autosuggestions = { enable = true; };
+      enableCompletion = true;
+      shellAliases = customAliases;
+      shellInit = ''
+        bindkey jk vi-cmd-mode
+                                  bindkey kj vi-cmd-mode'';
+      syntaxHighlighting = zhighlighting;
+    };
 
-    # opengl
-    hardware.opengl.extraPackages = with pkgs; [
-        vaapiIntel
-        libvdpau-va-gl
-        libvdpau
-        vaapiVdpau
-    ];
+  in {
+    mtr = { enable = true; };
+    bash = bashConfig;
+    zsh = zshConfig;
+    vim = { defaultEditor = true; };
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+  };
 
-    hardware.pulseaudio.enable = true;
+  services.openssh.enable = true;
+  services.xserver = {
 
-    # List packages installed in system profile. To search by name, run:
-    # $ nix-env -qaP | grep wget
-    environment.systemPackages = with pkgs; [
+    enable = true;
+    layout = "gb";
 
-        virtualbox
-        linuxPackages.virtualbox
+    libinput.enable = true;
+    enableCtrlAltBackspace = true;
+    exportConfiguration = true;
 
-        wget sudo w3m
+    videoDrivers = [ "intel" ];
 
-        nox nix-index nix-info nix-repl
-        vimHugeX
+    displayManager = {
 
-        manpages
+      slim.enable = true;
 
-        # wpa_supplicant_gui
+      job = {
+        logToFile = true;
+        preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
+      };
 
-        pulseaudioFull
+      sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
 
-        rxvt_unicode_with-plugins
-	bspwm-unstable
+      session = let
 
-        sxhkd-unstable rofi unclutter
-        xorg.xorgserver xorg.xdm
-        xorg.xinit xorg.xrdb
-        xorg.xrandr xorg.xprop
-        xorg.xmodmap xorg.xauth
-        hsetroot
-        xorg_sys_opengl wmutils-core
-        wmutils-opt compton zsh
-
-        polybar # fonts for polybar
-
-        font-manager
-
-        acpi htop
-        
-        git exa ranger
-
-        ghc stack  # ihaskell
-        haskellPackages.hlint
-
-        gcc clang  # cling
-
-        python3Full 
-            python36Packages.ipython
-            python36Packages.pip
-            python36Packages.pylint
-            python36Packages.flake8
-            python36Packages.virtualenvwrapper
-
-        python  # 2.7 as of
-            python27Packages.pip
-            python27Packages.pylint
-            python27Packages.flake8
-            python27Packages.virtualenvwrapper
-
-	sbt scala ammonite-repl
-
-        firefox
-
-        zsync binutils autoconf gnumake fuse
-        xzgv gnum4 glib openssl libtool
-        cmake inotify-tools lz4 gcc
-        desktop_file_utils cairo
-        libarchive automake
-    ];
-
-    fonts.fonts = with pkgs; [
-	noto-fonts
-	noto-fonts-cjk
-	noto-fonts-emoji
-	liberation_ttf
-	fira-mono
-	fira-code
-	fira-code-symbols
-	mplus-outline-fonts
-	dina-font
-	proggyfonts
-	siji
-	unifont
-    ];
-
-    # Some programs need SUID wrappers, can be configured further or are
-    # started in user sessions.
-    programs = let
-        customAliases = {
-            c = "clear"; l = "exa --long --all --git";
-            ls = "exa"; r = "ranger"; ll = "exa --long --git";
-            rmi = "rm -iv"; cpi = "cp -iv"; mvi = "mv -iv";
-            trls = "exa -T -L 1"; tree = "exa -T";
-            quickLuaTex = "latexmk -lualatex";
-            quickPdfTex = "latexmk -pdf"; q = "exit"; };
-
-        bashConfig = {
-            enableCompletion = true;
-            shellAliases = customAliases;
-	}; 
-
-        zhighlighting = {
-            enable = true;
-            highlighters =
-		[ "main"
-		  "brackets"
-		  "pattern"
-		  "root"
-		  "line"
-		];
-	};
-
-        zshConfig = with zhighlighting; {
-            enable = true;
-            enableAutosuggestions = true;
-            enableCompletion = true;
-            shellAliases = customAliases;
-            shellInit = ''bindkey jk vi-cmd-mode
-                          bindkey kj vi-cmd-mode'';
-            syntaxHighlighting = zhighlighting;
-	};
-        
-        in { mtr = { enable = true; };
-             bash = bashConfig;
-             zsh = zshConfig;
-             vim = { defaultEditor = true; };
-             gnupg.agent = {
-                 enable = true;
-                 enableSSHSupport = true;};
-           };
-
-    # List services that you want to enable:
-
-    # Enable the OpenSSH daemon.
-    services.openssh.enable = true;
-
-    # Open ports in the firewall.
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # networking.firewall.enable = false;
-
-    # Enable CUPS to print documents.
-    # services.printing.enable = true;
-
-    # Enable the X11 windowing system.
-    services.xserver = {
-
-        enable = true;
-        layout = "gb";
-
-        libinput.enable = true;
-        enableCtrlAltBackspace = true;
-        exportConfiguration = true;
-
-        videoDrivers = [ "intel" ];
-
-        displayManager = {
-
-            slim.enable = true;
-
-            job = {
-                logsXsession = true;
-                preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
-            };
-
-            sessionCommands =
-                with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
-
-            session = let
-
-                # Xterm session
-                xterm_session = {
-                    manage = "desktop";
-                    name = "xterm";
-                    start = ''${pkgs.xterm}/bin/xterm &
-                              waitPID=$!'';
-                };
-
-                # bspwm session
-                bspwm_session = {
-                    manage = "window";
-                    name = "bspwm";
-                    start = ''${pkgs.sxhkd}/bin/sxhkd &
-                              ${pkgs.bspwm}/bin/bspwm'';
-                };
-
-                # expose all
-                in [ xterm_session bspwm_session ]; };
-                
-        windowManager = {
-            default = "bspwm";
-            bspwm = { enable = true; };
+        # Xterm session
+        xterm_session = {
+          manage = "desktop";
+          name = "xterm";
+          start = ''
+            ${pkgs.xterm}/bin/xterm &
+                                          waitPID=$!'';
         };
+
+        # bspwm session
+        bspwm_session = {
+          manage = "window";
+          name = "bspwm";
+          start = let
+            scriptsDir = ''${builtins.getEnv "HOME"}/.local/bin'';
+            envPath = builtins.getEnv "PATH";
+            first = ''PATH=${envPath}:${scriptsDir} ${pkgs.sxhkd}/bin/sxhkd &''; 
+            second = ''${pkgs.bspwm}/bin/bspwm'';
+          in first + "\n" + second;
+        };
+
+      in [ xterm_session bspwm_session ];
     };
 
-    services.compton = rec {
-        enable = true;
-        fade = false;
-        shadow = true;
-        backend = "xrender";
+    windowManager = {
+      default = "bspwm";
+      bspwm = { enable = true; };
     };
+  };
 
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.defaultUserShell = pkgs.zsh;
+  services.compton = rec {
+    enable = true;
+    fade = false;
+    shadow = true;
+    backend = "xrender";
+  };
 
-    users.extraUsers.ismail = {
-        isNormalUser = true;
-        uid = 1000;
-        extraGroups = [ "wheel" "video" 
-                        "vboxusers"
-                        "networkmanager" ];
-    };
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.defaultUserShell = pkgs.zsh;
 
-    system.autoUpgrade = {
-	enable = true;
-	channel = https://nixos.org/channels/nixos-19.03;
-    };
-    # This value determines the NixOS release with which your system is to be
-    # compatible, in order to avoid breaking some software such as database
-    # servers. You should change this only after NixOS release notes say you
-    # should.
-    system.stateVersion = "17.09"; # Did you read the comment?  
+  users.extraUsers.ismail = {
+    isNormalUser = true;
+    uid = 1000;
+    extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" ];
+  };
+
+  system.autoUpgrade = { enable = true; };
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid breaking some software such as database
+  # servers. You should change this only after NixOS release notes say you
+  # should.
+  system.stateVersion = "19.03"; # Did you read the comment?
 }

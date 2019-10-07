@@ -1,0 +1,14 @@
+! heaven
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg #342F2F
+#define fg #C9A679
+#define bblk #262521
+#define blk #363132
+#define red #623E3A
+#define grn #749C6D
+#define ylw #79623C
+#define blu #6A7081
+#define mag #4A3F40
+#define cyn #755E61
+#define wht #E9D9C3

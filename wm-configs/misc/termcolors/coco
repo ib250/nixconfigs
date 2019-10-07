@@ -1,0 +1,14 @@
+! coco 
+! bg fg blk bblk wht red grn ylw blu mag cyn
+
+#define bg  #0a0909
+#define fg  #abacae
+#define blk  #332d29
+#define bblk  #332d29
+#define red  #7c423a
+#define grn  #8d7138
+#define ylw  #856237
+#define blu  #3c3c49
+#define mag  #3c342e
+#define cyn  #5d5a4b
+#define wht  #d6c7b8
