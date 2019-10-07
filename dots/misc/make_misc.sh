@@ -14,7 +14,7 @@ make_term_colors() {
         mkdir -p ${HOME}/.termcolors
         for i in $(ls termcolors)
         do
-            cp -sf $(pwd)/termcolors/${i} ${HOME}/.termcolors/${i}
+            cp -rsf $(pwd)/termcolors/${i} ${HOME}/.termcolors/${i}
         done
 
     } || echo "you need xrdb installed for this... xrdb not found"
@@ -39,10 +39,6 @@ make_xresources() {
 case ${1} in
     termcolors ) make_term_colors;;
     xresources ) make_xresources;;
-    all )
-        make_term_colors
-        make_xresources
-        make_scripts
-
+    all ) make_term_colors && make_xresources;;
     * ) echo ${__USAGE__};;
 esac

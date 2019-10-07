@@ -53,6 +53,6 @@ make_scripts() {
 case ${1} in
     bsp ) make_scripts && make_bsp;;
     polybar ) make_scripts && make_polybar;;
-    all ) make_scrips && make_bsp && make_polybar;;
+    all ) make_scripts && make_bsp && make_polybar;;
     * ) echo ${__USAGE__};;
 esac
