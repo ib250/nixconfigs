@@ -14,6 +14,43 @@ config() {
 	sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
 	echo "#define xftfnt xft:Fira Mono:style=regular:size=10" >> xuse
 	echo "#define fnt Fira Mono Regular 10" >> xuse
+	which zathura && {
+	    # update zathurarc
+	    ZRC=${HOME}/.config/zathura/zathurarc 
+
+	    [ -e ${ZRC} ] && rm ${ZRC}
+	    echo "
+		# Open document in fit-width mode by default
+		set adjust-open \"width\"
+		# One page per row by default
+		set pages-per-row 1
+		set recolor-reverse-video True
+		set recolor-keephue
+		set recolor
+
+		# Appearance
+		set default-bg \""${barBG}"\"
+		set default-fg \""${barFG}"\"
+		set inputbar-bg \""${barBG}"\"
+		set inputbar-fg \""${barFG}"\"
+		set statusbar-bg \""${barBG}"\"
+		set statusbar-fg \""${barFG}"\"
+		set recolor-lightcolor \""${barBG}"\"
+		set recolor-darkcolor \""${barFG}"\"
+		set highlight-color \""${barFG}"\"
+		set highlight-active-color \""${barBG}"\"
+		set completion-bg \""${barBG}"\"
+		set completion-fg \""${barFG}"\"
+		set completion-group-fg \""${barFG}"\"
+		set completion-group-bg \""${barBG}"\"
+		set completion-highlight-bg \""${barFG}"\"
+		set completion-highlight-fg \""${barBG}"\"
+		set index-bg \""${barBG}"\"
+		set index-fg \""${barFG}"\"
+		set index-active-bg \""${barFG}"\"
+		set index-active-fg \""${barBG}"\"
+		" > ${HOME}/.config/zathura/zathurarc
+	}
 }
 
 apply() {
@@ -46,50 +83,6 @@ apply() {
 	    pgrep polybar || bargaps.sh 2> /dev/null
 
 	}
-
-	which zathura && {
-	    # update zathurarc
-	    ZRC=${HOME}/.config/zathura/zathurarc 
-
-	    [ -e ${ZRC} ] && rm ${ZRC}
-
-	    touch ${ZRC}
-
-	    echo "
-	# Open document in fit-width mode by default
-	set adjust-open \"width\"
-
-	# One page per row by default
-	set pages-per-row 1
-	set recolor-reverse-video True
-	set recolor-keephue
-	set recolor
-
-	# Appearance
-	set default-bg \""${barBG}"\"
-	set default-fg \""${barFG}"\"
-	set inputbar-bg \""${barBG}"\"
-	set inputbar-fg \""${barFG}"\"
-	set statusbar-bg \""${barBG}"\"
-	set statusbar-fg \""${barFG}"\"
-	set recolor-lightcolor \""${barBG}"\"
-	set recolor-darkcolor \""${barFG}"\"
-	set highlight-color \""${barFG}"\"
-	set highlight-active-color \""${barBG}"\"
-	set completion-bg \""${barBG}"\"
-	set completion-fg \""${barFG}"\"
-	set completion-group-fg \""${barFG}"\"
-	set completion-group-bg \""${barBG}"\"
-	set completion-highlight-bg \""${barFG}"\"
-	set completion-highlight-fg \""${barBG}"\"
-	set index-bg \""${barBG}"\"
-	set index-fg \""${barFG}"\"
-	set index-active-bg \""${barFG}"\"
-	set index-active-fg \""${barBG}"\"
-	" > ${HOME}/.config/zathura/zathurarc
-
-	}
-
 }
 
 case ${1} in
