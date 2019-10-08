@@ -262,12 +262,10 @@
         bspwm_session = {
           manage = "window";
           name = "bspwm";
-          start = let
-            scriptsDir = ''${builtins.getEnv "HOME"}/.local/bin'';
-            envPath = builtins.getEnv "PATH";
-          in '' 
-            PATH=${envPath}:${scriptsDir} ${pkgs.sxhkd}/bin/sxhkd & 
-            ${pkgs.bspwm}/bin/bspwm'';
+          start = ''
+            ${pkgs.sxhkd}/bin/sxhkd &
+            ${pkgs.bspwm}/bin/bspwm
+            '';
         };
 
       in [ xterm_session bspwm_session ];
