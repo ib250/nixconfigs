@@ -79,8 +79,7 @@ apply() {
 	    bspc config normal_border_color "${barBG}"
 	    bspc config focused_border_color "${barFG}"
 	    bspc config active_border_color "${barFG}"
-	    pgrep polybar && pkill polybar 2> /dev/null
-	    pgrep polybar || bargaps.sh 2> /dev/null
+            polybar --reload example
 
 	}
 }

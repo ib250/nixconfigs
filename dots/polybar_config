@@ -12,23 +12,15 @@ margin-top = 5
 margin-bottom = 5
 
 
-[bar/example]
-;monitor = ${env:MONITOR:HDMI-1}
-dock = false
+[bar/main]
 width = 99%
 height = 18
 offset-x = 5
 offset-y = 5
 background = ${xrdb:polybar.background}
 foreground = ${xrdb:polybar.foreground}
-;lineheight = 1
-;linecolor = #555
-;overline-size = 2
-;overline-color = #f00
 underline-size = 2
 underline-color = #00f
-;border-bottom = 0
-;border-bottom-color = #333
 spacing = 1
 padding-left = 2
 padding-right = 2
@@ -40,10 +32,6 @@ font-2 = siji:pixelsize=9;0
 modules-left = powermenu xwindow
 modules-center = bspwm 
 modules-right = backlight volume wlan battery temperature date 
-;tray-position = right
-;tray-padding = 5
-;tray-transparent = true
-;tray-background = ${xrdb:polybar.background}
 wm-restack = bspwm
 
 
@@ -154,11 +142,9 @@ label-underline = #4bffdc
 
 [module/wlan]
 type = internal/network
-interface = wlp8s0
+interface = wlp3s0
 interval = 3.0
 format-connected = <ramp-signal> <label-connected>
-;format-connected-underline = ${bar/example.foreground}
-;format-disconnected-underline = ${self.format-connected-underline}
 label-connected = %essid%
 label-disconnected = %ifname% disconnected
 label-disconnected-foreground = #55
@@ -184,12 +170,10 @@ label-disconnected-foreground = #55
 [module/date]
 type = internal/date
 date = %%{F#55}%%{F#ff} %Y-%m-%d %H:%M
-;date-alt = %%{F#55}%{F#ff} %Y-%m-%d  %%{F#55}%%{F#ff} %Y-%m-%d %H:%M
 interval = 5
-;format-underline = #0a6cf5
 
 
-[module/volume]
+[module/alsa]
 type = internal/volume
 format-volume = <label-volume> <bar-volume>
 label-volume = vol
@@ -197,13 +181,6 @@ label-volume-foreground = ${root.foreground}
 label-muted =  sound muted
 label-muted-foreground = #55
 bar-volume-width = 7
-;bar-volume-foreground-0 = #55aa55
-;bar-volume-foreground-1 = #55aa55
-;bar-volume-foreground-2 = #55aa55
-;bar-volume-foreground-3 = #55aa55
-;bar-volume-foreground-4 = #55aa55
-;bar-volume-foreground-5 = #f5a70a
-;bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
 bar-volume-indicator = -
 bar-volume-indicator-font = 1
@@ -221,11 +198,8 @@ battery = BAT0
 adapter = ACAD
 full-at = 98
 format-charging = <animation-charging> <label-charging>
-;format-charging-underline = #ffb52a
 format-discharging = <ramp-capacity> <label-discharging>
-;format-discharging-underline = ${self.format-charging-underline}
 format-full = %{F#55}%{F#ff}  <label-full>
-;format-full-underline = ${self.format-charging-underline}
 ramp-capacity-0 = 
 ramp-capacity-1 = 
 ramp-capacity-2 = 
@@ -242,11 +216,9 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 format = <ramp> <label>
-;format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
-;format-warn-underline = ${self.format-underline}
-label = %temperature%
-label-warn = %temperature%
+label = %temperature-c%
+label-warn = %temperature-c%
 label-warn-foreground = #e60053
 ramp-0 = 
 ramp-1 = 
@@ -257,7 +229,6 @@ ramp-foreground = #55
 [module/powermenu]
 type = custom/menu
 label-open =  power
-;label-open-foreground = #e60053
 label-open-foreground = ${bar/example.foreground}
 label-close =  cancel
 label-close-foreground = ${bar/example.foreground}
