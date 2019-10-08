@@ -93,7 +93,7 @@
           autocmd FileType scala :packadd vim-scala
           autocmd FileType nix :packadd vim-nix
           autocmd FileType javascript :packadd vim-javascript
-          autocmd FIleType haskell :packadd haskell-vim
+          autocmd FileType haskell :packadd haskell-vim
           '';
       };
     })
@@ -209,9 +209,10 @@
       autosuggestions = { enable = true; };
       enableCompletion = true;
       shellAliases = customAliases;
-      shellInit = ''
-        bindkey jk vi-cmd-mode
-                                  bindkey kj vi-cmd-mode'';
+      shellInit = '' 
+        bindkey jk vi-cmd-mode 
+        bindkey kj vi-cmd-mode
+        '';
       syntaxHighlighting = zhighlighting;
     };
 
