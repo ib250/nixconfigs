@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# needs wmutils
-# and snap.sh from wmutils contrib
-
 BSPCDF() {
 	# shorthand
 	bspc config "$@"
