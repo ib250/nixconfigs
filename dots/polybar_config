@@ -31,7 +31,7 @@ font-1 = unifont:size=9:heavy:fontformat=truetype;-2
 font-2 = siji:pixelsize=9;0
 modules-left = powermenu xwindow
 modules-center = bspwm 
-modules-right = backlight volume wlan battery temperature date 
+modules-right = backlight alsa wlan battery temperature date 
 wm-restack = bspwm
 
 
@@ -68,8 +68,8 @@ label-locked =  L
 label-sticky = S
 label-private =  P
 label-focused = ::
-label-focused-background = ${bar/example.background}
-label-focused-foreground = ${bar/example.foreground}
+label-focused-background = ${bar/main.background}
+label-focused-foreground = ${bar/main.foreground}
 label-focused-padding = 2
 
 
@@ -120,7 +120,7 @@ bar-indicator-font = 1
 bar-fill = -
 bar-fill-font = 1
 ;bar-fill-foreground = #9f78e1
-bar-fill-foreground = ${bar/example.foreground}
+bar-fill-foreground = ${bar/main.foreground}
 bar-empty = -
 bar-empty-font = 1
 bar-empty-foreground = #55
@@ -229,9 +229,9 @@ ramp-foreground = #55
 [module/powermenu]
 type = custom/menu
 label-open =  power
-label-open-foreground = ${bar/example.foreground}
+label-open-foreground = ${bar/main.foreground}
 label-close =  cancel
-label-close-foreground = ${bar/example.foreground}
+label-close-foreground = ${bar/main.foreground}
 label-separator = |
 label-separator-foreground = #55
 menu-0-0 = reboot
