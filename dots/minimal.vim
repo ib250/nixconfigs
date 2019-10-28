@@ -33,7 +33,6 @@ imap <leader><tab> <c-x><c-i>
 nmap <leader>bn: bNext<Enter>
 nmap <leader>bd: bdelete<Enter>
 nmap <leader>l: <c-w>
-nmap <C-n> :NERDTreeToggle<Enter>
 
 set completeopt=menuone,menu,longest,preview
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
