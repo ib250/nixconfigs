@@ -75,30 +75,7 @@
     (vim_configurable.customize {
       name = "vimx";
       vimrcConfig = {
-        packages.myVimPackages = with vimPlugins; {
-          start = [
-            fugitive
-            ctrlp
-            nerdtree
-            vim-surround
-            rainbow_parentheses
-            vim-indent-guides
-            coc-nvim
-            coc-python
-            coc-tsserver
-          ];
-          opt = [ haskell-vim vim-scala vim-nix vim-javascript ];
-        };
-        customRC = ''
-          ${builtins.readFile ./dots/minimal.vim}
-
-          autocmd FileType scala :packadd vim-scala
-          autocmd FileType nix :packadd vim-nix
-          autocmd FileType javascript :packadd vim-javascript
-          autocmd FileType haskell :packadd haskell-vim
-
-          nmap <C-n> :NERDTreeToggle<Enter>
-          '';
+        customRC = ''${builtins.readFile ./dots/minimal.vim}'';
       };
     })
     manpages
@@ -141,6 +118,7 @@
     python36Packages.pip
     sbt
     scala
+    scalafmt
     ammonite-repl
     firefox
     zsync
