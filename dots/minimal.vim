@@ -6,12 +6,22 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+if empty(glob('~/.vim/metals-vim'))
+  silent !coursier bootstrap --java-opt -Xss4m
+        \ --java-opt -Xms100m
+        \ --java-opt -Dmetals.client=coc.nvim org.scalameta:metals_2.12:0.7.6
+        \ -r bintray:scalacenter/release
+        \ -r sonatype:snapshots
+        \ -o ~/.vim/metals-vim -f
+endif
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'LnL7/vim-nix'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -80,6 +90,13 @@ augroup vimrc_file_type_indentation
   autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 expandtab
 augroup end
 
+let g:haskellmode_completion_ghc = 0
+let g:necoghc_use_stack = 1
+augroup completion_autocmds
+  au!
+  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+augroup end
+
 imap jk <ESC>
 imap kj <ESC>
 cmap jk <ESC>
@@ -88,9 +105,9 @@ vmap jk <ESC>
 vmap kj <ESC>
 
 imap <leader><tab> <c-x><c-i>
-nnoremap <leader>bn: bNext<Enter>
-nnoremap <leader>bd: bdelete<Enter>
-nnoremap <leader>l: <c-w>
+nnoremap <leader>bn: bNext<cr>
+nnoremap <leader>bd: bdelete<cr>
+nmap <leader>l: <c-w>
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>w :w!<cr>
 nnoremap <C-n> :NERDTreeToggle<cr>

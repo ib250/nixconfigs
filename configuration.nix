@@ -119,6 +119,7 @@
     sbt
     scala
     scalafmt
+    coursier
     ammonite-repl
     firefox
     zsync
