@@ -105,8 +105,8 @@ vmap jk <ESC>
 vmap kj <ESC>
 
 imap <leader><tab> <c-x><c-i>
-nnoremap <leader>bn: bNext<cr>
-nnoremap <leader>bd: bdelete<cr>
+nnoremap <leader>bn :bNext<cr>
+nnoremap <leader>bd :bdelete<cr>
 nmap <leader>l: <c-w>
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>w :w!<cr>
