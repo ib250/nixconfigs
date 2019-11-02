@@ -1,11 +1,7 @@
 #! /usr/bin/env bash
 
 
-__USAGE__="
-./make_wm_configs.sh <option>
-where
-option = bsp | polybar | all
-"
+__USAGE__="$0 [ bsp | polybar | all ]"
 
 make_bsp() {
 
