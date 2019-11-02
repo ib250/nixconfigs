@@ -40,6 +40,6 @@
   hsetroot -solid "${barBG}"
   compton &
   polybar main &
-  squeezewin.sh +10 +bar
+  ${HOME}/.local/bin/squeezewin.sh +10 +bar
 
 } 2> $HOME/.local/bspwm.log 
