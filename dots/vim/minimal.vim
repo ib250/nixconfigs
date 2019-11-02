@@ -1,19 +1,23 @@
 set nocompatible
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if has('nvim')
+
+  if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
+else
+
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
 endif
 
-if empty(glob('~/.vim/metals-vim'))
-  silent !coursier bootstrap --java-opt -Xss4m
-        \ --java-opt -Xms100m
-        \ --java-opt -Dmetals.client=coc.nvim org.scalameta:metals_2.12:0.7.6
-        \ -r bintray:scalacenter/release
-        \ -r sonatype:snapshots
-        \ -o ~/.vim/metals-vim -f
-endif
 
 call plug#begin('~/.vim/plugged')
 
