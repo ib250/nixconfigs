@@ -1,0 +1,33 @@
+
+alias c=clear
+alias q=exit
+
+
+[ -e "$(which exa)" ] && {
+  alias ls='exa --group-directories-first'
+  alias tree='exa -T --group-directories-first'
+}
+
+
+[ -e "$(which ranger)" ] || {
+    alias ranger='python ~/Library/Python/2.7/bin/ranger'
+}
+
+
+alias l='ls -l'
+alias ll='ls -la'
+
+cppformat() {
+    for i in $@
+    do
+        clang-format --style="{BasedOnStyle: llvm, IndentWidth: 4}" ${i} > ${i}.format && {
+            /bin/mv -v ${i}.format ${i}
+        }
+    done
+
+}
+
+
+[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] $$ {
+    alias nixon='source ~/.nix-profile/etc/profile.d/nix.sh'
+}
