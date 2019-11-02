@@ -29,11 +29,15 @@ Plug 'https://github.com/lambdatoast/elm.vim.git'
 Plug 'https://github.com/leafgarland/typescript-vim.git'
 Plug 'vim-scripts/hlint'
 Plug 'derekwyatt/vim-scala'
-Plug 'neoclide/coc.nvim', { 'tag': '*', 'branch': 'release' }
+Plug 'neoclide/coc.nvim', {
+      \ 'tag': '*',
+      \ 'branch': 'release',
+      \ }
 
 call plug#end()
 
 syntax on
+filetype plugin indent on
 
 let g:mapleader = ";"
 
@@ -50,7 +54,6 @@ set encoding=utf8
 set foldlevel=0
 set foldlevelstart=99
 set ffs=unix,mac,dos
-set ff=unix
 set ruler
 set hidden
 set autoindent
@@ -114,5 +117,4 @@ nnoremap <C-n>           :NERDTreeToggle<cr>
 
 let g:ctrlp_cmd = 'CtrlPMRU'
 
-filetype plugin indent on
 colorscheme desert
