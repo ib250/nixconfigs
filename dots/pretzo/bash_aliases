@@ -28,6 +28,6 @@ cppformat() {
 }
 
 
-[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] $$ {
+[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && {
     alias nixon='source ~/.nix-profile/etc/profile.d/nix.sh'
 }
