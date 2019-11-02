@@ -104,13 +104,13 @@ cmap kj <ESC>
 vmap jk <ESC>
 vmap kj <ESC>
 
-imap <leader><tab> <c-x><c-i>
-nnoremap <leader>bn :bNext<cr>
-nnoremap <leader>bd :bdelete<cr>
-nmap <leader>l: <c-w>
+imap     <leader><tab>   <c-x><c-i>
+nnoremap <leader>bn      :bNext<cr>
+nnoremap <leader>bd      :bdelete<cr>
+nnoremap <leader>q       :q<cr>
+nnoremap <leader>w       :w!<cr>
 nnoremap <leader><space> :noh<cr>
-nnoremap <leader>w :w!<cr>
-nnoremap <C-n> :NERDTreeToggle<cr>
+nnoremap <C-n>           :NERDTreeToggle<cr>
 
 let g:ctrlp_cmd = 'CtrlPMRU'
 
