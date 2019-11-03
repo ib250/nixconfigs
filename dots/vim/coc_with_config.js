@@ -36,8 +36,8 @@ const includeLanguageServer = (cocSettings, binPath, languageServer) => {
 
     return {
         ...settings,
-        languageServer: {
-            ...settings.languageServer,
+        languageserver: {
+            ...settings.languageserver,
             [languageServer]: whichLang(binPath, languageServer) 
         }
     }
