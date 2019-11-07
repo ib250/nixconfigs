@@ -3,9 +3,9 @@
 
 __USAGE__="
 ./make_misc.sh <option>
-where option = termcolors
-             | xresources
-             | all
+where option = --termcolors
+             | --xresources
+             | --all
 "
 
 make_term_colors() {
@@ -37,8 +37,8 @@ make_xresources() {
 
 
 case ${1} in
-    termcolors ) make_term_colors;;
-    xresources ) make_xresources;;
-    all ) make_term_colors && make_xresources;;
-    * ) echo ${__USAGE__};;
+    --termcolors ) make_term_colors;;
+    --xresources ) make_xresources;;
+    --all ) make_term_colors && make_xresources;;
+    * | --help | -h ) echo ${__USAGE__};;
 esac

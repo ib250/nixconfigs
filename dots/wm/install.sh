@@ -2,9 +2,8 @@
 
 
 __USAGE__="
-./make_wm_configs.sh <option>
-where
-option = bsp | polybar | all
+$0 options
+where options = --bsp | --polybar | --all | --help
 "
 
 make_bsp() {
@@ -51,8 +50,8 @@ make_scripts() {
 }
 
 case ${1} in
-    bsp ) make_scripts && make_bsp;;
-    polybar ) make_scripts && make_polybar;;
-    all ) make_scripts && make_bsp && make_polybar;;
-    * ) echo ${__USAGE__};;
+    --bsp ) make_scripts && make_bsp;;
+    --polybar ) make_scripts && make_polybar;;
+    --all ) make_scripts && make_bsp && make_polybar;;
+    * | --help | -h ) echo ${__USAGE__};;
 esac
