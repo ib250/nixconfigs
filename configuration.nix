@@ -83,9 +83,6 @@
             vim-surround
             rainbow_parentheses
             vim-indent-guides
-            coc-nvim
-            coc-python
-            coc-tsserver
           ];
           opt = [ haskell-vim vim-scala vim-nix vim-javascript ];
         };
@@ -297,7 +294,11 @@
     extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" ];
   };
 
-  system.autoUpgrade = { enable = true; };
+  system.autoUpgrade = {
+    enable = true;
+    channel = "https://nixos.org/channels/nixos-unstable";
+  };
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
