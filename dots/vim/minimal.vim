@@ -83,6 +83,7 @@ augroup vimrc_set_working_dir
   autocmd BufEnter * silent! lcd %:p:h
 augroup end
 
+autocmd TermOpen * :setlocal norelativenumber nonumber
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
