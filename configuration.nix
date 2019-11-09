@@ -72,12 +72,7 @@
     nox
     nix-index
     nix-info
-    (vim_configurable.customize {
-      name = "vimx";
-      vimrcConfig = {
-        customRC = ''${builtins.readFile ./dots/minimal.vim}'';
-      };
-    })
+    neovim
     manpages
     pulseaudioFull
     rxvt_unicode_with-plugins
@@ -110,8 +105,10 @@
     ghc
     stack # ihaskell
     haskellPackages.hlint
-    gcc
-    clang # cling
+    gcc9
+    ccls
+    clang
+    clang-manpages
     clang-tools
     python3Full
     python36Packages.ipython
@@ -174,7 +171,7 @@
       quickLuaTex = "latexmk -lualatex";
       quickPdfTex = "latexmk -pdf";
       q = "exit";
-      vim = "vimx";
+      vim = "nvim";
     };
 
     bashConfig = {
@@ -277,8 +274,8 @@
   };
 
   system.autoUpgrade = {
-    enable = true;
-    channel = "https://nixos.org/channels/nixos-unstable";
+      enable = true;
+      channel = https://nixos.org/channels/nixos-unstable;
   };
 
   # This value determines the NixOS release with which your system is to be
