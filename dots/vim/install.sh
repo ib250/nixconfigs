@@ -32,6 +32,14 @@ function coc_basics() {
 }
 
 
+function coc_custom() {
+    config_path="$(_coc_config ${3})"
+    which ${1} && {
+        $(pwd)/coc_with_config.js ${config_path} "$(which ${1})" ${2}
+    } || echo "could not find executable for ${1}"
+}
+
+
 function coc_clangd() {
     which clangd && {
 
@@ -59,9 +67,10 @@ where target = --vim | --nvim
 alternatively i am keeping a few functions here for post_install
 to use, source $0 and run as required
 
-coc_basics [ --vim | --nvim ]       -- install some basic stuff through coc package management
-coc_clangd [ --vim | --nvim ]       -- include clangd language server
-coc_scala_metals [ --vim | --nvim ] -- include scala metals for scala language server
+coc_basics [ --vim | --nvim ]                     -- install some basic stuff through coc package management
+coc_clangd [ --vim | --nvim ]                     -- include clangd language server
+coc_scala_metals [ --vim | --nvim ]               -- include scala metals for scala language server
+coc_custom <executable> <name> [ --vim | --nvim ] -- include a custom language server under key \"name\"
 
 "
 

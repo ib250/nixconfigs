@@ -24,6 +24,23 @@ const whichLang = (binPath, ls) => {
                 rootPatterns: ["build.sbt"],
                 filetypes: ["scala", "sbt"]
             }
+        case "ccls":
+            return {
+                command: binPath,
+                rootPatterns: [
+                    "compile_flags.txt",
+                    "compile_commands.json",
+                    ".vim/",
+                    ".git/",
+                    ".hg/"
+                ],
+                filetypes: ["c", "cpp", "objc", "objcpp"],
+                initializationOptions: {
+                    cache: {
+                        directory: "/tmp/ccls"
+                    }
+                }
+            }
         default:
             throw "unrecognised language server, maybe update dots?"
     }
