@@ -35,8 +35,6 @@
   networking = {
     hostName = "ib250nix";
     networkmanager.enable = true;
-    # wireless.enable = true;
-    # useDHCP = true;
     nameservers = [ "8.8.8.8" ];
   };
 
@@ -171,7 +169,6 @@
       quickLuaTex = "latexmk -lualatex";
       quickPdfTex = "latexmk -pdf";
       q = "exit";
-      vim = "nvim";
     };
 
     bashConfig = {
@@ -189,10 +186,6 @@
       autosuggestions = { enable = true; };
       enableCompletion = true;
       shellAliases = customAliases;
-      shellInit = '' 
-        bindkey jk vi-cmd-mode 
-        bindkey kj vi-cmd-mode
-        '';
       syntaxHighlighting = zhighlighting;
     };
 
