@@ -92,6 +92,7 @@
     wmutils-opt
     compton
     zsh
+    zsh-prezto
     polybar # fonts for polybar
     font-manager
     acpi
