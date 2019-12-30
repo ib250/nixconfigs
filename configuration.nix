@@ -61,78 +61,99 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs;
 
-    #virtualbox
-    #linuxPackages.virtualbox
+    let
 
-    wget
-    sudo
-    w3m
-    nox
-    nix-index
-    nix-info
-    manpages
-    pulseaudioFull
-    pulsemixer
-    bspwm
-    sxhkd
-    rofi
-    xorg.xorgserver
-    xorg.xdm
-    xorg.xinit
-    xorg.xrdb
-    xorg.xrandr
-    xorg.xprop
-    xorg.xmodmap
-    xorg.xauth
-    hsetroot
-    rxvt_unicode_with-plugins
-    unclutter
-    xorg_sys_opengl
-    wmutils-core
-    wmutils-opt
-    compton
-    nodejs
-    zsh
-    zsh-prezto
-    polybar
-    font-manager
-    acpi
-    htop
-    git
-    exa
-    neovim
-    ranger
-    firefox
+      basics = [
+        zsync
+        binutils
+        autoconf
+        gnumake
+        fuse
+        glib
+        openssl
+        libtool
+        inotify-tools
+        lz4
+        desktop_file_utils
+        cairo
+        libarchive
+        automake
+      ];
 
-    #zathura
-    #haskellPackages.hlint
-    #gcc9
-    #sbt
-    #scala
-    #scalafmt
-    #coursier
-    #ammonite-repl
-    #firefox
+      wmRelatedPackages = [
+        wget
+        sudo
+        w3m
+        nox
+        nix-index
+        nix-info
+        nixfmt
+        manpages
+        pulseaudioFull
+        pulsemixer
+        bspwm
+        sxhkd
+        rofi
+        xorg.xorgserver
+        xorg.xdm
+        xorg.xinit
+        xorg.xrdb
+        xorg.xrandr
+        xorg.xprop
+        xorg.xmodmap
+        xorg.xauth
+        hsetroot
+        rxvt_unicode_with-plugins
+        unclutter
+        xorg_sys_opengl
+        wmutils-core
+        wmutils-opt
+        compton
+      ];
 
-    zsync
-    binutils
-    autoconf
-    gnumake
-    fuse
-    glib
-    openssl
-    libtool
-    cmake
-    inotify-tools
-    lz4
-    desktop_file_utils
-    cairo
-    libarchive
-    automake
+      productivityPackages = [
+        zsh
+        zsh-prezto
+        polybar
+        font-manager
+        acpi
+        htop
+        git
+        exa
+        neovim
+        ranger
+        firefox
+        zathura
+      ];
 
-  ];
+      developerTools = [
+        gcc9
+        clang_9
+        cmake
+        nodejs
+        stack
+        sbt
+        scala
+        (let
+          languageTooling = pypi:
+            with pypi; [
+              pip
+              jedi
+              setuptools
+              cookiecutter
+            ];
+        in python38.withPackages languageTooling)
+
+      ];
+
+    in builtins.concatLists [
+      basics
+      wmRelatedPackages
+      productivityPackages
+      developerTools
+    ];
 
   fonts.fonts = with pkgs; [
     noto-fonts
@@ -217,16 +238,14 @@
       };
 
       sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
-      session = [
-          { 
-              manage = "window";
-              name = "bspwm";
-              start = ''
-                ${pkgs.sxhkd}/bin/sxhkd &
-                ${pkgs.bspwm}/bin/bspwm
-                '';
-           }
-      ];
+      session = [{
+        manage = "window";
+        name = "bspwm";
+        start = ''
+          ${pkgs.sxhkd}/bin/sxhkd &
+          ${pkgs.bspwm}/bin/bspwm
+        '';
+      }];
 
       defaultSession = "none+bspwm";
 
