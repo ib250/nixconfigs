@@ -39,10 +39,11 @@
   };
 
   # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "uk";
-    defaultLocale = "en_GB.UTF-8";
+  i18n = { defaultLocale = "en_GB.UTF-8"; };
+
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "uk";
   };
 
   # Set your time zone.
@@ -61,23 +62,22 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    virtualbox
-    linuxPackages.virtualbox
+
+    #virtualbox
+    #linuxPackages.virtualbox
+
     wget
     sudo
     w3m
-    nodejs
     nox
     nix-index
     nix-info
-    neovim
     manpages
     pulseaudioFull
-    rxvt_unicode_with-plugins
+    pulsemixer
     bspwm
     sxhkd
     rofi
-    unclutter
     xorg.xorgserver
     xorg.xdm
     xorg.xinit
@@ -87,55 +87,51 @@
     xorg.xmodmap
     xorg.xauth
     hsetroot
+    rxvt_unicode_with-plugins
+    unclutter
     xorg_sys_opengl
     wmutils-core
     wmutils-opt
     compton
+    nodejs
     zsh
     zsh-prezto
-    polybar # fonts for polybar
+    polybar
     font-manager
     acpi
     htop
     git
     exa
+    neovim
     ranger
-    zathura
-    ghc
-    stack # ihaskell
-    haskellPackages.hlint
-    gcc9
-    ccls
-    clang
-    clang-manpages
-    clang-tools
-    python3Full
-    python36Packages.ipython
-    python36Packages.pip
-    sbt
-    scala
-    scalafmt
-    coursier
-    ammonite-repl
     firefox
+
+    #zathura
+    #haskellPackages.hlint
+    #gcc9
+    #sbt
+    #scala
+    #scalafmt
+    #coursier
+    #ammonite-repl
+    #firefox
+
     zsync
     binutils
     autoconf
     gnumake
     fuse
-    xzgv
-    gnum4
     glib
     openssl
     libtool
     cmake
     inotify-tools
     lz4
-    gcc
     desktop_file_utils
     cairo
     libarchive
     automake
+
   ];
 
   fonts.fonts = with pkgs; [
@@ -215,40 +211,27 @@
 
     displayManager = {
 
-      slim.enable = true;
-
       job = {
         logToFile = true;
         preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
       };
 
       sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
-      session = let
+      session = [
+          { 
+              manage = "window";
+              name = "bspwm";
+              start = ''
+                ${pkgs.sxhkd}/bin/sxhkd &
+                ${pkgs.bspwm}/bin/bspwm
+                '';
+           }
+      ];
 
-        xterm_session = {
-          manage = "desktop";
-          name = "xterm";
-          start = ''
-            ${pkgs.xterm}/bin/xterm & 
-            waitPID=$!'';
-        };
+      defaultSession = "none+bspwm";
 
-        bspwm_session = {
-          manage = "window";
-          name = "bspwm";
-          start = ''
-            ${pkgs.sxhkd}/bin/sxhkd &
-            ${pkgs.bspwm}/bin/bspwm
-            '';
-        };
-
-      in [ xterm_session bspwm_session ];
     };
 
-    windowManager = {
-      default = "bspwm";
-      bspwm = { enable = true; };
-    };
   };
 
   services.compton = rec {
@@ -265,11 +248,6 @@
     isNormalUser = true;
     uid = 1000;
     extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" ];
-  };
-
-  system.autoUpgrade = {
-      enable = true;
-      channel = https://nixos.org/channels/nixos-unstable;
   };
 
   # This value determines the NixOS release with which your system is to be
