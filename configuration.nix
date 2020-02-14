@@ -131,21 +131,15 @@
       developerTools = [
         gcc9
         clang_9
+        clang-tools
         cmake
         nodejs
         stack
         sbt
         scala
-        (let
-          languageTooling = pypi:
-            with pypi; [
-              pip
-              jedi
-              setuptools
-              cookiecutter
-            ];
-        in python38.withPackages languageTooling)
-
+        pipenv
+        poetry
+        python38Full
       ];
 
     in builtins.concatLists [
