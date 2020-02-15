@@ -2,16 +2,14 @@
 # wm independent hotkeys
 #
 
-# lights
-{F2,F3}
-        intelbacklight -{dec,inc} 2
+# lights {F2,F3} intelbacklight -{dec,inc} 2
 
 # volume mute/unmute
-F6
+F1
         amixer set Master toggle
 
 # volume toggles
-{F7,F8}
+{F2,F3}
         amixer set Master 1000{-,+} unmute
 
 

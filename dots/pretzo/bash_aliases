@@ -1,6 +1,8 @@
 
 alias c=clear
 alias q=exit
+alias l='ls -l'
+alias ll='ls -la'
 
 
 [ -e "$(which exa)" ] && {
@@ -9,18 +11,12 @@ alias q=exit
 }
 
 
-[ -e "$(which ranger)" ] || {
-    alias ranger='python ~/Library/Python/2.7/bin/ranger'
-}
-
-
-alias l='ls -l'
-alias ll='ls -la'
-
 cppformat() {
     for i in $@
     do
-        clang-format --style="{BasedOnStyle: llvm, IndentWidth: 4}" ${i} > ${i}.format && {
+        clang-format \
+            --style="{BasedOnStyle: llvm, IndentWidth: 4}" \
+            ${i} > ${i}.format && {
             /bin/mv -v ${i}.format ${i}
         }
     done
