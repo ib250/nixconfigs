@@ -21,7 +21,8 @@ F6
 
 # terminal emulator
 super + Return
-        termite # pgrep urxvtd && urxvtc || urxvt
+        termite -e "${SHELL} -l"
+        # pgrep urxvtd && urxvtc || urxvt
 
 
 # program launcher
