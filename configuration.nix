@@ -59,10 +59,11 @@
 
   hardware.pulseaudio.enable = true;
 
+  virtualisation.docker.enable = true;
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs;
-
     let
 
       basics = [
@@ -80,6 +81,8 @@
         cairo
         libarchive
         automake
+        manpages
+        pstree
       ];
 
       wmRelatedPackages = [
@@ -90,7 +93,6 @@
         nix-index
         nix-info
         nixfmt
-        manpages
         pulseaudioFull
         pulsemixer
         bspwm
@@ -104,13 +106,16 @@
         xorg.xprop
         xorg.xmodmap
         xorg.xauth
+        xorg.xhost
         hsetroot
         rxvt_unicode_with-plugins
+        termite
         unclutter
         xorg_sys_opengl
         wmutils-core
         wmutils-opt
         compton
+        highlight
       ];
 
       productivityPackages = [
@@ -123,23 +128,35 @@
         git
         exa
         neovim
+        vimpager
         ranger
         firefox
         zathura
       ];
 
       developerTools = [
+        docker
+
         gcc9
         clang_9
         clang-tools
+        clang-manpages
         cmake
+
         nodejs
+
         stack
+
         sbt
         scala
+        scalafix
+        dotty
+        ammonite-repl
+
         pipenv
         poetry
         python38Full
+        python38Packages.jedi
       ];
 
     in builtins.concatLists [
@@ -214,7 +231,6 @@
 
   services.openssh.enable = true;
   services.xserver = {
-
     enable = true;
     layout = "gb";
 
@@ -244,7 +260,6 @@
       defaultSession = "none+bspwm";
 
     };
-
   };
 
   services.compton = rec {
@@ -260,7 +275,7 @@
   users.extraUsers.ismail = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" ];
+    extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" "docker" ];
   };
 
   # This value determines the NixOS release with which your system is to be
