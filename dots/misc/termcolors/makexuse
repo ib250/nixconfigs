@@ -12,8 +12,8 @@ config() {
 
 	# change stuff to add transparency
 	sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
-	echo "#define xftfnt xft:Fira Mono:style=regular:size=10" >> xuse
-	echo "#define fnt Fira Mono Regular 10" >> xuse
+	echo "#define xftfnt xft:Fira Mono:style=regular:size=11" >> xuse
+	echo "#define fnt Fira Mono Regular 11" >> xuse
 	which zathura && {
 	    # update zathurarc
 	    ZRC=${HOME}/.config/zathura/zathurarc 
@@ -79,7 +79,7 @@ apply() {
 	    bspc config normal_border_color "${barBG}"
 	    bspc config focused_border_color "${barFG}"
 	    bspc config active_border_color "${barFG}"
-            polybar --reload example
+            polybar --reload main
 
 	}
 }
