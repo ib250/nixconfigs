@@ -21,7 +21,7 @@ F6
 
 # terminal emulator
 super + Return
-        pgrep urxvtd && urxvtc || urxvt
+        termite # pgrep urxvtd && urxvtc || urxvt
 
 
 # program launcher
