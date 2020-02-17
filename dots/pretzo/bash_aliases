@@ -6,6 +6,9 @@ alias q=exit
 [ -e "$(which exa)" ] && {
   alias ls='exa --group-directories-first'
   alias tree='exa -T --group-directories-first'
+  alias l='exa -l --git --time accessed'
+  alias ll='ls -la --git --time accessed'
+
 }
 
 
@@ -13,9 +16,6 @@ alias q=exit
     alias ranger='python ~/Library/Python/2.7/bin/ranger'
 }
 
-
-alias l='ls -l'
-alias ll='ls -la'
 
 cppformat() {
     for i in $@

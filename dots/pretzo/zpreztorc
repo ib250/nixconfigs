@@ -39,7 +39,12 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'archive' \
   'git' \
-  'pacman' \
+  'homebrew' \
+  'node' \
+  'python' \
+  'haskell' \
+  'docker' \
+  'osx' \
 
 
 #
