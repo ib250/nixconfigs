@@ -6,16 +6,11 @@
 
 # volume mute/unmute
 F1
-        amixer set Master toggle
+        pamixer -t
 
-# volume toggles
 {F2,F3}
-        amixer set Master 1000{-,+} unmute
+        pamixer --allow-boost -{d,i} 10
 
-
-# kill panel
-#super + alt + Escape
-#lemtoggle stop  && bspc quit 2> /dev/null
 
 # terminal emulator
 super + Return

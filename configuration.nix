@@ -95,6 +95,7 @@
         nixfmt
         pulseaudioFull
         pulsemixer
+        pamixer
         bspwm
         sxhkd
         rofi
