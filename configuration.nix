@@ -109,7 +109,7 @@
         xorg.xauth
         xorg.xhost
         hsetroot
-        rxvt_unicode_with-plugins
+        rxvt_unicode
         termite
         unclutter
         xorg_sys_opengl
@@ -154,10 +154,6 @@
         dotty
         ammonite-repl
 
-        pipenv
-        poetry
-        python38Full
-        python38Packages.jedi
       ];
 
     in builtins.concatLists [
