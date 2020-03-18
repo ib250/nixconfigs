@@ -4,7 +4,8 @@
 
 { config, pkgs, ... }: {
 
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
   ];
 
@@ -63,6 +64,12 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
+  nixpkgs.config.allowUnfree = true;
+  nix.optimise = {
+    automatic = true;
+    dates = [ "00:00" "06:00" "12:00" "18:00" ];
+  };
+
   environment.systemPackages = with pkgs;
     let
 
@@ -83,6 +90,8 @@
         automake
         manpages
         pstree
+        jq
+        yq
       ];
 
       wmRelatedPackages = [
@@ -131,7 +140,7 @@
         neovim
         vimpager
         ranger
-        firefox
+        google-chrome
         zathura
       ];
 
@@ -156,12 +165,13 @@
 
       ];
 
-    in builtins.concatLists [
-      basics
-      wmRelatedPackages
-      productivityPackages
-      developerTools
-    ];
+    in
+      builtins.concatLists [
+        basics
+        wmRelatedPackages
+        productivityPackages
+        developerTools
+      ];
 
   fonts.fonts = with pkgs; [
     noto-fonts
@@ -215,18 +225,20 @@
       syntaxHighlighting = zhighlighting;
     };
 
-  in {
-    mtr = { enable = true; };
-    bash = bashConfig;
-    zsh = zshConfig;
-    vim = { defaultEditor = true; };
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
+  in
+    {
+      mtr = { enable = true; };
+      bash = bashConfig;
+      zsh = zshConfig;
+      vim = { defaultEditor = true; };
+      gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
     };
-  };
 
   services.openssh.enable = true;
+  services.locate.enable = true;
   services.xserver = {
     enable = true;
     layout = "gb";
@@ -245,14 +257,16 @@
       };
 
       sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
-      session = [{
-        manage = "window";
-        name = "bspwm";
-        start = ''
-          ${pkgs.sxhkd}/bin/sxhkd &
-          ${pkgs.bspwm}/bin/bspwm
-        '';
-      }];
+      session = [
+        {
+          manage = "window";
+          name = "bspwm";
+          start = ''
+            ${pkgs.sxhkd}/bin/sxhkd &
+            ${pkgs.bspwm}/bin/bspwm
+          '';
+        }
+      ];
 
       defaultSession = "none+bspwm";
 

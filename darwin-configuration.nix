@@ -4,7 +4,8 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs;
-    [ awscli
+    [
+      awscli
 
       zsh
       bashInteractive
@@ -35,21 +36,6 @@
 
       git
 
-      /*(
-          python37.withPackages (
-              pypi: with pypi; [
-                  pip
-                  jedi
-                  black
-                  isort
-                  flake8
-                  pynvim
-                  python-language-server.override {
-                      pylint = null;
-                  }
-              ]
-          )
-      )*/
     ];
 
   # Use a custom configuration.nix location.
