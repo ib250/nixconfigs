@@ -3,54 +3,40 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs;
-    [ awscli
+  environment.systemPackages =
 
-      zsh
-      bashInteractive
-      coreutils
+      let
+          basics = with pkgs; [
+              awscli
+              zsh
+              cmake
+              autoconf
+              pstree
+              jq
+              yq
+              ag
+              ammonite
+              scala
+              sbt
+              coursier
+              maven
+              stack
+              highlight
+              ranger
+              exa
+              htop
+              ccls
+              git 
+          ];
 
-      cmake
-      autoconf
+          from_darwin = with import <darwin> {}; [
+              pkgs.bash_5
+              pkgs.coreutils-full
+              pkgs.coreutils-prefixed
+          ];
 
-      pstree
-
-      jq
-      yq
-      ag
-
-      ammonite
-      scala
-      sbt
-      coursier
-      maven
-
-      stack
-
-      highlight
-      ranger
-      exa
-      htop
-      ccls
-
-      git
-
-      /*(
-          python37.withPackages (
-              pypi: with pypi; [
-                  pip
-                  jedi
-                  black
-                  isort
-                  flake8
-                  pynvim
-                  python-language-server.override {
-                      pylint = null;
-                  }
-              ]
-          )
-      )*/
-    ];
+      in
+          basics ++ from_darwin;
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
@@ -61,8 +47,10 @@
   nix.package = pkgs.nix;
 
   # Create /etc/bashrc that loads the nix-darwin environment.
-  #programs.bash.enable = true;
+  programs.bash.enable = true;
+
   programs.zsh.enable = true;
+  programs.zsh.enableSyntaxHighlighting = true;
   # programs.fish.enable = true;
 
   # Used for backwards compatibility, please read the changelog before changing.
