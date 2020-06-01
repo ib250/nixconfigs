@@ -9,9 +9,11 @@
           basics = with pkgs; [
               awscli
               zsh
+              bash_5
               cmake
               autoconf
               pstree
+              fd
               jq
               yq
               ag
@@ -27,9 +29,12 @@
               htop
               ccls
               git 
+              gitAndTools.git-extras
+              ktlint
+              cachix
           ];
 
-          from_darwin = with import <darwin> {}; [
+          from_darwin = [
               pkgs.bash_5
               pkgs.coreutils-full
               pkgs.coreutils-prefixed
@@ -59,6 +64,7 @@
 
   # You should generally set this to the total number of logical cores in your system.
   # $ sysctl -n hw.ncpu
-  nix.maxJobs = 1;
+  nix.maxJobs = 8;
   nix.buildCores = 1;
+
 }

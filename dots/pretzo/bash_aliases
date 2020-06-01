@@ -8,8 +8,8 @@ alias ll='ls -la'
 [ -e "$(which exa)" ] && {
   alias ls='exa --group-directories-first'
   alias tree='exa -T --group-directories-first'
-  alias l='exa -l --git --time accessed'
-  alias ll='ls -la --git --time accessed'
+  alias l='exa -l --git --time created'
+  alias ll='ls -la --git --time created'
 
 }
 
