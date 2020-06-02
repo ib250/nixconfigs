@@ -121,7 +121,6 @@
 
       productivityPackages = [
         zsh
-        zsh-prezto
         polybar
         font-manager
         acpi
@@ -207,7 +206,7 @@
       highlighters = [ "main" "brackets" "pattern" "root" "line" ];
     };
 
-    zshConfig = with zhighlighting; {
+    zshConfig = {
       enable = true;
       autosuggestions = { enable = true; };
       enableCompletion = true;
