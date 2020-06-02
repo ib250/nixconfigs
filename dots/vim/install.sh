@@ -1,15 +1,13 @@
-
+#!/usr/bin/env bash
 
 function install_plugins() {
     editor_name=$1
     shift
-    for p in $@
+    for p in "$@"
     do
-        case $p in
+        case ${p} in
             basics ) coc_basics "$editor_name";;
-            metals ) coc_scala_metals "$editor_name";;
-            clangd ) coc_clangd "$editor_name";;
-            * ) coc_custom "$p" "$p-ls" "$editor_name";;
+            * ) coc_custom "${p}" "$editor_name";;
         esac
     done
 
@@ -43,7 +41,8 @@ function _coc_config() {
 
 
 function coc_basics() {
-    cbs="CocInstall coc-json coc-yaml coc-python coc-tsserver coc-marketplace coc-vimlsp"
+    cbs="CocInstall coc-json coc-yaml coc-python coc-tsserver coc-marketplace coc-vimlsp coc-sh"
+
     case ${1} in
         --vim ) vim -c "${cbs}";;
         --nvim ) nvim -c "${cbs}";;
@@ -52,55 +51,31 @@ function coc_basics() {
 
 
 function coc_custom() {
-    config_path="$(_coc_config ${3})"
+    # coc_custom <lsp-bin> [ --vim | --nvim ]
+    config_path="$(_coc_config ${2})"
     which ${1} && {
-        $(pwd)/coc_with_config.js ${config_path} "$(which ${1})" ${2}
+        $(pwd)/coc_with_config.js ${config_path} "$(which ${1})"
     } || echo "could not find executable for ${1}"
 }
 
 
-function coc_clangd() {
-    which clangd && {
+function usage() {
+    echo "
 
-        $(pwd)/coc_with_config.js "$(_coc_config ${1})" "$(which clangd)" "clangd"
+$0 target [... (basics | lsp-programs)]
+    
+    install vimrc and a list of lsp-programs
 
-    } || echo "clangd is required for this"
+$0 add-plugins (--vim | --nvim) [... (basics | lsp-programs)]
+
+    add the lsp-programs to the current configuration
+
+"
 }
-
-function coc_ccls() {
-
-    which ccls && {
-        $(pwd)/coc_with_config.js "$(_coc_config ${1})" "$(which ccls)" "ccls"
-    } || echo "ccls is required for this"
-
-}
-
-
-function coc_scala_metals() {
-    which metals-vim && {
-        $(pwd)/coc_with_config.js "$(_coc_config ${1})" "$(which metals-vim)" "metals"
-    } || echo "metals-vim is required for this"
-}
-
 
 case ${1} in
-    --vim ) shift && for_vim $*;;
-    --nvim ) shift && for_nvim $*;;
-    * | --help | -h ) echo "
-
-        $0 target [ options ]
-
-        where target = --vim | --nvim
-        options = (basics ccls clangd metals bash-language-server)
-
-        alternatively i am keeping a few functions here for post_install
-        to use, source $0 and run as required
-
-        coc_basics [ --vim | --nvim ]                     -- install some basic stuff through coc package management
-        coc_clangd [ --vim | --nvim ]                     -- include clangd language server
-        coc_scala_metals [ --vim | --nvim ]               -- include scala metals for scala language server
-        coc_custom <executable> <name> [ --vim | --nvim ] -- include a custom language server under key \"name\"
-
-        "
-
-    esac
+    --vim ) shift && for_vim "$@";;
+    --nvim ) shift && for_nvim "$@";;
+    add-plugins ) shift && install_plugins "$@";;
+    * | --help | -h ) usage;;
+esac

@@ -3,8 +3,12 @@
 const fs = require("fs")
 
 
-const whichLang = (binPath, ls) => {
-    switch (ls) {
+const baseName = p => p.split('/').filter((_, ix, ar) => ix === ar.length - 1);
+
+
+const whichLang = (binPath, lsp) => {
+
+    switch (lsp) {
         case "clangd":
             return {
                 command: binPath,
@@ -18,12 +22,14 @@ const whichLang = (binPath, ls) => {
                 ],
                 filetypes: ["c", "cpp", "objc", "objcpp"]
             }
-        case "metals":
+
+        case "metals-vim":
             return { 
                 command: binPath,
                 rootPatterns: ["build.sbt"],
                 filetypes: ["scala", "sbt"]
             }
+
         case "ccls":
             return {
                 command: binPath,
@@ -50,41 +56,58 @@ const whichLang = (binPath, ls) => {
                 ignoredRootPaths: ["~"]
             }
 
+        case "ghcide":
+            return {
+                command: binPath,
+                args: [ "--lsp" ],
+                rootPatterns: [
+                    ".stack.yaml",
+                    ".hie-bios",
+                    "BUILD.bazel",
+                    "cabal.config",
+                    "package.yaml"
+                ],
+                filetypes: [
+                    "hs", "lhs", "haskell"
+                ]
+            }
+
         default:
-            throw "unrecognised language server, maybe update dots?"
+            throw `
+                unrecognised language server: ${lsp}
+                maybe update dots?
+            `
     }
 }
 
-const includeLanguageServer = (cocSettings, binPath, languageServer) => {
+const includeLanguageServer = (cocSettings, binPath) => {
     const settings = fs.existsSync(cocSettings)
         ? JSON.parse(fs.readFileSync(cocSettings))
         : {}
+
+    const [ lsp ] = baseName(binPath)
 
     return {
         ...settings,
         languageserver: {
             ...settings.languageserver,
-            [languageServer]: whichLang(binPath, languageServer) 
+            [lsp]: whichLang(binPath, lsp) 
         }
     }
 }
 
-const [,, cocSettings, binPath, languageServer] = process.argv
+const [,, cocSettings, binPath] = process.argv
 console.log(
     `
     coc settings: ${cocSettings}
-    ${languageServer} language server binary path: ${binPath}
+    language server binary path: ${binPath}
     `
 )
 
 cocSettings && fs.writeFileSync(
     cocSettings,
     JSON.stringify(
-        includeLanguageServer(
-            cocSettings,
-            binPath,
-            languageServer
-        ),
+        includeLanguageServer(cocSettings, binPath),
         null,
         4
     )
