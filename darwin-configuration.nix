@@ -1,56 +1,40 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs;
-    [ awscli
+  environment.systemPackages = with pkgs; [
+    awscli
 
-      zsh
-      bashInteractive
-      coreutils
+    zsh
+    bashInteractive
+    coreutils
 
-      cmake
-      autoconf
+    cmake
+    autoconf
 
-      pstree
+    pstree
 
-      jq
-      yq
-      ag
+    jq
+    yq
+    ag
 
-      ammonite
-      scala
-      sbt
-      coursier
-      maven
+    ammonite
+    scala
+    sbt
+    coursier
+    maven
 
-      stack
+    stack
 
-      highlight
-      ranger
-      exa
-      htop
-      ccls
+    highlight
+    ranger
+    exa
+    htop
+    ccls
 
-      git
+    git
 
-      /*(
-          python37.withPackages (
-              pypi: with pypi; [
-                  pip
-                  jedi
-                  black
-                  isort
-                  flake8
-                  pynvim
-                  python-language-server.override {
-                      pylint = null;
-                  }
-              ]
-          )
-      )*/
-    ];
+  ];
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix

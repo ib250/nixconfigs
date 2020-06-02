@@ -41,6 +41,15 @@ const whichLang = (binPath, ls) => {
                     }
                 }
             }
+
+        case "bash-language-server":
+            return {
+                command: binPath,
+                args: ["start"],
+                filetypes: ["sh"],
+                ignoredRootPaths: ["~"]
+            }
+
         default:
             throw "unrecognised language server, maybe update dots?"
     }

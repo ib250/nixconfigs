@@ -1,8 +1,26 @@
 
+
+function install_plugins() {
+    editor_name=$1
+    shift
+    for p in $@
+    do
+        case $p in
+            basics ) coc_basics "$editor_name";;
+            metals ) coc_scala_metals "$editor_name";;
+            clangd ) coc_clangd "$editor_name";;
+            * ) coc_custom "$p" "$p-ls" "$editor_name";;
+        esac
+    done
+
+}
+
+
 function for_vim() {
     rm -rf ${HOME}/.vim
     rm -rf ${HOME}/.config/coc
     cp -f $(pwd)/minimal.vim ${HOME}/.vimrc
+    install_plugins --vim "$@"
 }
 
 
@@ -12,6 +30,7 @@ function for_nvim() {
     mkdir -p ${HOME}/.config/nvim
     rm -rf ~/.local/share/nvim
     cp -f $(pwd)/minimal.vim ${HOME}/.config/nvim/init.vim
+    install_plugins --nvim "$@"
 }
 
 
@@ -48,6 +67,14 @@ function coc_clangd() {
     } || echo "clangd is required for this"
 }
 
+function coc_ccls() {
+
+    which ccls && {
+        $(pwd)/coc_with_config.js "$(_coc_config ${1})" "$(which ccls)" "ccls"
+    } || echo "ccls is required for this"
+
+}
+
 
 function coc_scala_metals() {
     which metals-vim && {
@@ -61,17 +88,19 @@ case ${1} in
     --nvim ) shift && for_nvim $*;;
     * | --help | -h ) echo "
 
-$0 target [ options ]
-where target = --vim | --nvim
+        $0 target [ options ]
 
-alternatively i am keeping a few functions here for post_install
-to use, source $0 and run as required
+        where target = --vim | --nvim
+        options = (basics ccls clangd metals bash-language-server)
 
-coc_basics [ --vim | --nvim ]                     -- install some basic stuff through coc package management
-coc_clangd [ --vim | --nvim ]                     -- include clangd language server
-coc_scala_metals [ --vim | --nvim ]               -- include scala metals for scala language server
-coc_custom <executable> <name> [ --vim | --nvim ] -- include a custom language server under key \"name\"
+        alternatively i am keeping a few functions here for post_install
+        to use, source $0 and run as required
 
-"
+        coc_basics [ --vim | --nvim ]                     -- install some basic stuff through coc package management
+        coc_clangd [ --vim | --nvim ]                     -- include clangd language server
+        coc_scala_metals [ --vim | --nvim ]               -- include scala metals for scala language server
+        coc_custom <executable> <name> [ --vim | --nvim ] -- include a custom language server under key \"name\"
 
-esac
+        "
+
+    esac
