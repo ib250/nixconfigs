@@ -72,6 +72,12 @@ const whichLang = (binPath, lsp) => {
                 ]
             }
 
+        case "rnix-lsp":
+            return {
+                command: binPath,
+                filetypes: [ "nix" ]
+            }
+
         default:
             throw `
                 unrecognised language server: ${lsp}

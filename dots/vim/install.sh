@@ -41,7 +41,7 @@ function _coc_config() {
 
 
 function coc_basics() {
-    cbs="CocInstall coc-json coc-yaml coc-python coc-tsserver coc-marketplace coc-vimlsp coc-sh"
+    cbs="CocInstall coc-json coc-yaml coc-python coc-tsserver coc-marketplace coc-vimlsp"
 
     case ${1} in
         --vim ) vim -c "${cbs}";;
