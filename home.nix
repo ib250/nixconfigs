@@ -2,26 +2,24 @@
 let
 
   commons = import ./common.nix { pkgs = pkgs; };
-  isDarwin = commons.isDarwin;
+  isDarwinOrWsl = commons.isDarwin || commons.isWsl;
 
-  home-manager-basics = with pkgs.lib;
+  # programs.neovim manages its own install of neovim so no need here
+  homePackages = with pkgs.lib;
     filter (drv: !(hasInfix "neovim" drv.name)) commons.basics;
-
-  home-manager-extra-packages = with pkgs; [
-      rnix-lsp
-      nodePackages.bash-language-server
-  ];
 
 in {
 
-  home.packages = builtins.concatLists [
-    home-manager-basics
-    home-manager-extra-packages
-    commons.compilers
-    commons.jsTooling
-    commons.pythonTooling
-    (if isDarwin then [ ] else commons.pythonTooling)
-  ];
+  home.packages = with builtins;
+    concatLists [
+      homePackages
+      commons.devTools.js
+      commons.devTools.c-family
+      commons.devTools.nix
+      commons.devTools.haskell
+      # python tooling woes never end
+      (if isDarwinOrWsl then [ ] else commons.devTools.python)
+    ];
 
   programs.neovim = {
     enable = true;
@@ -30,6 +28,43 @@ in {
 
   programs.home-manager.enable = true;
 
-  programs.zsh = commons.zsh;
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    defaultKeymap = "viins";
+    dotDir = ".config/zsh";
+    sessionVariables = { EDITOR = "nvim"; };
+    shellAliases = {
+      c = "clear";
+      ls = "exa";
+      l = "exa -l";
+      ll = "exa -lah";
+      q = "exit";
+    };
+
+    initExtra = commons.zplugrc {
+
+      plugins = [
+        "mafredri/zsh-async"
+        "sindresorhus/pure"
+        "zsh-users/zsh-completions"
+        "zsh-users/zsh-autosuggestions"
+        "zsh-users/zsh-history-substring-search"
+        "zdharma/fast-syntax-highlighting"
+      ];
+
+      epilogue = ''
+        bindkey jk vi-cmd-mode
+        bindkey kj vi-cmd-mode
+        autoload bashcompinit && bashcompinit
+        autoload -U promptinit && promptinit
+      '';
+
+      sourceWhenAvaliable = [ ~/.smoke ];
+
+    };
+
+  };
 
 }

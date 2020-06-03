@@ -1,8 +1,19 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+
+  unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
+
+  isWsl = with builtins; (getEnv "WSL_DISTRO_NAME") != "";
 
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
-  isWsl = with builtins; (getEnv "WSL_DISTRO_NAME") != "";
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+
+in {
+
+  isWsl = isWsl;
+  isDarwin = isDarwin;
+  isLinux = isLinux;
 
   basics = with pkgs; [
     awscli
@@ -14,7 +25,6 @@
     pstree
     zsh
     zplug
-    nixfmt
     ranger
     neovim
     git
@@ -27,23 +37,34 @@
     exa
   ];
 
-  compilers = with pkgs; [
-    scala
-    sbt
-    maven
-    metals
+  devTools = with pkgs; {
 
-    stack
-    (ghc.withPackages (hackage: [ hackage.ghcide ]))
+    jvm-family = [ scala sbt maven metals ];
 
-    cmake
-    gnumake
-    clang-tools
-    gcc
-  ];
+    haskell = [ stack (ghc.withPackages (hackage: [ hackage.ghcide ])) ];
+
+    c-family = let
+
+      compilers =
+        if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang gcc ];
+
+    in [ cmake gnumake clang-tools ] ++ compilers;
+
+    js = [ nodejs ];
+
+    python = let
+
+      default-python = python38.withPackages (pypi: with pypi; [ pip ]);
+
+    in [ black pipenv poetry default-python ];
+
+    nix = [ nixfmt rnix-lsp ];
+
+    shell = [ nodePackages.bash-language-server ];
+
+  };
 
   nixos-packages = with pkgs; {
-
     basics = [
       sudo
       zsync
@@ -103,69 +124,28 @@
       unifont
     ];
 
-    devTools = [ docker ];
-
+    extraDevTools = [ docker ];
   };
 
-  pythonTooling = let
-    default-python =
-      pkgs.python38.withPackages (pypi: with pypi; [ pip jedi mypy ]);
-  in with pkgs; [ black pipenv poetry default-python ];
+  zplugrc =
+    { plugins ? [ ], sourceWhenAvaliable ? [ ], prelude ? "", epilogue ? "" }:
+    let
 
-  jsTooling = with pkgs; [ nodejs ];
+      declarePlugins = map (plugin: ''zplug "${plugin}"'');
 
-  zsh = let
-    zplugWithPlugins = plugins:
-      with pkgs.lib;
-      let
-        plugged = concatStrings
-          (intersperse "\n" (map (plugin: ''zplug "${plugin}"'') plugins));
-      in ''
+      sourceMaybe =
+        unlines (map (fp: "[ -e ${fp} ] && source ${fp}") sourceWhenAvaliable);
+
+      zplugDeclarations = if plugins == [ ] then
+        ""
+      else ''
+        # zplug declarations:
+
         source ${pkgs.zplug}/init.zsh
-        ${plugged}
+        ${unlines (declarePlugins plugins)}
         zplug load
       '';
 
-  in {
-    enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    defaultKeymap = "viins";
-    dotDir = ".config/zsh";
-    sessionVariables = { EDITOR = "nvim"; };
-
-    initExtra = let
-
-      plugins = zplugWithPlugins [
-        "mafredri/zsh-async"
-        "sindresorhus/pure"
-        "zsh-users/zsh-completions"
-        "zsh-users/zsh-autosuggestions"
-        "zsh-users/zsh-history-substring-search"
-        "zdharma/fast-syntax-highlighting"
-      ];
-
-    in ''
-
-      ${plugins}
-
-      bindkey jk vi-cmd-mode
-      bindkey kj vi-cmd-mode
-
-      autoload bashcompinit && bashcompinit
-      autoload -U promptinit && promptinit
-
-      [ -e ~/.smoke ] && source ~/.smoke
-    '';
-
-    shellAliases = {
-      c = "clear";
-      ls = "exa";
-      l = "exa -l";
-      ll = "exa -lah";
-      q = "exit";
-    };
-
-  };
+    in unlines [ prelude zplugDeclarations epilogue ];
 
 }
