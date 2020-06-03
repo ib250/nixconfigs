@@ -3,6 +3,7 @@ let
 
   commons = import ./common.nix { pkgs = pkgs; };
   isDarwinOrWsl = commons.isDarwin || commons.isWsl;
+  devTools = commons.devTools;
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with pkgs.lib;
@@ -13,10 +14,11 @@ in {
   home.packages = with builtins;
     concatLists [
       homePackages
-      commons.devTools.js
-      commons.devTools.c-family
-      commons.devTools.nix
-      commons.devTools.haskell
+      devTools.js
+      devTools.c-family
+      devTools.nix
+      devTools.haskell
+      devTools.shell
       # python tooling woes never end
       (if isDarwinOrWsl then [ ] else commons.devTools.python)
     ];
