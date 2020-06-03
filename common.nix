@@ -1,13 +1,16 @@
 { pkgs, ... }: {
 
-  isDarwin = with pkgs.lib; hasInfix "darwin" pkgs.system;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
   isWsl = with builtins; (getEnv "WSL_DISTRO_NAME") != "";
 
   basics = with pkgs; [
     awscli
+    wget
     gawk
     coreutils
+    binutils
+    manpages
     pstree
     zsh
     zplug
@@ -39,24 +42,70 @@
     gcc
   ];
 
-  nixos-core = with pkgs; [
-    zsync
-    binutils
-    autoconf
-    gnumake
-    fuse
-    glib
-    openssl
-    libtool
-    inotify-tools
-    lz4
-    desktop_file_utils
-    cairo
-    libarchive
-    automake
-    manpages
-    pstree
-  ];
+  nixos-packages = with pkgs; {
+
+    basics = [
+      sudo
+      zsync
+      autoconf
+      gnumake
+      fuse
+      glib
+      openssl
+      libtool
+      inotify-tools
+      lz4
+      desktop_file_utils
+      cairo
+      libarchive
+      automake
+    ];
+
+    graphical = [
+      w3m
+      pulseaudioFull
+      pulsemixer
+      pamixer
+      bspwm
+      sxhkd
+      rofi
+      xorg.xorgserver
+      xorg.xdm
+      xorg.xinit
+      xorg.xrdb
+      xorg.xrandr
+      xorg.xprop
+      xorg.xmodmap
+      xorg.xauth
+      xorg.xhost
+      hsetroot
+      rxvt_unicode
+      termite
+      unclutter
+      xorg_sys_opengl
+      wmutils-core
+      wmutils-opt
+      compton
+    ];
+
+    fonts = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-mono
+      fira-code
+      fira-code-symbols
+      mplus-outline-fonts
+      dina-font
+      proggyfonts
+      siji
+      unifont
+    ];
+
+    devTools = [ docker ];
+
+  };
 
   pythonTooling = let
     default-python =
