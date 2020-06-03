@@ -41,6 +41,7 @@ in {
       l = "exa -l";
       ll = "exa -lah";
       q = "exit";
+      tree = "exa -T";
     };
 
     initExtra = commons.zplugrc {
