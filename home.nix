@@ -31,11 +31,15 @@ in {
   programs.home-manager.enable = true;
 
   programs.zsh = {
+
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
     defaultKeymap = "viins";
+
     dotDir = ".config/zsh";
+    autocd = true;
+
     sessionVariables = { EDITOR = "nvim"; };
     shellAliases = {
       c = "clear";

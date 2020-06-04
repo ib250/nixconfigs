@@ -20,8 +20,17 @@ let
 
 in pkgs.mkShell {
 
-  buildInputs = [ pypi.tox pypi.virtualenv (python.withPackages stdPythonEnv) ];
+  buildInputs = [
+      pkgs.poetry pkgs.pipenv pypi.tox pypi.virtualenv (python.withPackages stdPythonEnv)
+  ];
 
   shellHook = "";
+
+  meta = with pkgs.stdenv.lib; {
+      homepage = "https://github.com/ib250";
+      description = "A minimal nix version of pyenv for linux";
+      license = licenses.mit;
+      platforms = platforms.linux;
+  };
 
 }
