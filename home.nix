@@ -68,7 +68,7 @@ in {
         autoload -U promptinit && promptinit
       '';
 
-      sourceWhenAvaliable = [ ~/.smoke ];
+      sourceWhenAvaliable = [ "~/.smoke" ];
 
     };
 
