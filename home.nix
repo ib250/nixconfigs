@@ -18,9 +18,9 @@ in {
       devTools.c-family
       devTools.nix
       devTools.haskell
+      devTools.jvm-family
       devTools.shell
       # python tooling woes never end
-      (if isDarwinOrWsl then [ ] else commons.devTools.python)
     ];
 
   programs.neovim = {

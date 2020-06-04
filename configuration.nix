@@ -2,7 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+
+let
+
+    commons = import ./common.nix { pkgs = pkgs; };
+
+in {
 
   imports = [ # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
@@ -21,7 +27,7 @@
     "vboxnetft"
   ];
 
-  boot.extraModulePackages = [ pkgs.linuxPackages.virtualbox ];
+  # boot.extraModulePackages = [ pkgs.linuxPackages.virtualbox ];
 
   boot.loader = {
     efi.canTouchEfiVariables = false;
@@ -63,119 +69,15 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs;
-    let
-
-      basics = [
-        zsync
-        binutils
-        autoconf
-        gnumake
-        fuse
-        glib
-        openssl
-        libtool
-        inotify-tools
-        lz4
-        desktop_file_utils
-        cairo
-        libarchive
-        automake
-        manpages
-        pstree
-      ];
-
-      wmRelatedPackages = [
-        wget
-        sudo
-        w3m
-        nox
-        nix-index
-        nix-info
-        nixfmt
-        pulseaudioFull
-        pulsemixer
-        pamixer
-        bspwm
-        sxhkd
-        rofi
-        xorg.xorgserver
-        xorg.xdm
-        xorg.xinit
-        xorg.xrdb
-        xorg.xrandr
-        xorg.xprop
-        xorg.xmodmap
-        xorg.xauth
-        xorg.xhost
-        hsetroot
-        rxvt_unicode
-        termite
-        unclutter
-        xorg_sys_opengl
-        wmutils-core
-        wmutils-opt
-        compton
-        highlight
-      ];
-
-      productivityPackages = [
-        zsh
-        polybar
-        font-manager
-        acpi
-        htop
-        git
-        exa
-        neovim
-        vimpager
-        ranger
-        firefox
-        zathura
-      ];
-
-      developerTools = [
-        docker
-
-        gcc9
-        clang_9
-        clang-tools
-        clang-manpages
-        cmake
-
-        nodejs
-
-        stack
-
-        sbt
-        scala
-        scalafix
-        dotty
-        ammonite-repl
-
-      ];
-
-    in builtins.concatLists [
-      basics
-      wmRelatedPackages
-      productivityPackages
-      developerTools
+  environment.systemPackages = with builtins;
+    concatLists [
+      commons.nixosPackages.basics
+      commons.nixosPackages.graphical
+      commons.nixosPackages.productivityPackages
+      commons.nixosPackages.extraDevTools
     ];
 
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-mono
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts
-    dina-font
-    proggyfonts
-    siji
-    unifont
-  ];
+  fonts.fonts = commons.nixosPackages.fonts;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
