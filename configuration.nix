@@ -67,6 +67,7 @@ in {
 
   virtualisation.docker.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with builtins;

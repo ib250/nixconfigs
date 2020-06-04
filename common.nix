@@ -125,18 +125,12 @@ in {
         ];
 
         productivityPackages = [
-            zsh
             polybar
             font-manager
             acpi
-            htop
-            git
-            exa
-            neovim
-            vimpager
             ranger
-            firefox
             zathura
+            google-chrome
         ];
 
         extraDevTools = [ docker ];
