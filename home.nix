@@ -20,12 +20,18 @@ in {
       devTools.haskell
       devTools.jvm-family
       devTools.shell
-      # python tooling woes never end
+
+      # python tooling woes never end!
+      #   on darwin: manage with brew pyenv
+      #   on wsl: you are on your own
+      (if isDarwinOrWsl then [ ] else devTools.python)
+
     ];
 
   programs.neovim = {
     enable = true;
     extraPython3Packages = (ps: with ps; [ pynvim ]);
+    configure = commons.neovimConfiguration;
   };
 
   programs.home-manager.enable = true;

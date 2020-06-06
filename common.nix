@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs ? (import <nixpkgs> { }), ... }:
 let
 
   unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
@@ -50,7 +50,7 @@ in {
 
     in [ cmake gnumake clang-tools ] ++ compilers;
 
-    js = [ nodejs ];
+    js = [ nodejs yarn nodePackages.serverless ];
 
     python = let
 
@@ -140,14 +140,71 @@ in {
         unlines (map (fp: "[ -e ${fp} ] && source ${fp}") sourceWhenAvaliable);
 
       zplugDeclarations = if plugins == [ ] then
-        "" else ''
+        ""
+      else ''
         # zplug declarations:
 
         source ${pkgs.zplug}/init.zsh
         ${unlines (declarePlugins plugins)}
         zplug load
-       '';
+      '';
 
     in unlines [ prelude zplugDeclarations sourceMaybe epilogue ];
+
+  neovimConfiguration = let
+
+    coc-marketplace = pkgs.vimUtils.buildVimPluginFrom2Nix {
+        /* TODO */
+    };
+
+    coc-vimlsp = pkgs.vimUtils.buildVimPlugin {
+        /* TODO */
+    };
+
+    coc-custom-lsps = import ./common/coc-lsp-bundle.nix {
+        enabled = [
+            "ghcide"
+            "clangd"
+            "metals-vim"
+            "bash-language-server"
+            "rnix-lsp"
+        ];
+    };
+
+  in {
+
+    customRC = builtins.readFile ./common/minimal.vim;
+
+    packages.myVimPackages = with pkgs.vimPlugins; {
+      start = [
+        ctrlp
+        nerdcommenter
+        nerdtree
+        vim-surround
+        vim-repeat
+        rainbow_parentheses
+        vim-nix
+        vim-indent-guides
+        elm-vim
+        typescript-vim
+        vim-scala
+        coc-nvim
+
+        coc-json
+        coc-yaml
+        coc-python
+        coc-tsserver
+
+        # TODO: implement these guys
+        # coc-marketplace
+        # coc-vimlsp
+        # coc-custom-lsps
+
+      ];
+
+      opt = [ ];
+    };
+
+  };
 
 }

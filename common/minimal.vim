@@ -1,44 +1,5 @@
-"set nocompatible
-
-"if has('nvim')
-
-  "if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    "silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-          "\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  "endif
-
-"else
-
-  "if empty(glob('~/.vim/autoload/plug.vim'))
-    "silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      "\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  "endif
-
-"endif
-
-
-"call plug#begin('~/.vim/plugged')
-
-"Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'scrooloose/nerdcommenter'
-"Plug 'scrooloose/nerdtree'
-"Plug 'tpope/vim-surround'
-"Plug 'tpope/vim-repeat'
-"Plug 'kien/rainbow_parentheses.vim'
-"Plug 'LnL7/vim-nix'
-"Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'https://github.com/lambdatoast/elm.vim.git'
-"Plug 'https://github.com/leafgarland/typescript-vim.git'
-"Plug 'vim-scripts/hlint'
-"Plug 'derekwyatt/vim-scala'
-"Plug 'neoclide/coc.nvim', {
-      "\ 'tag': '*',
-      "\ 'branch': 'release',
-      "\ }
-
-"call plug#end()
+set nocompatible
+set nobackup
 
 syntax on
 filetype plugin indent on
