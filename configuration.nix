@@ -6,7 +6,7 @@
 
 let
 
-  commons = import ./common.nix { pkgs = pkgs; };
+  commons = import ./common pkgs;
 
 in {
 

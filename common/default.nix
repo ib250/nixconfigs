@@ -1,4 +1,4 @@
-{ pkgs ? (import <nixpkgs> { }), ... }:
+pkgs:
 let
 
   unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
@@ -50,7 +50,7 @@ in {
 
     in [ cmake gnumake clang-tools ] ++ compilers;
 
-    js = [ nodejs yarn nodePackages.serverless ];
+    js = [ nodejs yarn yarn2nix nodePackages.serverless nodePackages.node2nix ];
 
     python = let
 
@@ -61,6 +61,16 @@ in {
     nix = [ nixfmt rnix-lsp ];
 
     shell = [ nodePackages.bash-language-server ];
+
+    coc-extra-lsps = import ./lsps.nix {
+        enabled = [
+            haskellPackages.ghcide
+            metals
+            clang-tools
+            rnix-lsp
+            nodePackages.bash-language-server
+        ];
+    };
 
   };
 
@@ -151,60 +161,41 @@ in {
 
     in unlines [ prelude zplugDeclarations sourceMaybe epilogue ];
 
-  neovimConfiguration = let
+  neovim = {
 
-    coc-marketplace = pkgs.vimUtils.buildVimPluginFrom2Nix {
-        /* TODO */
-    };
+    package = pkgs.neovim-unwrapped;
 
-    coc-vimlsp = pkgs.vimUtils.buildVimPlugin {
-        /* TODO */
-    };
+    configure = {
+      customRC = builtins.readFile ./minimal.vim;
 
-    coc-custom-lsps = import ./common/coc-lsp-bundle.nix {
-        enabled = [
-            "ghcide"
-            "clangd"
-            "metals-vim"
-            "bash-language-server"
-            "rnix-lsp"
+      packages.myVimPackages = with pkgs.vimPlugins; {
+        start = [
+          ctrlp
+          nerdcommenter
+          nerdtree
+          vim-surround
+          vim-repeat
+          rainbow_parentheses
+          vim-nix
+          vim-indent-guides
+          elm-vim
+          typescript-vim
+          vim-scala
+          coc-nvim
+
+          coc-json
+          coc-yaml
+          coc-python
+          coc-tsserver
+
         ];
-    };
 
-  in {
+        opt = [ ];
+      };
 
-    customRC = builtins.readFile ./common/minimal.vim;
-
-    packages.myVimPackages = with pkgs.vimPlugins; {
-      start = [
-        ctrlp
-        nerdcommenter
-        nerdtree
-        vim-surround
-        vim-repeat
-        rainbow_parentheses
-        vim-nix
-        vim-indent-guides
-        elm-vim
-        typescript-vim
-        vim-scala
-        coc-nvim
-
-        coc-json
-        coc-yaml
-        coc-python
-        coc-tsserver
-
-        # TODO: implement these guys
-        # coc-marketplace
-        # coc-vimlsp
-        # coc-custom-lsps
-
-      ];
-
-      opt = [ ];
     };
 
   };
+
 
 }

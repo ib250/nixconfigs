@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
 
-  commons = import ./common.nix { pkgs = pkgs; };
+  commons = import ./common pkgs;
   isDarwinOrWsl = commons.isDarwin || commons.isWsl;
   devTools = commons.devTools;
 
@@ -20,6 +20,7 @@ in {
       devTools.haskell
       devTools.jvm-family
       devTools.shell
+      [devTools.coc-extra-lsps]
 
       # python tooling woes never end!
       #   on darwin: manage with brew pyenv
@@ -30,8 +31,9 @@ in {
 
   programs.neovim = {
     enable = true;
+    package = commons.neovim.package;
     extraPython3Packages = (ps: with ps; [ pynvim ]);
-    configure = commons.neovimConfiguration;
+    configure = commons.neovim.configure;
   };
 
   programs.home-manager.enable = true;

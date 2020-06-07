@@ -1,11 +1,11 @@
 *nix configuration
 
 ./configuration.nix -> /etc/nixos/configuration.nix
-./common.nix        -> /etc/nixos/common.nix
+./common            -> /etc/nixos/common
 
 
 ./home.nix   -> ~/.config/nixpkgs/home.nix
-./common.nix -> ~/.config/nixpkgs/common.nix
+./common     -> ~/.config/nixpkgs/common
 
 nix-channel --add home-manager https://github.com/rycee/home-manager/archive/release-20.03.tar.gz
 
