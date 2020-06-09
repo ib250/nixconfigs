@@ -54,7 +54,7 @@ in {
 
     python = let
 
-      default-python = python38.withPackages (pypi: with pypi; [ pip ]);
+      default-python = python38.withPackages (pypi: with pypi; [ pip ipython ]);
 
     in [ black pipenv poetry default-python ];
 
