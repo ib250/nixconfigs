@@ -39,7 +39,7 @@ in {
 
   devTools = with pkgs; {
 
-    jvm-family = [ scala sbt maven metals adoptopenjdk-jre-hotspot-bin-11 ];
+    jvm-family = [ scala sbt maven metals jdk11 ];
 
     haskell = [ stack (ghc.withPackages (hackage: [ hackage.ghcide ])) ];
 
