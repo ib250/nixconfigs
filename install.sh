@@ -22,9 +22,13 @@ function main() {
             link-home ) link-configs home;;
             link-nix ) link-configs nixos;;
             clean ) clean-configs;;
-            * ) echo "options supported: [link-home | link-nix | clean]";;
+            show )
+                exa -T ~/.config/nixpkgs
+                [ -e /etc/nixos ] && exa -T /etc/nixos;;
+            * ) echo "options supported: [link-home | link-nix | clean | show]";;
         esac
     done
+
 }
 
 

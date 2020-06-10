@@ -102,6 +102,7 @@ in {
       bspwm
       sxhkd
       rofi
+      lxappearance
       xorg.xorgserver
       xorg.xdm
       xorg.xinit
