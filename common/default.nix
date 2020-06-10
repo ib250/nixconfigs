@@ -35,6 +35,8 @@ in {
     fd
     ag
     exa
+    zip
+    unzip
   ];
 
   devTools = with pkgs; {
