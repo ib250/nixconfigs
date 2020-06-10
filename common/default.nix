@@ -103,6 +103,7 @@ in {
       sxhkd
       rofi
       lxappearance
+      mate.mate-power-manager
       xorg.xorgserver
       xorg.xdm
       xorg.xinit

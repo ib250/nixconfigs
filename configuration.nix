@@ -129,6 +129,7 @@ in {
   };
 
   services.openssh.enable = true;
+  services.upower.enable = true;
   services.xserver = {
     enable = true;
     layout = "gb";
@@ -170,6 +171,8 @@ in {
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
+
+  powerManagement.enable = true;
 
   users.extraUsers.ismail = {
     isNormalUser = true;
