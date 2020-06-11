@@ -185,13 +185,14 @@ in {
           elm-vim
           typescript-vim
           vim-scala
-          coc-nvim
 
+          coc-nvim
           coc-json
           coc-yaml
           coc-python
           coc-tsserver
           coc-java
+          coc-spell-checker
 
         ];
 
