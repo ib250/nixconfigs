@@ -15,17 +15,31 @@ function clean-configs() {
 }
 
 
+function set-lsps() {
+    case $1 in
+        --nvim ) mkdir -p ~/.config/nvim
+            coc-extra-lsps | jq > ~/.config/nvim/coc-settings.json
+            ;;
+        --vim ) mkdir -p ~/.vim
+            coc-extra-lsps | jq > ~/.vim/coc-settings.json
+            ;;
+    esac
+}
+
+
 function main() {
     for step in $@
     do
         case $step in
             link-home ) link-configs home;;
             link-nix ) link-configs nixos;;
+            set-nvim-lsps ) set-lsps --nvim;;
+            set-vim-lsps ) set-lsps --vim;;
             clean ) clean-configs;;
             show )
                 exa -T ~/.config/nixpkgs
                 [ -e /etc/nixos ] && exa -T /etc/nixos;;
-            * ) echo "options supported: [link-home | link-nix | clean | show]";;
+            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show]";;
         esac
     done
 
