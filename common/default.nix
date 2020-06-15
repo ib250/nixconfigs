@@ -43,7 +43,7 @@ in {
 
     jvm-family = [ scala sbt maven metals jdk11 ];
 
-    haskell = [ stack (ghc.withPackages (hackage: [ hackage.ghcide ])) ];
+    haskell = [ stack (ghc.withPackages (hackage: [ hackage.ghcide hackage.hoogle ])) ];
 
     c-family = let
 
