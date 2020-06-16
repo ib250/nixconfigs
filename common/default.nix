@@ -43,7 +43,10 @@ in {
 
     jvm-family = [ scala sbt maven metals jdk11 ];
 
-    haskell = [ stack (ghc.withPackages (hackage: [ hackage.ghcide hackage.hoogle ])) ];
+    haskell = let
+      compiler =
+        ghc.withPackages (hackage: with hackage; [ ghcide hoogle hlint ]);
+    in [ stack compiler ];
 
     c-family = let
 
@@ -65,13 +68,13 @@ in {
     shell = [ nodePackages.bash-language-server ];
 
     coc-extra-lsps = import ./lsps.nix {
-        enabled = [
-            haskellPackages.ghcide
-            metals
-            clang-tools
-            rnix-lsp
-            nodePackages.bash-language-server
-        ];
+      enabled = [
+        haskellPackages.ghcide
+        metals
+        clang-tools
+        rnix-lsp
+        nodePackages.bash-language-server
+      ];
     };
 
   };
@@ -202,6 +205,5 @@ in {
     };
 
   };
-
 
 }
