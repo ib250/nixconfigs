@@ -11,7 +11,7 @@ let
         shellHook = shell.shellHook;
     };
 
-    stdPythonEnv = (_: with pypi; [ tox pip virtualenv setuptools ]);
+    stdPythonEnv = (_: with pypi; [ tox pip virtualenv setuptools mypy ]);
 
     envDef = {
 
