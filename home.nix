@@ -32,7 +32,9 @@ in {
   programs.neovim = {
     enable = true;
     package = commons.neovim.package;
-    extraPython3Packages = (ps: with ps; [ pynvim ]);
+    extraPython3Packages = (
+        ps: with ps; [ pynvim python-language-server mypy ]
+    );
     configure = commons.neovim.configure;
   };
 
