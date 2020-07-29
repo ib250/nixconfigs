@@ -1,34 +1,35 @@
-{ python-version }:
+{ python-version, enable-aws ? false }:
 
 let
-  pkgs = import <nixpkgs> { };
-  from = where: what: builtins.getAttr what where;
-  python = from pkgs "python${python-version}Full";
-  pypi = from pkgs "python${python-version}Packages";
+    pkgs = import <nixpkgs> { };
+    from = where: what: builtins.getAttr what where;
+    python = from pkgs "python${python-version}";
+    pypi = from pkgs "python${python-version}Packages";
 
-  stdPythonEnv = (_:
-    with pypi; [
-      pip
-      flake8
-      virtualenv
-      setuptools
-      python-language-server.override
-      { pylint = null; }
-    ]);
+    withAwsExtras = { buildInputs, ... }@shell: {
+        buildInputs = (buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
+        shellHook = shell.shellHook;
+    };
 
-in pkgs.mkShell {
+    stdPythonEnv = (_: with pypi; [ tox pip virtualenv setuptools ]);
 
-  buildInputs = [
-      pkgs.poetry pkgs.pipenv pypi.virtualenv (python.withPackages stdPythonEnv)
-  ];
+    envDef = {
 
-  shellHook = "";
+        buildInputs = [
+            (python.withPackages stdPythonEnv) pkgs.poetry pkgs.pipenv
+        ];
 
-  meta = with pkgs.stdenv.lib; {
-      homepage = "https://github.com/ib250";
-      description = "A minimal nix version of pyenv for linux";
-      license = licenses.mit;
-      platforms = platforms.linux;
-  };
+        shellHook = ''
+            unset SOURCE_DATE_EPOCH
+        '';
 
-}
+        meta = with pkgs.stdenv.lib; {
+            homepage = "https://github.com/ib250";
+            description = "A minimal nix version of pyenv for linux and osx";
+            license = licenses.mit;
+            platforms = platforms.linux ++ platforms.darwin;
+        };
+
+    };
+
+in pkgs.mkShell (if enable-aws then (withAwsExtras envDef) else envDef)
