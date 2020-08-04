@@ -6,9 +6,9 @@ let
     python = from pkgs "python${python-version}";
     pypi = from pkgs "python${python-version}Packages";
 
-    withAwsExtras = { buildInputs, ... }@shell: {
+    withAwsExtras = { buildInputs, shellHook, ...}: {
         buildInputs = (buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
-        shellHook = shell.shellHook;
+        shellHook = shellHook;
     };
 
     stdPythonEnv = (_: with pypi; [ tox pip virtualenv setuptools mypy ]);
