@@ -20,7 +20,7 @@ in {
       devTools.haskell
       devTools.jvm-family
       devTools.shell
-      [devTools.coc-extra-lsps]
+      [pkgs.httpie devTools.coc-extra-lsps]
 
       # python tooling woes never end!
       #   on darwin: manage with brew pyenv
