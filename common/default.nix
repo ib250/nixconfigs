@@ -37,6 +37,7 @@ in {
     exa
     zip
     unzip
+    ripgrep
   ];
 
   devTools = with pkgs; {
@@ -55,7 +56,15 @@ in {
 
     in [ cmake gnumake clang-tools ] ++ compilers;
 
-    js = [ nodejs yarn yarn2nix nodePackages.serverless nodePackages.node2nix ];
+    js = [
+        pkgs.deno
+        nodejs
+        yarn
+        yarn2nix
+        nodePackages.serverless
+        nodePackages.node2nix
+        nodePackages.typescript
+    ];
 
     python = let
 
