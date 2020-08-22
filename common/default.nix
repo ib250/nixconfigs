@@ -1,6 +1,5 @@
 pkgs:
 let
-
   unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
 
   isWsl = with builtins; (getEnv "WSL_DISTRO_NAME") != "";
@@ -41,38 +40,45 @@ in {
   ];
 
   devTools = with pkgs; {
-
     jvm-family = [ scala sbt maven metals jdk11 ];
 
     haskell = let
-      compiler =
-        ghc.withPackages (hackage: with hackage; [ ghcide hoogle hlint stylish-haskell hpack ]);
+      compiler = ghc.withPackages
+        (hackage: with hackage; [ ghcide hoogle hlint stylish-haskell hpack ]);
     in [ stack compiler ];
 
     c-family = let
-
       compilers =
         if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_10 ];
-
     in [ cmake gnumake clang-tools ] ++ compilers;
 
     js = [
-        pkgs.deno
-        nodejs
-        yarn
-        yarn2nix
-        nodePackages.serverless
-        nodePackages.node2nix
-        nodePackages.typescript
+      deno
+      nodejs
+      yarn
+      yarn2nix
+      nodePackages.serverless
+      nodePackages.node2nix
+      nodePackages.typescript
     ];
 
     python = let
+      fromPypi = pypi:
+        with pypi; [
+          pip
+          ipython
+          jupyter
+          jupyterlab
+          matplotlib
+          numpy
+          scipy
+          boto3
+        ];
 
-      default-python = python38.withPackages (pypi: with pypi; [ pip ipython ]);
-
+      default-python = python38.withPackages fromPypi;
     in [ black pipenv poetry default-python ];
 
-    nix = [ nixfmt rnix-lsp ];
+    nix = [ nixfmt nixpkgs-fmt rnix-lsp ];
 
     shell = [ nodePackages.bash-language-server ];
 
@@ -85,7 +91,6 @@ in {
         nodePackages.bash-language-server
       ];
     };
-
   };
 
   nixosPackages = with pkgs; {
@@ -159,7 +164,6 @@ in {
   zplugrc =
     { plugins ? [ ], sourceWhenAvaliable ? [ ], prelude ? "", epilogue ? "" }:
     let
-
       declarePlugins = map (plugin: ''zplug "${plugin}"'');
 
       sourceMaybe =
@@ -178,7 +182,6 @@ in {
     in unlines [ prelude zplugDeclarations sourceMaybe epilogue ];
 
   neovim = {
-
     package = pkgs.neovim-unwrapped;
 
     configure = {
@@ -212,7 +215,6 @@ in {
       };
 
     };
-
   };
 
 }

@@ -1,8 +1,6 @@
 { pkgs, ... }:
 let
-
   commons = import ./common pkgs;
-  isDarwinOrWsl = commons.isDarwin || commons.isWsl;
   devTools = commons.devTools;
 
   # programs.neovim manages its own install of neovim so no need here
@@ -20,21 +18,15 @@ in {
       devTools.haskell
       devTools.jvm-family
       devTools.shell
-      [pkgs.httpie devTools.coc-extra-lsps]
-
-      # python tooling woes never end!
-      #   on darwin: manage with brew pyenv
-      #   on wsl: you are on your own
-      (if isDarwinOrWsl then [ ] else devTools.python)
-
+      devTools.python
+      [ pkgs.httpie devTools.coc-extra-lsps ]
     ];
 
   programs.neovim = {
     enable = true;
     package = commons.neovim.package;
-    extraPython3Packages = (
-        ps: with ps; [ pynvim python-language-server mypy ]
-    );
+    extraPython3Packages =
+      (ps: with ps; [ pynvim python-language-server mypy ]);
     configure = commons.neovim.configure;
   };
 
@@ -46,7 +38,6 @@ in {
     enableAutosuggestions = true;
     enableCompletion = true;
     defaultKeymap = "viins";
-
     dotDir = ".config/zsh";
     autocd = true;
 
@@ -61,7 +52,6 @@ in {
     };
 
     initExtra = commons.zplugrc {
-
       plugins = [
         "mafredri/zsh-async"
         "sindresorhus/pure"
@@ -79,7 +69,6 @@ in {
       '';
 
       sourceWhenAvaliable = [ "~/.smoke" ];
-
     };
 
   };

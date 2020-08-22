@@ -1,6 +1,5 @@
 { enabled, pkgs ? import <nixpkgs> { }, ... }:
 let
-
   ghcideOptions = {
     ghcide = {
       command = "ghcide";
@@ -66,9 +65,10 @@ let
       { };
 
   createCocConfig = lsps:
-    with pkgs.lib; builtins.toJSON {
+    with pkgs.lib;
+    builtins.toJSON {
       languageserver = foldr (drv: cfg: cfg // (defaultLspConfig drv)) { } lsps;
-  };
+    };
 
 in pkgs.writeScriptBin "coc-extra-lsps" ''
   echo '${createCocConfig enabled}'
