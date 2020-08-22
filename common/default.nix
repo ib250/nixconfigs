@@ -46,7 +46,7 @@ in {
 
     haskell = let
       compiler =
-        ghc.withPackages (hackage: with hackage; [ ghcide hoogle hlint ]);
+        ghc.withPackages (hackage: with hackage; [ ghcide hoogle hlint stylish-haskell hpack ]);
     in [ stack compiler ];
 
     c-family = let
