@@ -64,16 +64,11 @@ in {
 
     python = let
       fromPypi = pypi:
-        with pypi; [
-          pip
-          ipython
-          jupyter
-          jupyterlab
-          matplotlib
-          numpy
-          scipy
-          boto3
-        ];
+        with pypi;
+        let
+          extras = [ ipython matplotlib numpy scipy ];
+          nonOSXExtras = if isDarwin then [ ] else [ jupyter jupyterlab ];
+        in builtins.concatLists [ [ pip boto3 ] extras nonOSXExtras ];
 
       default-python = python38.withPackages fromPypi;
     in [ black pipenv poetry default-python ];
