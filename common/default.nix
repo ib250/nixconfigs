@@ -66,9 +66,10 @@ in {
       fromPypi = pypi:
         with pypi;
         let
-          extras = [ ipython matplotlib numpy scipy ];
+          extras = [ pip tox boto3 ipython matplotlib numpy scipy ];
           nonOSXExtras = if isDarwin then [ ] else [ jupyter jupyterlab ];
-        in builtins.concatLists [ [ pip boto3 ] extras nonOSXExtras ];
+          linting = [ mypy flake8 jedi ];
+        in builtins.concatLists [ extras linting nonOSXExtras ];
 
       default-python = python38.withPackages fromPypi;
     in [ black pipenv poetry default-python ];
@@ -195,6 +196,7 @@ in {
           elm-vim
           typescript-vim
           vim-scala
+          kotlin-vim
 
           coc-nvim
           coc-json
