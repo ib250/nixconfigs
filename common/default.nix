@@ -27,6 +27,7 @@ in {
     ranger
     neovim
     git
+    gitAndTools.git-extras
     htop
     highlight
     jq
@@ -69,7 +70,7 @@ in {
           extras = [ pip tox boto3 ipython matplotlib numpy scipy ];
           nonOSXExtras = if isDarwin then [ ] else [ jupyter jupyterlab ];
           linting = [ mypy flake8 jedi ];
-        in builtins.concatLists [ extras linting nonOSXExtras ];
+       in builtins.concatLists [ extras linting nonOSXExtras ];
 
       default-python = python38.withPackages fromPypi;
     in [ black pipenv poetry default-python ];

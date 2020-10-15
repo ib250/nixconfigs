@@ -7,6 +7,12 @@ let
   homePackages = with pkgs.lib;
     filter (drv: !(hasInfix "neovim" drv.name)) commons.basics;
 
+  # misc extras
+  extraPackages = [
+    pkgs.httpie
+    devTools.coc-extra-lsps
+  ];
+
 in {
 
   home.packages = with builtins;
@@ -19,7 +25,7 @@ in {
       devTools.jvm-family
       devTools.shell
       devTools.python
-      [ pkgs.httpie devTools.coc-extra-lsps ]
+      extraPackages
     ];
 
   programs.neovim = {
