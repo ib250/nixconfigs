@@ -31,7 +31,6 @@ in {
     htop
     highlight
     jq
-    yq
     fd
     ag
     exa
@@ -54,7 +53,6 @@ in {
     in [ cmake gnumake clang-tools ] ++ compilers;
 
     js = [
-      deno
       nodejs
       yarn
       yarn2nix
