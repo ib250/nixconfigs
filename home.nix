@@ -46,7 +46,6 @@ in {
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
     autocd = true;
-
     sessionVariables = { EDITOR = "nvim"; };
     shellAliases = {
       c = "clear";
@@ -57,7 +56,7 @@ in {
       tree = "exa -T";
     };
 
-    initExtra = commons.zplugrc {
+    initExtraBeforeCompInit = commons.zplugrc {
       plugins = [
         "mafredri/zsh-async"
         "sindresorhus/pure"
@@ -68,10 +67,17 @@ in {
       ];
 
       epilogue = ''
+
         bindkey jk vi-cmd-mode
         bindkey kj vi-cmd-mode
-        autoload bashcompinit && bashcompinit
+        # autoload bashcompinit && bashcompinit
         autoload -U promptinit && promptinit
+
+        fpath=(
+        "~/.nix-profile/share/zsh/site-functions"
+        "~/.nix-profile/share/zsh/vendor-completions"
+        "$fpath[@]"
+        )
       '';
 
       sourceWhenAvaliable = [ "~/.smoke" ];

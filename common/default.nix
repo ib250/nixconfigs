@@ -193,6 +193,7 @@ in {
           vim-nix
           vim-indent-guides
           elm-vim
+          plantuml-syntax
           typescript-vim
           vim-scala
           kotlin-vim
