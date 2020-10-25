@@ -8,6 +8,8 @@ let
 
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
+  kotlin-language-server = import ./kotlin-language-server.nix {};
+
 in {
 
   isWsl = isWsl;
@@ -40,7 +42,14 @@ in {
   ];
 
   devTools = with pkgs; {
-    jvm-family = [ scala sbt maven metals jdk11 ];
+    jvm-family = [
+      scala
+      sbt
+      maven
+      metals
+      jdk11
+      kotlin-language-server
+    ];
 
     haskell = let
       compiler = ghc.withPackages
@@ -84,6 +93,7 @@ in {
         clang-tools
         rnix-lsp
         nodePackages.bash-language-server
+        kotlin-language-server
       ];
     };
   };

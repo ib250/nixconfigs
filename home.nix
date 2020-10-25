@@ -67,17 +67,10 @@ in {
       ];
 
       epilogue = ''
-
         bindkey jk vi-cmd-mode
         bindkey kj vi-cmd-mode
         # autoload bashcompinit && bashcompinit
         autoload -U promptinit && promptinit
-
-        fpath=(
-        "~/.nix-profile/share/zsh/site-functions"
-        "~/.nix-profile/share/zsh/vendor-completions"
-        "$fpath[@]"
-        )
       '';
 
       sourceWhenAvaliable = [ "~/.smoke" ];

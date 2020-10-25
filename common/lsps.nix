@@ -49,6 +49,13 @@ let
     };
   };
 
+  kotlinLspOptions = {
+    kotlin = {
+      command = "kotlin-language-server";
+      filetypes = ["kotlin"];
+    };
+  };
+
   defaultLspConfig = drv:
     with pkgs.lib;
     if hasInfix "ghcide" drv.name then
@@ -61,6 +68,8 @@ let
       rnixLspOptions
     else if hasInfix "bash" drv.name then
       bashLspOptions
+    else if hasInfix "kotlin" drv.name then
+      kotlinLspOptions
     else
       { };
 
