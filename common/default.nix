@@ -8,7 +8,10 @@ let
 
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
-  kotlin-language-server = import ./kotlin-language-server.nix {};
+  kotlin-language-server =
+      if isDarwin
+      then [ import ./kotlin-language-server.nix {} ]
+      else [];
 
 in {
 
@@ -42,14 +45,7 @@ in {
   ];
 
   devTools = with pkgs; {
-    jvm-family = [
-      scala
-      sbt
-      maven
-      metals
-      jdk11
-      kotlin-language-server
-    ];
+    jvm-family = [ scala sbt maven metals jdk11 ] ++ kotlin-language-server;
 
     haskell = let
       compiler = ghc.withPackages
@@ -87,13 +83,12 @@ in {
     shell = [ nodePackages.bash-language-server ];
 
     coc-extra-lsps = import ./lsps.nix {
-      enabled = [
+      enabled = kotlin-language-server ++ [
         haskellPackages.ghcide
         metals
         clang-tools
         rnix-lsp
         nodePackages.bash-language-server
-        kotlin-language-server
       ];
     };
   };
