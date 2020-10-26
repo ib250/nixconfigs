@@ -54,6 +54,7 @@ in {
       ll = "exa -lah";
       q = "exit";
       tree = "exa -T";
+      d = "dirs -v";
     };
 
     initExtraBeforeCompInit = commons.zplugrc {
