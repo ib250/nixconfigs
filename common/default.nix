@@ -8,11 +8,6 @@ let
 
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
-  kotlin-language-server =
-      if isDarwin
-      then [ import ./kotlin-language-server.nix {} ]
-      else [];
-
 in {
 
   isWsl = isWsl;
@@ -45,7 +40,7 @@ in {
   ];
 
   devTools = with pkgs; {
-    jvm-family = [ scala sbt maven metals jdk11 ] ++ kotlin-language-server;
+    jvm-family = [ scala sbt maven metals jdk11 ];
 
     haskell = let
       compiler = ghc.withPackages
@@ -73,7 +68,7 @@ in {
           extras = [ pip tox boto3 ipython matplotlib numpy scipy ];
           nonOSXExtras = if isDarwin then [ ] else [ jupyter jupyterlab ];
           linting = [ mypy flake8 jedi ];
-       in builtins.concatLists [ extras linting nonOSXExtras ];
+        in builtins.concatLists [ extras linting nonOSXExtras ];
 
       default-python = python38.withPackages fromPypi;
     in [ black pipenv poetry default-python ];
@@ -83,7 +78,7 @@ in {
     shell = [ nodePackages.bash-language-server ];
 
     coc-extra-lsps = import ./lsps.nix {
-      enabled = kotlin-language-server ++ [
+      enabled = [
         haskellPackages.ghcide
         metals
         clang-tools

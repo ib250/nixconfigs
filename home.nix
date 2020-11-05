@@ -8,10 +8,7 @@ let
     filter (drv: !(hasInfix "neovim" drv.name)) commons.basics;
 
   # misc extras
-  extraPackages = [
-    pkgs.httpie
-    devTools.coc-extra-lsps
-  ];
+  extraPackages = [ pkgs.httpie devTools.coc-extra-lsps ];
 
 in {
 
@@ -31,12 +28,15 @@ in {
   programs.neovim = {
     enable = true;
     package = commons.neovim.package;
-    extraPython3Packages =
-      (ps: with ps; [ pynvim mypy ]);
+    extraPython3Packages = (ps: with ps; [ pynvim mypy ]);
     configure = commons.neovim.configure;
   };
 
-  programs.home-manager.enable = true;
+  programs.home-manager = {
+    enable = true;
+    path =
+      "https://github.com/nix-community/home-manager/archive/release-20.03.tar.gz";
+  };
 
   programs.zsh = {
 

@@ -1,10 +1,5 @@
-
-{
-  pkgs ? import <nixpkgs> {}
-  , jdk ? pkgs.jdk11
-}:
+{ pkgs ? import <nixpkgs> { }, jdk ? pkgs.jdk11 }:
 let
-
   owner = "fwcd";
   repo = "kotlin-language-server";
   version = "0.7.0";

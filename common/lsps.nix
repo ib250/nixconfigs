@@ -52,7 +52,7 @@ let
   kotlinLspOptions = {
     kotlin = {
       command = "kotlin-language-server";
-      filetypes = ["kotlin"];
+      filetypes = [ "kotlin" ];
     };
   };
 

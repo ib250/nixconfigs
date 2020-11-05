@@ -27,6 +27,18 @@ function set-lsps() {
 }
 
 
+function set-channels() {
+    HOME_MANAGER=https://github.com/nix-community/home-manager/archive/master.tar.gz
+    NIXPKGS=https://nixos.org/channels/nixos-unstable
+    POETRY2NIX=https://github.com/nix-community/poetry2nix/archive/master.tar.gz
+
+    nix-channel --add ${HOME_MANAGER} home-manager
+    nix-channel --add ${NIXPKGS} nixpkgs
+    nix-channel --add ${POETRY2NIX} poetry2nix
+    nix-channel --update
+}
+
+
 function main() {
     for step in $@
     do
@@ -34,12 +46,13 @@ function main() {
             link-home ) link-configs home;;
             link-nix ) link-configs nixos;;
             set-nvim-lsps ) set-lsps --nvim;;
+            set-channels ) set-channels;;
             set-vim-lsps ) set-lsps --vim;;
             clean ) clean-configs;;
             show )
-                exa -T ~/.config/nixpkgs
-                [ -e /etc/nixos ] && exa -T /etc/nixos;;
-            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show]";;
+                nix run nixpkgs.exa -c exa -T ~/.config/nixpkgs
+                [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos;;
+            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show | set-channels]";;
         esac
     done
 
