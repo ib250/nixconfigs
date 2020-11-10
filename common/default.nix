@@ -113,6 +113,7 @@ in {
       pamixer
       bspwm
       sxhkd
+      spotify
       rofi
       lxappearance
       mate.mate-power-manager
