@@ -35,7 +35,15 @@ in {
   programs.home-manager = {
     enable = true;
     path =
-      "https://github.com/nix-community/home-manager/archive/release-20.03.tar.gz";
+      "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  };
+
+  programs.bat.enable = true;
+
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
@@ -60,7 +68,6 @@ in {
     initExtraBeforeCompInit = commons.zplugrc {
       plugins = [
         "mafredri/zsh-async"
-        "sindresorhus/pure"
         "zsh-users/zsh-completions"
         "zsh-users/zsh-autosuggestions"
         "zsh-users/zsh-history-substring-search"
@@ -71,7 +78,6 @@ in {
         bindkey jk vi-cmd-mode
         bindkey kj vi-cmd-mode
         # autoload bashcompinit && bashcompinit
-        autoload -U promptinit && promptinit
       '';
 
       sourceWhenAvaliable = [ "~/.smoke" ];

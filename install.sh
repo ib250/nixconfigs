@@ -49,10 +49,11 @@ function main() {
             set-channels ) set-channels;;
             set-vim-lsps ) set-lsps --vim;;
             clean ) clean-configs;;
+            home-manager-install ) nix-shell '<home-manager>' -A install;;
             show )
                 nix run nixpkgs.exa -c exa -T ~/.config/nixpkgs
                 [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos;;
-            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show | set-channels]";;
+            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show | set-channels | home-manager-install]";;
         esac
     done
 
