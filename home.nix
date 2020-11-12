@@ -4,17 +4,16 @@ let
   commons = import ./common pkgs;
   devTools = commons.devTools;
 
+  cocConfig = devTools.coc-extra-lsps;
+
+  sourceWhenAvaliable = commons.sourceWhenAvaliable;
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with pkgs.lib;
     filter (drv: !(hasInfix "neovim" drv.name)) commons.basics;
 
   # misc extras
-  extraPackages = [ pkgs.httpie devTools.coc-extra-lsps ];
-
-  _ = lib.asserts.assertMsg
-    (pkgs.lib.version != lib.version)
-    "lib and pkgs versions dont match ${pkgs.lib.version} ~ ${lib.version}";
+  extraPackages = [ pkgs.httpie ];
 
 in rec {
 
@@ -38,6 +37,10 @@ in rec {
     configure = commons.neovim.configure;
   };
 
+  home.file = {
+    ".config/nvim/coc-settings.json".source = cocConfig.contents;
+  };
+
   programs.home-manager = {
     enable = true;
     path =
@@ -53,7 +56,6 @@ in rec {
   };
 
   programs.zsh = {
-
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
@@ -72,23 +74,23 @@ in rec {
       cat = "bat";
     };
 
-    initExtraBeforeCompInit = commons.zplugrc {
+    zplug = {
+      enable = true;
       plugins = [
-        "mafredri/zsh-async"
-        "zsh-users/zsh-completions"
-        "zsh-users/zsh-autosuggestions"
-        "zsh-users/zsh-history-substring-search"
-        "zdharma/fast-syntax-highlighting"
+        { name = "mafredri/zsh-async"; }
+        { name = "zsh-users/zsh-completions"; }
+        { name = "zsh-users/zsh-autosuggestions"; }
+        { name = "zsh-users/zsh-history-substring-search"; }
+        { name = "zdharma/fast-syntax-highlighting"; }
       ];
-
-      epilogue = ''
-        bindkey jk vi-cmd-mode
-        bindkey kj vi-cmd-mode
-        # autoload bashcompinit && bashcompinit
-      '';
-
-      sourceWhenAvaliable = [ "~/.smoke" ];
     };
+
+    initExtraBeforeCompInit = ''
+      bindkey jk vi-cmd-mode
+      bindkey kj vi-cmd-mode
+    '';
+
+    initExtra = sourceWhenAvaliable [ "~/.smoke" ];
 
   };
 

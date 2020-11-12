@@ -52,13 +52,8 @@ in {
         if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_10 ];
     in [ cmake gnumake clang-tools ] ++ compilers;
 
-    js = [
-      nodejs
-      yarn
-      yarn2nix
-      nodePackages.node2nix
-      nodePackages.typescript
-    ];
+    js =
+      [ nodejs yarn yarn2nix nodePackages.node2nix nodePackages.typescript ];
 
     python = let
       fromPypi = pypi:
@@ -85,6 +80,7 @@ in {
         nodePackages.bash-language-server
       ];
     };
+
   };
 
   nixosPackages = with pkgs; {
@@ -156,25 +152,8 @@ in {
     extraDevTools = [ docker ];
   };
 
-  zplugrc =
-    { plugins ? [ ], sourceWhenAvaliable ? [ ], prelude ? "", epilogue ? "" }:
-    let
-      declarePlugins = map (plugin: ''zplug "${plugin}"'');
-
-      sourceMaybe =
-        unlines (map (fp: "[ -e ${fp} ] && source ${fp}") sourceWhenAvaliable);
-
-      zplugDeclarations = if plugins == [ ] then
-        ""
-      else ''
-        # zplug declarations:
-
-        source ${pkgs.zplug}/init.zsh
-        ${unlines (declarePlugins plugins)}
-        zplug load
-      '';
-
-    in unlines [ prelude zplugDeclarations sourceMaybe epilogue ];
+  sourceWhenAvaliable = files:
+    unlines (map (fp: "[ -e ${fp} ] && source ${fp}") files);
 
   neovim = {
     package = pkgs.neovim-unwrapped;

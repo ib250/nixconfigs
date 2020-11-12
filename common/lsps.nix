@@ -73,12 +73,19 @@ let
     else
       { };
 
+  jsonfmt = pkgs.formats.json { };
+
   createCocConfig = lsps:
-    with pkgs.lib;
-    builtins.toJSON {
-      languageserver = foldr (drv: cfg: cfg // (defaultLspConfig drv)) { } lsps;
+    with pkgs.lib; {
+      languageserver =
+        foldr (drv: cfg: cfg // (defaultLspConfig drv)) { } lsps;
     };
 
-in pkgs.writeScriptBin "coc-extra-lsps" ''
-  echo '${createCocConfig enabled}'
-''
+  mkCocConfigJson = { }:
+    let data = createCocConfig enabled;
+    in jsonfmt.generate "coc-config.json" data;
+
+in {
+  lsps = enabled;
+  contents = mkCocConfigJson { };
+}

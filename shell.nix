@@ -1,13 +1,13 @@
-{
-  pkgs ? import <nixpkgs> {}
-}:
+{ pkgs ? import <nixpkgs> { } }:
 pkgs.mkShell {
 
-  HOME_MANAGER = https://github.com/nix-community/home-manager/archive/master.tar.gz;
+  HOME_MANAGER =
+    "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 
-  NIXPKGS = https://nixos.org/channels/nixos-unstable;
+  NIXPKGS = "https://nixos.org/channels/nixpkgs-unstable";
 
-  POETRY2NIX = https://github.com/nix-community/poetry2nix/archive/master.tar.gz;
+  POETRY2NIX =
+    "https://github.com/nix-community/poetry2nix/archive/master.tar.gz";
 
-  buildInputs = with pkgs; [exa coreutils zsh];
+  buildInputs = with pkgs; [ exa coreutils zsh ];
 }
