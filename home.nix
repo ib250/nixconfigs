@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, options, modulesPath }:
 let
+
   commons = import ./common pkgs;
   devTools = commons.devTools;
+
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with pkgs.lib;
@@ -10,7 +12,11 @@ let
   # misc extras
   extraPackages = [ pkgs.httpie devTools.coc-extra-lsps ];
 
-in {
+  _ = lib.asserts.assertMsg
+    (pkgs.lib.version != lib.version)
+    "lib and pkgs versions dont match ${pkgs.lib.version} ~ ${lib.version}";
+
+in rec {
 
   home.packages = with builtins;
     concatLists [
@@ -63,6 +69,7 @@ in {
       q = "exit";
       tree = "exa -T";
       d = "dirs -v";
+      cat = "bat";
     };
 
     initExtraBeforeCompInit = commons.zplugrc {

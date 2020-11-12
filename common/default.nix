@@ -56,7 +56,6 @@ in {
       nodejs
       yarn
       yarn2nix
-      nodePackages.serverless
       nodePackages.node2nix
       nodePackages.typescript
     ];

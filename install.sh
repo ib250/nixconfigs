@@ -1,5 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nix-shell
+#! nix-shell -i zsh
 
+__USAGE__="
+${0} [... options]
+options supported:
+link-home:              link relevant configs for dotfiles
+link-nix:               link relevant configus for nixos (nixos only)
+set-[nvim | vim]-lsps:  setup coc extra configuration for vim or nvim
+clean:                  delete current configurations
+show:                   show links to current configuration
+set-channels:           setup nix channels
+home-manager-install:   install home-manager
+switch:                 home-manager switch via home-manager channel
+"
 
 function link-configs() {
     case $1 in
@@ -28,14 +41,28 @@ function set-lsps() {
 
 
 function set-channels() {
-    HOME_MANAGER=https://github.com/nix-community/home-manager/archive/master.tar.gz
-    NIXPKGS=https://nixos.org/channels/nixos-unstable
-    POETRY2NIX=https://github.com/nix-community/poetry2nix/archive/master.tar.gz
-
     nix-channel --add ${HOME_MANAGER} home-manager
     nix-channel --add ${NIXPKGS} nixpkgs
     nix-channel --add ${POETRY2NIX} poetry2nix
     nix-channel --update
+}
+
+
+function home-manager-install() {
+    [ -e "$(which home-manager)" ] && {
+        echo "home-manager is already installed, to update, uninstall first"
+        exit 1
+    }
+
+    case ${CHATTY} in
+        yes | 1 ) nix-shell --verbose --show-trace ${HOME_MANAGER} -A install;;
+        no | * ) nix-shell ${HOME_MANAGER} -A install;;
+    esac
+}
+
+function show-configs() {
+    exa -T ~/.config/nixpkgs
+    [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos
 }
 
 
@@ -49,15 +76,13 @@ function main() {
             set-channels ) set-channels;;
             set-vim-lsps ) set-lsps --vim;;
             clean ) clean-configs;;
-            home-manager-install ) nix-shell '<home-manager>' -A install;;
-            show )
-                nix run nixpkgs.exa -c exa -T ~/.config/nixpkgs
-                [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos;;
-            * ) echo "options supported: [link-home | link-nix | set-[nvim | vim]-lsps | clean | show | set-channels | home-manager-install]";;
+            switch ) nix run home-manager.home-manager -c home-manager switch;;
+            home-manager-install ) home-manager-install;;
+            show ) show-configs;;
+            * ) return 1;;
         esac
     done
-
 }
 
 
-main $@
+main $@ || echo "${__USAGE__}"
