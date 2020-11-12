@@ -28,18 +28,6 @@ function clean-configs() {
 }
 
 
-function set-lsps() {
-    case $1 in
-        --nvim ) mkdir -p ~/.config/nvim
-            coc-extra-lsps | jq > ~/.config/nvim/coc-settings.json
-            ;;
-        --vim ) mkdir -p ~/.vim
-            coc-extra-lsps | jq > ~/.vim/coc-settings.json
-            ;;
-    esac
-}
-
-
 function set-channels() {
     nix-channel --add ${HOME_MANAGER} home-manager
     nix-channel --add ${NIXPKGS} nixpkgs
@@ -72,9 +60,7 @@ function main() {
         case $step in
             link-home ) link-configs home;;
             link-nix ) link-configs nixos;;
-            set-nvim-lsps ) set-lsps --nvim;;
             set-channels ) set-channels;;
-            set-vim-lsps ) set-lsps --vim;;
             clean ) clean-configs;;
             switch ) nix run home-manager.home-manager -c home-manager switch;;
             home-manager-install ) home-manager-install;;
