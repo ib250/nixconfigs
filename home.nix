@@ -33,12 +33,30 @@ in rec {
   programs.neovim = {
     enable = true;
     package = commons.neovim.package;
-    extraPython3Packages = (ps: with ps; [ pynvim mypy ]);
+    extraPython3Packages = (ps: with ps; [ pynvim ]);
     configure = commons.neovim.configure;
   };
 
   home.file = {
     ".config/nvim/coc-settings.json".source = cocConfig.contents;
+    ".config/coc/extensions/package.json" = {
+      text = builtins.toJSON {
+        dependencies = {
+          coc-deno = ">=0.11.0";
+          coc-marketplace = ">=1.8.0";
+          coc-spell-checker = ">=1.2.0";
+        };
+      };
+
+      onChange = ''
+        cd ~/.config/coc/extensions
+        echo "
+          * New coc-nvim changes detected, installing...
+        "
+        ${pkgs.nodejs}/bin/npm install \
+          --ignore-scripts --no-logfile --production --legacy-peer-deps
+      '';
+    };
   };
 
   programs.home-manager = {
