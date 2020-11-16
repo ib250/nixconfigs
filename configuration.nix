@@ -177,7 +177,8 @@ in {
   users.extraUsers.ismail = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" "docker" ];
+    extraGroups =
+      [ "wheel" "video" "vboxusers" "networkmanager" "docker" ];
   };
 
   # This value determines the NixOS release with which your system is to be

@@ -6,7 +6,8 @@ let
   pypi = from pkgs "python${python-version}Packages";
 
   withAwsExtras = { buildInputs, shellHook, ... }: {
-    buildInputs = (buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
+    buildInputs =
+      (buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
     shellHook = shellHook;
   };
 

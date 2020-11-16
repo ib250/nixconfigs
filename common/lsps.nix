@@ -27,8 +27,13 @@ let
     clangd = {
       command = "clangd";
       args = [ "--background-index" ];
-      rootPatterns =
-        [ "compile_flags.txt" "compile_commands.json" ".vim/" ".git/" ".hg/" ];
+      rootPatterns = [
+        "compile_flags.txt"
+        "compile_commands.json"
+        ".vim/"
+        ".git/"
+        ".hg/"
+      ];
       filetypes = [ "c" "cpp" "objc" "objcpp" ];
     };
   };

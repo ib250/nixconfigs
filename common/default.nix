@@ -1,6 +1,8 @@
 pkgs:
 let
-  unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
+  unlines = strings:
+    with pkgs.lib;
+    concatStrings (intersperse "\n" strings);
 
   isWsl = with builtins; (getEnv "WSL_DISTRO_NAME") != "";
 
@@ -43,8 +45,14 @@ in {
     jvm-family = [ scala sbt maven metals jdk11 ];
 
     haskell = let
-      compiler = ghc.withPackages
-        (hackage: with hackage; [ ghcide hoogle hlint stylish-haskell hpack ]);
+      compiler = ghc.withPackages (hackage:
+        with hackage; [
+          ghcide
+          hoogle
+          hlint
+          stylish-haskell
+          hpack
+        ]);
     in [ stack compiler ];
 
     c-family = let
@@ -52,20 +60,36 @@ in {
         if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_10 ];
     in [ cmake gnumake clang-tools ] ++ compilers;
 
-    js =
-      [ nodejs yarn yarn2nix nodePackages.node2nix nodePackages.typescript ];
+    js = [
+      nodejs
+      deno
+      yarn
+      yarn2nix
+      nodePackages.node2nix
+      nodePackages.typescript
+    ];
 
     python = let
       fromPypi = pypi:
         with pypi;
         let
-          extras = [ pip tox boto3 ipython matplotlib numpy scipy ];
+          extras = [
+            pip
+            tox
+            black
+            isort
+            boto3
+            ipython
+            pandas
+            matplotlib
+            numpy
+            scipy
+          ];
           nonOSXExtras = if isDarwin then [ ] else [ jupyter jupyterlab ];
           linting = [ mypy flake8 jedi ];
         in builtins.concatLists [ extras linting nonOSXExtras ];
 
-      default-python = python38.withPackages fromPypi;
-    in [ black pipenv poetry default-python ];
+    in [ (python38.withPackages fromPypi) ];
 
     nix = [ nixfmt nixpkgs-fmt rnix-lsp ];
 
