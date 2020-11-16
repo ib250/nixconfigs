@@ -75,6 +75,8 @@ in {
         let
           extras = [
             pip
+            pipx
+            poetry
             tox
             black
             isort
@@ -89,7 +91,7 @@ in {
           linting = [ mypy flake8 jedi ];
         in builtins.concatLists [ extras linting nonOSXExtras ];
 
-    in [ (python38.withPackages fromPypi) ];
+    in [ pipenv (python38.withPackages fromPypi) ];
 
     nix = [ nixfmt nixpkgs-fmt rnix-lsp ];
 

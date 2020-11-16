@@ -1,5 +1,12 @@
 { pkgs ? import <nixpkgs> { } }:
-pkgs.mkShell {
+let
+
+  fmt = pkgs.writeScriptBin "nix-fmt-all" ''
+    #!${pkgs.stdenv.shell}
+    nixfmt --width=75 $(fd .nix | xargs)
+  '';
+
+in pkgs.mkShell {
 
   HOME_MANAGER =
     "https://github.com/nix-community/home-manager/archive/master.tar.gz";
@@ -9,5 +16,6 @@ pkgs.mkShell {
   POETRY2NIX =
     "https://github.com/nix-community/poetry2nix/archive/master.tar.gz";
 
-  buildInputs = with pkgs; [ exa coreutils zsh ];
+  buildInputs = with pkgs; [ fmt fd exa coreutils zsh ];
+
 }
