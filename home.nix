@@ -42,6 +42,12 @@ in rec {
     ".config/coc/extensions/package.json" = {
       text = builtins.toJSON {
         dependencies = {
+          coc-json = ">=1.3.2";
+          coc-yaml = ">=1.1.2";
+          coc-format-json = ">=0.2.0";
+          coc-python = ">=1.2.13";
+          coc-java = ">=1.5.0";
+          coc-tsserver = "1.6.0";
           coc-deno = ">=0.11.0";
           coc-marketplace = ">=1.8.0";
           coc-spell-checker = ">=1.2.0";

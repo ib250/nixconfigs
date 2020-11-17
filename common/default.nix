@@ -202,15 +202,7 @@ in {
           typescript-vim
           vim-scala
           kotlin-vim
-
           coc-nvim
-          coc-json
-          coc-yaml
-          coc-python
-          coc-tsserver
-          coc-java
-          coc-spell-checker
-
         ];
 
         opt = [ ];

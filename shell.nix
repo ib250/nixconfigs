@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { } }:
 let
 
-  fmt = pkgs.writeScriptBin "nix-fmt-all" ''
+  fmt = pkgs.writeScriptBin "format-all" ''
     #!${pkgs.stdenv.shell}
     nixfmt --width=75 $(fd .nix | xargs)
   '';
