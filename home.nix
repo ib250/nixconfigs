@@ -14,9 +14,6 @@ let
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
-  # misc extras
-  extraPackages = [ pkgs.httpie ];
-
 in rec {
 
   home.packages = with builtins;
@@ -29,7 +26,6 @@ in rec {
       devTools.jvm-family
       devTools.shell
       devTools.python
-      extraPackages
     ];
 
   programs.neovim = {
@@ -119,6 +115,21 @@ in rec {
     '';
 
     initExtra = sourceWhenAvaliable [ "~/.smoke" ];
+
+  };
+
+  home.activation = {
+
+    # * re-write ranger config because...
+    # TODO: write hm module for ranger?
+    rangerCopyConfigs =
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+
+        $DRY_RUN_CMD rm -rf $VERBOSE_ARG ~/.config/ranger/*
+        $DRY_RUN_CMD ${pkgs.ranger}/bin/ranger --copy-config=all
+
+        ${packages.utils.setRangerPreviewMethod { }}
+      '';
 
   };
 
