@@ -45,9 +45,12 @@ in {
       in ''
         ${fixUpScript}
         echo "fixed up ranger/rc.conf:"
-        diff --color ~/.config/ranger/rc.conf ~/.config/ranger/rc.conf.new
-        $DRY_RUN_CMD mv -f $VERBOSE_ARG \
-          ~/.config/ranger/rc.conf.new ~/.config/ranger/rc.conf
+        $DRY_RUN_CMD diff --color \
+          ~/.config/ranger/rc.conf \
+          ~/.config/ranger/rc.conf.new || (
+          $DRY_RUN_CMD mv -f $VERBOSE_ARG ~/.config/ranger/rc.conf.new \
+            ~/.config/ranger/rc.conf
+        )
       '';
   };
 

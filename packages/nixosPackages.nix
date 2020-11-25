@@ -67,14 +67,8 @@ with pkgs; {
     unifont
   ];
 
-  productivityPackages = [
-    polybar
-    font-manager
-    acpi
-    ranger
-    zathura
-    google-chrome
-  ];
+  productivityPackages =
+    [ polybar font-manager acpi zathura google-chrome ];
 
   extraDevTools = [ docker ];
 }

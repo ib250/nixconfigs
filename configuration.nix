@@ -73,13 +73,13 @@ in {
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with builtins;
     concatLists [
-      systemLevel.nixosPackages.basics
-      systemLevel.nixosPackages.graphical
-      systemLevel.nixosPackages.productivityPackages
-      systemLevel.nixosPackages.extraDevTools
+      systemLevel.basics
+      systemLevel.graphical
+      systemLevel.productivityPackages
+      systemLevel.extraDevTools
     ];
 
-  fonts.fonts = systemLevel.nixosPackages.fonts;
+  fonts.fonts = systemLevel.fonts;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

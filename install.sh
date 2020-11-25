@@ -16,8 +16,8 @@ switch:                 home-manager switch via home-manager channel
 
 function link-configs() {
     case $1 in
-        home ) cp -rsf $(pwd)/{home.nix,common} ~/.config/nixpkgs/.;;
-        nixos ) cp -rsf $(pwd)/{configuration.nix,common} /etc/nixos/.;;
+        home ) cp -rsf $(pwd)/{home.nix,packages} ~/.config/nixpkgs/.;;
+        nixos ) cp -rsf $(pwd)/{configuration.nix,packages} /etc/nixos/.;;
         * ) echo "link options: home | nixos";;
     esac
 }
