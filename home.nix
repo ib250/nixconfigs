@@ -1,16 +1,18 @@
 { pkgs, lib, config, options, modulesPath }:
 let
 
-  commons = import ./common pkgs;
-  devTools = commons.devTools;
+  packages = import ./packages pkgs;
+
+  devTools = packages.devTools;
 
   cocConfig = devTools.coc-extra-lsps;
 
-  sourceWhenAvaliable = commons.sourceWhenAvaliable;
+  sourceWhenAvaliable = packages.utils.sourceWhenAvaliable;
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with pkgs.lib;
-    filter (drv: !(hasInfix "neovim" drv.name)) commons.basics;
+    filter (drv: !(hasInfix "neovim" drv.name))
+    packages.basics;
 
   # misc extras
   extraPackages = [ pkgs.httpie ];
@@ -32,13 +34,15 @@ in rec {
 
   programs.neovim = {
     enable = true;
-    package = commons.neovim.package;
+    package = packages.neovim.package;
     extraPython3Packages = (ps: with ps; [ pynvim ]);
-    configure = commons.neovim.configure;
+    configure = packages.neovim.configure;
   };
 
   home.file = {
-    ".config/nvim/coc-settings.json".source = cocConfig.contents;
+    ".config/nvim/coc-settings.json".source =
+      cocConfig.contents;
+
     ".config/coc/extensions/package.json" = {
       text = builtins.toJSON {
         dependencies = {

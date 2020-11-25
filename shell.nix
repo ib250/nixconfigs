@@ -1,9 +1,9 @@
 { pkgs ? import <nixpkgs> { } }:
 let
 
-  fmt = pkgs.writeScriptBin "format-all" ''
+  fmt = pkgs.writeScriptBin "autoformat" ''
     #!${pkgs.stdenv.shell}
-    nixfmt --width=75 $(fd .nix | xargs)
+    nixfmt --width=60 $(fd .nix | xargs)
   '';
 
 in pkgs.mkShell {

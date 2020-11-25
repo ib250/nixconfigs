@@ -5,7 +5,8 @@
 { config, pkgs, ... }:
 let
 
-  commons = import ./common pkgs;
+  systemLevel =
+    import ./packages/nixosPackages.nix { pkgs = pkgs; };
 
 in {
 
@@ -72,13 +73,13 @@ in {
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with builtins;
     concatLists [
-      commons.nixosPackages.basics
-      commons.nixosPackages.graphical
-      commons.nixosPackages.productivityPackages
-      commons.nixosPackages.extraDevTools
+      systemLevel.nixosPackages.basics
+      systemLevel.nixosPackages.graphical
+      systemLevel.nixosPackages.productivityPackages
+      systemLevel.nixosPackages.extraDevTools
     ];
 
-  fonts.fonts = commons.nixosPackages.fonts;
+  fonts.fonts = systemLevel.nixosPackages.fonts;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -106,7 +107,8 @@ in {
 
     zhighlighting = {
       enable = true;
-      highlighters = [ "main" "brackets" "pattern" "root" "line" ];
+      highlighters =
+        [ "main" "brackets" "pattern" "root" "line" ];
     };
 
     zshConfig = {
@@ -144,10 +146,12 @@ in {
 
       job = {
         logToFile = true;
-        preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
+        preStart =
+          "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
       };
 
-      sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
+      sessionCommands = with pkgs;
+        lib.mkAfter "xmodmap ~/.Xmodmap";
       session = [{
         manage = "window";
         name = "bspwm";
@@ -177,8 +181,13 @@ in {
   users.extraUsers.ismail = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups =
-      [ "wheel" "video" "vboxusers" "networkmanager" "docker" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "vboxusers"
+      "networkmanager"
+      "docker"
+    ];
   };
 
   # This value determines the NixOS release with which your system is to be

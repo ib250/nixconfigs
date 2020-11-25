@@ -3,7 +3,8 @@ let
   owner = "fwcd";
   repo = "kotlin-language-server";
   version = "0.7.0";
-  sha256 = "0by07h2ly84dzmwzjf3fsgghm3fwhyhhbnnv3kl7dy1iajhl4shj";
+  sha256 =
+    "0by07h2ly84dzmwzjf3fsgghm3fwhyhhbnnv3kl7dy1iajhl4shj";
 
 in pkgs.stdenv.mkDerivation {
 

@@ -1,4 +1,4 @@
-{ enabled, pkgs ? import <nixpkgs> { }, ... }:
+{ enabled, pkgs ? import <nixpkgs> { } }:
 let
   ghcideOptions = {
     ghcide = {
@@ -83,7 +83,8 @@ let
   createCocConfig = lsps:
     with pkgs.lib; {
       languageserver =
-        foldr (drv: cfg: cfg // (defaultLspConfig drv)) { } lsps;
+        foldr (drv: cfg: cfg // (defaultLspConfig drv)) { }
+        lsps;
     };
 
   mkCocConfigJson = { }:
