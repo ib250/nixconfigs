@@ -25,6 +25,10 @@ function link-configs() {
 
 function clean-configs() {
     rm -rf ~/.config/{nvim,coc} ~/.vim
+    rm -rf ~/.config/nixpkgs/*
+    [ -e /etc/nixos ] && {
+        rm -rf /etc/nixos/{configuration.nix,packages}
+    } || echo "not a nixos system, skipping system-wide configuration"
 }
 
 
@@ -50,7 +54,7 @@ function home-manager-install() {
 
 function show-configs() {
     exa -T ~/.config/nixpkgs
-    [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos
+    [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos || true
 }
 
 
