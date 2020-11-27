@@ -23,7 +23,7 @@ with pkgs; {
       [ ]
     else
       [ clang_10 ];
-  in [ cmake gnumake clang-tools ] ++ compilers;
+  in [ cmake gnumake clang-tools stdmanpages ] ++ compilers;
 
   js = [
     nodejs
