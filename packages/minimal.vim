@@ -62,6 +62,7 @@ augroup vimrc_file_type_indentation
   autocmd FileType nix setlocal shiftwidth=2 tabstop=2 expandtab
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 expandtab
   autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 expandtab
+  autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 augroup end
 
 imap jk <ESC>
