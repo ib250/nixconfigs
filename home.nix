@@ -106,6 +106,7 @@ in rec {
         { name = "zsh-users/zsh-autosuggestions"; }
         { name = "zsh-users/zsh-history-substring-search"; }
         { name = "zdharma/fast-syntax-highlighting"; }
+        { name = "scmbreeze/scm_breeze"; }
       ];
     };
 

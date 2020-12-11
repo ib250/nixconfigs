@@ -41,7 +41,6 @@ with pkgs; {
         extras = [
           pip
           pipx
-          poetry
           tox
           black
           isort
@@ -65,7 +64,7 @@ with pkgs; {
         nonOSXExtras
       ];
 
-  in [ pipenv (python38.withPackages fromPypi) ];
+  in [ pipenv poetry (python38.withPackages fromPypi) ];
 
   nix = [ nixfmt nixpkgs-fmt rnix-lsp ];
 
