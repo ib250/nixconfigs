@@ -1,14 +1,21 @@
 { pkgs
 , hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
 }:
-with pkgs; {
+with pkgs;
+let
 
-  jvm-family = [ scala sbt maven metals jdk11 ];
+  #purescript-language-server = import ./purescript-language-server {
+    #pkgs = pkgs;
+    #nodejs = nodejs;
+  #};
+
+in {
+
+  jvm-family = [ scala sbt maven jdk11 ];
 
   haskell = let
     compiler = ghc.withPackages (hackage:
       with hackage; [
-        ghcide
         hoogle
         hlint
         stylish-haskell
@@ -23,7 +30,7 @@ with pkgs; {
       [ ]
     else
       [ clang_10 ];
-  in [ cmake gnumake clang-tools stdmanpages ] ++ compilers;
+  in [ cmake gnumake stdmanpages ] ++ compilers;
 
   js = [
     nodejs
@@ -31,8 +38,11 @@ with pkgs; {
     yarn
     yarn2nix
     nodePackages.node2nix
-    nodePackages.typescript
   ];
+
+  ts = [ nodePackages.typescript ];
+
+  purescript = [ spago purescript ];
 
   python = let
     fromPypi = pypi:
@@ -66,19 +76,23 @@ with pkgs; {
 
   in [ pipenv poetry (python38.withPackages fromPypi) ];
 
-  nix = [ nixfmt nixpkgs-fmt rnix-lsp ];
+  nix = [ nixfmt nixpkgs-fmt ];
 
-  shell = [ nodePackages.bash-language-server ];
+  terraform =
+    if hostPlatform.isDarwin then
+      [ /* tfenv on osx */ ]
+    else
+      [ terraform ];
 
-  coc-extra-lsps = import ./lsps.nix {
-    enabled = [
+  lsps = [
       haskellPackages.ghcide
       metals
       clang-tools
       rnix-lsp
       nodePackages.bash-language-server
-    ];
-  };
+      #purescript-language-server.package
+      terraform-lsp
+  ];
 
 }
 

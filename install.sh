@@ -14,7 +14,7 @@ home-manager-install:   install home-manager
 switch:                 home-manager switch via home-manager channel
 "
 
-function link-configs() {
+link-configs() {
     case $1 in
         home ) cp -rsf $(pwd)/{home.nix,packages} ~/.config/nixpkgs/.;;
         nixos ) cp -rsf $(pwd)/{configuration.nix,packages} /etc/nixos/.;;
@@ -23,7 +23,7 @@ function link-configs() {
 }
 
 
-function clean-configs() {
+clean-configs() {
     rm -rf ~/.config/{nvim,coc} ~/.vim
     rm -rf ~/.config/nixpkgs/*
     [ -e /etc/nixos ] && {
@@ -32,7 +32,7 @@ function clean-configs() {
 }
 
 
-function set-channels() {
+nix-set-channels() {
     nix-channel --add ${HOME_MANAGER} home-manager
     nix-channel --add ${NIXPKGS} nixpkgs
     nix-channel --add ${POETRY2NIX} poetry2nix
@@ -40,7 +40,7 @@ function set-channels() {
 }
 
 
-function home-manager-install() {
+home-manager-install() {
     [ -e "$(which home-manager)" ] && {
         echo "home-manager is already installed, to update, uninstall first"
         exit 1
@@ -52,19 +52,19 @@ function home-manager-install() {
     esac
 }
 
-function show-configs() {
+show-configs() {
     exa -T ~/.config/nixpkgs
     [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos || true
 }
 
 
-function main() {
+main() {
     for step in $@
     do
         case $step in
             link-home ) link-configs home;;
             link-nix ) link-configs nixos;;
-            set-channels ) set-channels;;
+            set-channels ) nix-set-channels;;
             clean ) clean-configs;;
             switch ) nix run home-manager.home-manager -c home-manager switch;;
             home-manager-install ) home-manager-install;;

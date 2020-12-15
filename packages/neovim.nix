@@ -20,6 +20,7 @@
         vim-scala
         kotlin-vim
         coc-nvim
+        purescript-vim
       ];
 
       opt = [ ];

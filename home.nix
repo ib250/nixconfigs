@@ -5,7 +5,9 @@ let
 
   devTools = packages.devTools;
 
-  cocConfig = devTools.coc-extra-lsps;
+  lsps = import ./packages/lsps {
+    enabled = devTools.lsps; pkgs = pkgs;
+  };
 
   sourceWhenAvaliable = packages.utils.sourceWhenAvaliable;
 
@@ -24,8 +26,11 @@ in rec {
       devTools.nix
       devTools.haskell
       devTools.jvm-family
-      devTools.shell
       devTools.python
+      devTools.ts
+      devTools.purescript
+      devTools.terraform
+      [ lsps.package ]
     ];
 
   programs.neovim = {
@@ -37,7 +42,7 @@ in rec {
 
   home.file = {
     ".config/nvim/coc-settings.json".source =
-      cocConfig.contents;
+      lsps.coc-settings-json;
 
     ".config/coc/extensions/package.json" = {
       text = builtins.toJSON {
