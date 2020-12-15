@@ -5,8 +5,8 @@ with pkgs;
 let
 
   #purescript-language-server = import ./purescript-language-server {
-    #pkgs = pkgs;
-    #nodejs = nodejs;
+  #pkgs = pkgs;
+  #nodejs = nodejs;
   #};
 
 in {
@@ -32,13 +32,7 @@ in {
       [ clang_10 ];
   in [ cmake gnumake stdmanpages ] ++ compilers;
 
-  js = [
-    nodejs
-    deno
-    yarn
-    yarn2nix
-    nodePackages.node2nix
-  ];
+  js = [ nodejs deno yarn yarn2nix nodePackages.node2nix ];
 
   ts = [ nodePackages.typescript ];
 
@@ -78,20 +72,20 @@ in {
 
   nix = [ nixfmt nixpkgs-fmt ];
 
-  terraform =
-    if hostPlatform.isDarwin then
-      [ /* tfenv on osx */ ]
-    else
-      [ terraform ];
+  terraform = if hostPlatform.isDarwin then
+    [ # tfenv on osx
+    ]
+  else
+    [ terraform ];
 
   lsps = [
-      haskellPackages.ghcide
-      metals
-      clang-tools
-      rnix-lsp
-      nodePackages.bash-language-server
-      #purescript-language-server.package
-      terraform-lsp
+    haskellPackages.ghcide
+    metals
+    clang-tools
+    rnix-lsp
+    nodePackages.bash-language-server
+    #purescript-language-server.package
+    terraform-lsp
   ];
 
 }

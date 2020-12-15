@@ -6,7 +6,8 @@ let
   devTools = packages.devTools;
 
   lsps = import ./packages/lsps {
-    enabled = devTools.lsps; pkgs = pkgs;
+    enabled = devTools.lsps;
+    pkgs = pkgs;
   };
 
   sourceWhenAvaliable = packages.utils.sourceWhenAvaliable;

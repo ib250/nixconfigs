@@ -15,7 +15,8 @@ let
       import ./bash.nix drv
     else if hasInfix "kotlin-language-server" drv.name then
       import ./kotlin.nix drv
-    else if hasInfix "purescript-language-server" drv.name then
+    else if hasInfix "purescript-language-server"
+    drv.name then
       import ./purescript.nix drv
     else if hasInfix "terraform-ls" drv.name then
       import ./terraform.nix drv
@@ -45,7 +46,8 @@ in {
 
     name = "lsps";
     version = with builtins;
-      hashString "md5" (concatStringsSep ":" (versions enabled));
+      hashString "md5"
+      (concatStringsSep ":" (versions enabled));
     src = ./.;
     propagatedBuildInputs = enabled;
 
