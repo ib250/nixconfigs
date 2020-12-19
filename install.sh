@@ -52,6 +52,17 @@ home-manager-install() {
     esac
 }
 
+
+home-manager-switch() {
+    case ${CHATTY} in
+        yes | 1 )
+            nix run home-manager.home-manager -c \
+                home-manager switch --verbose --show-trace;;
+        no | * )
+            nix run home-manager.home-manager -c home-manager switch;;
+    esac
+}
+
 show-configs() {
     exa -T ~/.config/nixpkgs
     [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos || true
@@ -62,13 +73,21 @@ main() {
     for step in $@
     do
         case $step in
-            link-home ) link-configs home;;
-            link-nix ) link-configs nixos;;
-            set-channels ) nix-set-channels;;
-            clean ) clean-configs;;
-            switch ) nix run home-manager.home-manager -c home-manager switch;;
-            home-manager-install ) home-manager-install;;
-            show ) show-configs;;
+            link-home )
+                link-configs home;;
+            link-nix )
+                link-configs nixos;;
+            set-channels )
+                nix-set-channels;;
+            clean )
+                clean-configs;;
+            switch )
+                home-manager-switch;;
+            home-manager-install )
+                home-manager-install;;
+            show )
+                show-configs;;
+
             * ) return 1;;
         esac
     done

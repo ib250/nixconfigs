@@ -14,23 +14,18 @@ in {
   jvm-family = [ scala sbt maven jdk11 ];
 
   haskell = let
-    compiler = ghc.withPackages (hackage:
+    globalHaskellPackages = hackage:
       with hackage; [
         hoogle
         hlint
         stylish-haskell
         hpack
-      ]);
-  in [ stack compiler ];
+      ];
+  in [ stack (ghc.withPackages (globalHaskellPackages)) ];
 
-  c-family = let
-    compilers = if hostPlatform.isWsl then
-      [ gcc ]
-    else if hostPlatform.isDarwin then
-      [ ]
-    else
-      [ clang_10 ];
-  in [ cmake gnumake stdmanpages ] ++ compilers;
+  c-family = with hostPlatform;
+    [ cmake gnumake stdmanpages ] ++ lib.optional isWsl gcc
+    ++ lib.optional (isLinux && !isWsl) clang_10;
 
   js = [ nodejs deno yarn yarn2nix nodePackages.node2nix ];
 
@@ -55,28 +50,23 @@ in {
           numpy
           scipy
         ];
-        nonOSXExtras = if hostPlatform.isDarwin then
-          [ ]
-        else [
-          jupyter
-          jupyterlab
-        ];
+
+        nonOSXExtras =
+          lib.optionals (!hostPlatform.isDarwin) [
+            jupyter
+            jupyterlab
+          ];
+
         linting = [ mypy flake8 jedi ];
-      in builtins.concatLists [
-        extras
-        linting
-        nonOSXExtras
-      ];
+
+      in extras ++ linting ++ nonOSXExtras;
 
   in [ pipenv poetry (python38.withPackages fromPypi) ];
 
   nix = [ nixfmt nixpkgs-fmt ];
 
-  terraform = if hostPlatform.isDarwin then
-    [ # tfenv on osx
-    ]
-  else
-    [ terraform ];
+  terraform =
+    lib.optional (!hostPlatform.isDarwin) terraform;
 
   lsps = [
     haskellPackages.ghcide

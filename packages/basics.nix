@@ -30,7 +30,6 @@ let
     httpie
   ];
 
-  linuxExtras =
-    if hostPlatform.isLinux then [ ueberzug ] else [ ];
+  linuxExtras = lib.optional hostPlatform.isLinux ueberzug;
 
 in linuxExtras ++ commonPackages
