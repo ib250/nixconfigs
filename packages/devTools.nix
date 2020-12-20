@@ -1,16 +1,7 @@
 { pkgs
 , hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
 }:
-with pkgs;
-let
-
-  #purescript-language-server = import ./purescript-language-server {
-  #pkgs = pkgs;
-  #nodejs = nodejs;
-  #};
-
-in {
-
+with pkgs; {
   jvm-family = [ scala sbt maven jdk11 ];
 
   haskell = let
@@ -74,7 +65,7 @@ in {
     clang-tools
     rnix-lsp
     nodePackages.bash-language-server
-    #purescript-language-server.package
+    nodePackages.purescript-language-server
     terraform-lsp
   ];
 
