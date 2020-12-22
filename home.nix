@@ -121,7 +121,10 @@ in rec {
       bindkey kj vi-cmd-mode
     '';
 
-    initExtra = sourceWhenAvaliable [ "~/.smoke" ];
+    initExtra = ''
+      any-nix-shell zsh --info-right | source /dev/stdin
+      ${sourceWhenAvaliable [ "~/.smoke" ]}
+    '';
 
   };
 

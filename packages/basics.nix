@@ -28,6 +28,8 @@ let
     unzip
     ripgrep
     httpie
+    gnused
+    any-nix-shell
   ];
 
   linuxExtras = lib.optional hostPlatform.isLinux ueberzug;
