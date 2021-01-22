@@ -4,6 +4,7 @@ set nobackup
 syntax on
 filetype plugin indent on
 
+
 let g:mapleader = ";"
 
 set noswapfile

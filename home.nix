@@ -35,10 +35,10 @@ in rec {
     ];
 
   programs.neovim = {
+    inherit (packages.neovim) package configure;
+
     enable = true;
-    package = packages.neovim.package;
     extraPython3Packages = (ps: with ps; [ pynvim ]);
-    configure = packages.neovim.configure;
   };
 
   home.file = {
