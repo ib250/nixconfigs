@@ -126,11 +126,16 @@ in rec {
           zsh --info-right | source /dev/stdin
       ${sourceWhenAvaliable [ "~/.smoke" ]}
     '';
+  };
 
+  programs.git = {
+    extraConfig = {
+      user.name = "Ismail Bello";
+      credential.helper = "store";
+    };
   };
 
   home.activation = {
-
     # * re-write ranger config because...
     # TODO: write hm module for ranger?
     rangerCopyConfigs =
@@ -141,8 +146,6 @@ in rec {
 
         ${packages.utils.setRangerPreviewMethod { }}
       '';
-
-
   };
 
 }
