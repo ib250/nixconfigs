@@ -142,6 +142,7 @@ in rec {
         ${packages.utils.setRangerPreviewMethod { }}
       '';
 
+
   };
 
 }
