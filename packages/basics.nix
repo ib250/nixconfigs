@@ -17,6 +17,7 @@ let
     ranger
     neovim
     git
+    ruby
     gitAndTools.git-extras
     htop
     highlight
