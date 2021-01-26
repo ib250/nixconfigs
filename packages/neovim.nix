@@ -18,6 +18,7 @@
     kotlin-vim
     coc-nvim
     purescript-vim
+    vim-toml
     {
       plugin = ctrlp;
       config = "let g:ctrlp_cmd = 'CtrlPMRU'";
