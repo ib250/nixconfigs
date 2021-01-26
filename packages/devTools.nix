@@ -54,7 +54,7 @@ with pkgs; {
 
   in [ pipenv poetry (python38.withPackages fromPypi) ];
 
-  nix = [ nixfmt nixpkgs-fmt ];
+  nix = [ nix-doc nixfmt nixpkgs-fmt ];
 
   terraform =
     lib.optional (!hostPlatform.isDarwin) terraform;

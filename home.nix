@@ -19,6 +19,12 @@ let
 
 in rec {
 
+  nixpkgs.config = {
+    allowUnfree = true;
+    plugin-files =
+      "~/.nix-profile/lib/libnix_doc_plugin.so";
+  };
+
   home.packages = with builtins;
     concatLists [
       homePackages
@@ -35,13 +41,16 @@ in rec {
     ];
 
   programs.neovim = {
-    inherit (packages.neovim) package configure;
-
     enable = true;
+    inherit (packages.neovim) package plugins extraConfig;
+    withPython3 = true;
+    withNodeJs = true;
+    extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
   };
 
   home.file = {
+
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;
 

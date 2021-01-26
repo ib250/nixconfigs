@@ -79,8 +79,5 @@ nnoremap <leader>bd      :bdelete<cr>
 nnoremap <leader>q       :q<cr>
 nnoremap <leader>w       :w!<cr>
 nnoremap <leader><space> :noh<cr>
-nnoremap <C-n>           :NERDTreeToggle<cr>
-
-let g:ctrlp_cmd = 'CtrlPMRU'
 
 colorscheme desert
