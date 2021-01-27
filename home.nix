@@ -19,11 +19,10 @@ let
 
 in rec {
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    plugin-files =
-      "~/.nix-profile/lib/libnix_doc_plugin.so";
-  };
+  nixpkgs.config = import ./packages/nixpkgs-config.nix;
+
+  xdg.configFile."nixpkgs/config.nix".source = ./packages/nixpkgs-config.nix;
+  xdg.configFile."nixpkgs/overlays.nix".source = ./packages/overlays.nix;
 
   home.packages = with builtins;
     concatLists [
@@ -51,6 +50,7 @@ in rec {
 
   home.file = {
 
+
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;
 
@@ -77,7 +77,9 @@ in rec {
         ${pkgs.nodejs}/bin/npm install \
           --ignore-scripts --no-logfile --production --legacy-peer-deps
       '';
+
     };
+
   };
 
   programs.home-manager = {
