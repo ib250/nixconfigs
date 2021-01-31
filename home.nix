@@ -21,8 +21,10 @@ in rec {
 
   nixpkgs.config = import ./packages/nixpkgs-config.nix;
 
-  xdg.configFile."nixpkgs/config.nix".source = ./packages/nixpkgs-config.nix;
-  xdg.configFile."nixpkgs/overlays.nix".source = ./packages/overlays.nix;
+  xdg.configFile."nixpkgs/config.nix".source =
+    ./packages/nixpkgs-config.nix;
+  xdg.configFile."nixpkgs/overlays.nix".source =
+    ./packages/overlays.nix;
 
   home.packages = with builtins;
     concatLists [
@@ -49,7 +51,6 @@ in rec {
   };
 
   home.file = {
-
 
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;

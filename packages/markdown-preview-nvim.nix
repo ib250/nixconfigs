@@ -5,7 +5,7 @@ pkgs.vimUtils.buildVimPlugin rec {
   version = "0.0.9";
 
   src = builtins.fetchTarball
-    "https://github.com/iamcco/markdown-preview.nvim/archive/v${version}.zip";
+    "https://github.com/iamcco/markdown-preview.nvim/archive/v${version}.tar.gz";
 
   buildInputs = [ pkgs.yarn ];
 
