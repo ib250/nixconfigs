@@ -32,7 +32,10 @@
     {
       plugin =
         import ./markdown-preview-nvim.nix { pkgs = pkgs; };
-      config = "let g:mkdp_auto_start = 1";
+      config = ''
+        let g:mkdp_auto_start = 1
+        let g:mkdp_command_for_global = 1
+      '';
     }
   ];
 
