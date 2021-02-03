@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#! nix-shell -i zsh
+#!/usr/bin/env bash
 
 __USAGE__="
 ${0} [... options]
@@ -65,7 +64,7 @@ home-manager-switch() {
 
 show-configs() {
     exa -T ~/.config/nixpkgs
-    [ -e /etc/nixos ] && nix run nixpkgs.exa -c exa -T /etc/nixos || true
+    [ -e /etc/nixos ] && exa -T /etc/nixos || true
 }
 
 

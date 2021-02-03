@@ -22,7 +22,9 @@ with pkgs; {
 
   ts = [ nodePackages.typescript ];
 
-  purescript = [ spago purescript ];
+  purescript = [ # spago
+    purescript
+  ];
 
   python = let
     fromPypi = pypi:
