@@ -36,7 +36,6 @@ in rec {
       devTools.jvm-family
       devTools.python
       devTools.ts
-      devTools.purescript
       devTools.terraform
       [ lsps.package ]
     ];
