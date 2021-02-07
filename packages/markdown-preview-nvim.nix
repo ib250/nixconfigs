@@ -1,5 +1,9 @@
 { pkgs ? import <nixpkgs> { } }:
-pkgs.vimUtils.buildVimPlugin rec {
+let
+
+  hostPlatform = import ./hostPlatform.nix { pkgs = pkgs; };
+
+in pkgs.vimUtils.buildVimPlugin rec {
 
   pname = "markdown-preview.nvim";
   version = "0.0.9";
@@ -9,10 +13,14 @@ pkgs.vimUtils.buildVimPlugin rec {
 
   buildInputs = [ pkgs.yarn ];
 
-  preInstall = ''
+  preInstall = if hostPlatform.isDarwin then ''
     pushd app
       yarn install
     popd
+  '' else
+  ''echo "WARNING!: packages/markdown-preview.nvim"
+    echo "          Something wrong on WSL and linux..."
+    echo "          markdown-preview.nvim may need help post-install to work"
   '';
 
   HOME = builtins.getEnv "TMP"; # HACK

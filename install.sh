@@ -5,7 +5,6 @@ ${0} [... options]
 options supported:
 link-home:              link relevant configs for dotfiles
 link-nix:               link relevant configus for nixos (nixos only)
-set-[nvim | vim]-lsps:  setup coc extra configuration for vim or nvim
 clean:                  delete current configurations
 show:                   show links to current configuration
 set-channels:           setup nix channels
@@ -86,7 +85,6 @@ main() {
                 home-manager-install;;
             show )
                 show-configs;;
-
             * ) return 1;;
         esac
     done
