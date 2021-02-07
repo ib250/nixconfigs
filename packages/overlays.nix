@@ -57,14 +57,14 @@ let
             attrByDotPath "tool.poetry.name" "<unknown>"
             pyproject;
 
-        in prev.mkShell {
+        in prev.mkShell (attrs // {
           inherit buildInputs;
           shellHook = ''
             ${final.poetry}/bin/poetry install -v
             ${final.poetry}/bin/poetry run pip install ${pipInstalls}
             echo "project: ${project}"
           '';
-        };
+        });
 
     };
 
