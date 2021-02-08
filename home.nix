@@ -17,7 +17,8 @@ let
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
-  dein = import ./packages/dein.vim.nix { pkgs = pkgs; };
+  vimPluginUtils =
+    import ./packages/vimPlugins.nix { pkgs = pkgs; };
 
 in rec {
 
@@ -45,7 +46,7 @@ in rec {
   home.file = {
 
     ".config/dein/repos/github.com/Shougo/dein.vim" = {
-      source = dein.src "master";
+      source = vimPluginUtils.deinSrc "master";
 
       onChange = ''
         echo "
@@ -92,7 +93,7 @@ in rec {
     extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
 
-    extraConfig = dein.deinRc {
+    extraConfig = vimPluginUtils.deinRc {
       deinInstallDir = "~/.config";
       extraRc = builtins.readFile ./packages/minimal.vim;
       plugins = [

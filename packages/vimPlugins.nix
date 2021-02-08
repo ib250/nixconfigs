@@ -6,7 +6,7 @@ let
 
 in {
 
-  src = version:
+  deinSrc = version:
     builtins.fetchTarball
     "https://github.com/Shougo/dein.vim/archive/${version}.tar.gz";
 
@@ -56,5 +56,7 @@ in {
       " Plugin specific configuration:
       ${unlines (map mkDeinPluginRc plugins)}
     '';
+
+  vimPlugRc = { plugins, extraRc }: let in "";
 
 }
