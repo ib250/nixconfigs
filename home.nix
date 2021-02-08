@@ -17,6 +17,8 @@ let
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
+  dein = import ./packages/dein.vim.nix { pkgs = pkgs; };
+
 in rec {
 
   nixpkgs.config = import ./packages/nixpkgs-config.nix;
@@ -40,16 +42,17 @@ in rec {
       [ lsps.package ]
     ];
 
-  programs.neovim = {
-    enable = true;
-    inherit (packages.neovim) package plugins extraConfig;
-    withPython3 = true;
-    withNodeJs = true;
-    extraPackages = [ pkgs.yarn ];
-    extraPython3Packages = (ps: with ps; [ pynvim ]);
-  };
-
   home.file = {
+
+    ".config/dein/repos/github.com/Shougo/dein.vim" = {
+      source = dein.src "master";
+
+      onChange = ''
+        echo "
+          * New version of dein available
+        "
+      '';
+    };
 
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;
@@ -77,9 +80,57 @@ in rec {
         ${pkgs.nodejs}/bin/npm install \
           --ignore-scripts --no-logfile --production --legacy-peer-deps
       '';
-
     };
 
+  };
+
+  programs.neovim = {
+
+    enable = true;
+    withPython3 = true;
+    withNodeJs = true;
+    extraPackages = [ pkgs.yarn ];
+    extraPython3Packages = (ps: with ps; [ pynvim ]);
+
+    extraConfig = dein.deinRc {
+      deinInstallDir = "~/.config";
+      extraRc = builtins.readFile ./packages/minimal.vim;
+      plugins = [
+        { plugin = "wsdjeg/dein-ui.vim"; }
+        {
+          plugin = "iamcco/markdown-preview.nvim";
+          config = ''
+            let g:mkdp_auto_start = 1
+            let g:mkdp_command_for_global = 1
+          '';
+        }
+        { plugin = "preservim/nerdcomenter"; }
+        { plugin = "tpope/vim-surround"; }
+        { plugin = "tpope/vim-repeat"; }
+        { plugin = "kien/rainbow_parentheses.vim"; }
+        { plugin = "LnL7/vim-nix"; }
+        { plugin = "elmcast/elm-vim"; }
+        { plugin = "aklt/plantuml-syntax"; }
+        { plugin = "leafgarlang/typescript-vim"; }
+        { plugin = "derekwyatt/vim-scala"; }
+        { plugin = "udalov/kotlin-vim"; }
+        { plugin = "neoclide/coc.nvim"; }
+        { plugin = "purescript-contrib/purescript-vim"; }
+        { plugin = "cespare/vim-toml"; }
+        {
+          plugin = "ctrlpvim/ctrlp.vim";
+          config = ''
+            let g:ctrlp_cmd = 'CtrlPMRU'
+          '';
+        }
+        {
+          plugin = "preservim/nerdtree";
+          config = ''
+            nnoremap <C-n>: NERDTreeToggle<cr>
+          '';
+        }
+      ];
+    };
   };
 
   programs.home-manager = {
@@ -148,8 +199,6 @@ in rec {
   };
 
   home.activation = {
-    # * re-write ranger config because...
-    # TODO: write hm module for ranger?
     rangerCopyConfigs =
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
 
