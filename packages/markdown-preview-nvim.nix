@@ -15,7 +15,7 @@ in pkgs.vimUtils.buildVimPlugin rec {
 
   preInstall = if hostPlatform.isDarwin then ''
     pushd app
-      yarn install
+      ${pkgs.yarn}/bin/yarn install
     popd
   '' else
   ''echo "WARNING!: packages/markdown-preview.nvim"
