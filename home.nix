@@ -125,7 +125,7 @@ in rec {
         {
           plugin = "preservim/nerdtree";
           config = ''
-            nnoremap <C-n>: NERDTreeToggle<cr>
+            nnoremap <C-n> :NERDTreeToggle<CR>
           '';
         }
       ];
