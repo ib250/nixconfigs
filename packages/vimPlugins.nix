@@ -5,14 +5,20 @@ let
     with pkgs.lib;
     concatStrings (intersperse "\n" strings);
 
-in {
+in rec {
 
   deinSrc = version:
     builtins.fetchTarball
     "https://github.com/Shougo/dein.vim/archive/${version}.tar.gz";
 
-  deinRc = { deinInstallDir, plugins, extraRc }:
+  vimPlugSrc = version:
+    builtins.fetchurl
+    "http://raw.githubusercontent.com/junegunn/vim-plug/${version}/plug.vim";
+
+  deinRc = { plugins, extraRc }:
     let
+
+      deinInstallDir = "~/.config";
 
       mkDeinAdd = { plugin, onLoad ? null, ... }:
         let
@@ -90,5 +96,24 @@ in {
       " Plug specific configuration
       ${unlines (map mkPlugPluginRc plugins)}
     '';
+
+  install = { pluginManager, version }:
+    homeFiles:
+    let
+
+      opts = if pluginManager == "vim-plug" then {
+        key = ".local/share/nvim/site/autoload/plug.vim";
+        drv = vimPlugSrc version;
+      } else if pluginManager == "dein.vim" then {
+        key =
+          ".config/dein/repos/github.com/Shougo/dein.vim";
+        drv = deinSrc version;
+      } else
+        abort ''
+          Unsupported plugin manager ${pluginManager}. 
+          choose one of 'vim-plug' or 'dein.vim'
+        '';
+
+    in homeFiles // { "${opts.key}".source = opts.drv; };
 
 }

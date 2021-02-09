@@ -43,7 +43,10 @@ in rec {
       [ lsps.package ]
     ];
 
-  home.file = {
+  home.file = vimPluginUtils.install {
+    pluginManager = "vim-plug";
+    version = "master";
+  } {
 
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;
