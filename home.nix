@@ -45,16 +45,6 @@ in rec {
 
   home.file = {
 
-    ".config/dein/repos/github.com/Shougo/dein.vim" = {
-      source = vimPluginUtils.deinSrc "master";
-
-      onChange = ''
-        echo "
-          * New version of dein available
-        "
-      '';
-    };
-
     ".config/nvim/coc-settings.json".source =
       lsps.coc-settings-json;
 
@@ -93,30 +83,35 @@ in rec {
     extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
 
-    extraConfig = vimPluginUtils.deinRc {
-      deinInstallDir = "~/.config";
+    extraConfig = vimPluginUtils.vimPlugRc {
+      pluginInstallDir = "~/.config/vim-plug";
       extraRc = builtins.readFile ./packages/minimal.vim;
       plugins = [
-        { plugin = "wsdjeg/dein-ui.vim"; }
-        {
-          plugin = "iamcco/markdown-preview.nvim";
-          config = ''
-            let g:mkdp_auto_start = 1
-            let g:mkdp_command_for_global = 1
-          '';
-        }
-        { plugin = "preservim/nerdcomenter"; }
+        { plugin = "preservim/nerdcommenter"; }
         { plugin = "tpope/vim-surround"; }
         { plugin = "tpope/vim-repeat"; }
         { plugin = "kien/rainbow_parentheses.vim"; }
         { plugin = "LnL7/vim-nix"; }
         { plugin = "elmcast/elm-vim"; }
         { plugin = "aklt/plantuml-syntax"; }
-        { plugin = "leafgarlang/typescript-vim"; }
+        { plugin = "leafgarland/typescript-vim"; }
         { plugin = "derekwyatt/vim-scala"; }
         { plugin = "udalov/kotlin-vim"; }
-        { plugin = "neoclide/coc.nvim"; }
         { plugin = "purescript-contrib/purescript-vim"; }
+        {
+          plugin = "iamcco/markdown-preview.nvim";
+          onLoad = ''
+            {'do': 'cd app && yarn install'}
+          '';
+          config = ''
+            let g:mkdp_auto_start = 1
+            let g:mkdp_command_for_global = 1
+          '';
+        }
+        {
+          plugin = "neoclide/coc.nvim";
+          onLoad = "{'branch': 'release'}";
+        }
         { plugin = "cespare/vim-toml"; }
         {
           plugin = "ctrlpvim/ctrlp.vim";
