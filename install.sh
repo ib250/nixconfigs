@@ -6,6 +6,8 @@ options supported:
 link-home:              link relevant configs for dotfiles
 link-nix:               link relevant configus for nixos (nixos only)
 clean:                  delete current configurations
+clean-home:             delete current home configurations
+clean-nixos:            delete current nixos configurations
 show:                   show links to current configuration
 set-channels:           setup nix channels
 home-manager-install:   install home-manager
@@ -22,19 +24,27 @@ link-configs() {
 
 
 clean-configs() {
-    rm -rf ~/.config/{nvim,coc} ~/.vim
-    rm -rf ~/.config/nixpkgs/*
-    [ -e /etc/nixos ] && {
-        rm -rf /etc/nixos/{configuration.nix,packages}
-    } || echo "not a nixos system, skipping system-wide configuration"
+    case $1 in
+        home )
+            rm -rf ~/.config/{nvim,coc} ~/.vim
+            rm -rf ~/.config/nixpkgs/*
+            ;;
+        nixos )
+            [ -e /etc/nixos ] && {
+                rm -rf /etc/nixos/{configuration.nix,packages}
+            } || echo "not a nixos system, skipping system-wide configuration"
+            ;;
+    esac
 }
 
 
 nix-set-channels() {
-    nix-channel --add ${HOME_MANAGER} home-manager
-    nix-channel --add ${NIXPKGS} nixpkgs
-    nix-channel --add ${POETRY2NIX} poetry2nix
-    nix-channel --update
+    nix-shell --run '
+        nix-channel --add ${HOME_MANAGER} home-manager
+        nix-channel --add ${NIXPKGS} nixpkgs
+        nix-channel --add ${POETRY2NIX} poetry2nix
+        nix-channel --update
+    '
 }
 
 
@@ -45,8 +55,8 @@ home-manager-install() {
     }
 
     case ${CHATTY} in
-        yes | 1 ) nix-shell --verbose --show-trace ${HOME_MANAGER} -A install;;
-        no | * ) nix-shell ${HOME_MANAGER} -A install;;
+        yes | 1 ) nix-shell --verbose --show-trace "<home-manager>" -A install;;
+        no | * ) nix-shell "<home-manager>" -A install;;
     esac
 }
 
@@ -62,8 +72,10 @@ home-manager-switch() {
 }
 
 show-configs() {
-    exa -T ~/.config/nixpkgs
-    [ -e /etc/nixos ] && exa -T /etc/nixos || true
+    nix-shell --run '
+        exa -T ~/.config/nixpkgs
+        [ -e /etc/nixos ] && exa -T /etc/nixos || true
+    '
 }
 
 
@@ -78,7 +90,12 @@ main() {
             set-channels )
                 nix-set-channels;;
             clean )
-                clean-configs;;
+                clean-configs home
+                clean-configs nixos;;
+            clean-home )
+                clean-configs home;;
+            clean-nixos )
+                clean-configs nixos;;
             switch )
                 home-manager-switch;;
             home-manager-install )
