@@ -52,6 +52,10 @@ in {
             ~/.config/ranger/rc.conf
         )
       '';
+
+    vimPluginUtils =
+      import ./vimPlugins.nix { pkgs = pkgs; };
+
   };
 
 }

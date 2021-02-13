@@ -17,9 +17,6 @@ let
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
-  vimPluginUtils =
-    import ./packages/vimPlugins.nix { pkgs = pkgs; };
-
 in rec {
 
   nixpkgs.config = import ./packages/nixpkgs-config.nix;
@@ -43,40 +40,41 @@ in rec {
       [ lsps.package ]
     ];
 
-  home.file = vimPluginUtils.install {
-    pluginManager = "vim-plug";
-    version = "master";
-  } {
+  home.file = with packages.utils;
+    vimPluginUtils.install {
+      pluginManager = "vim-plug";
+      version = "master";
+    } {
 
-    ".config/nvim/coc-settings.json".source =
-      lsps.coc-settings-json;
+      ".config/nvim/coc-settings.json".source =
+        lsps.coc-settings-json;
 
-    ".config/coc/extensions/package.json" = {
-      text = builtins.toJSON {
-        dependencies = {
-          coc-json = ">=1.3.2";
-          coc-yaml = ">=1.1.2";
-          coc-format-json = ">=0.2.0";
-          coc-python = ">=1.2.13";
-          coc-java = ">=1.5.0";
-          coc-tsserver = "1.6.0";
-          coc-deno = ">=0.11.0";
-          coc-marketplace = ">=1.8.0";
-          coc-spell-checker = ">=1.2.0";
+      ".config/coc/extensions/package.json" = {
+        text = builtins.toJSON {
+          dependencies = {
+            coc-json = ">=1.3.2";
+            coc-yaml = ">=1.1.2";
+            coc-format-json = ">=0.2.0";
+            coc-python = ">=1.2.13";
+            coc-java = ">=1.5.0";
+            coc-tsserver = "1.6.0";
+            coc-deno = ">=0.11.0";
+            coc-marketplace = ">=1.8.0";
+            coc-spell-checker = ">=1.2.0";
+          };
         };
+
+        onChange = ''
+          cd ~/.config/coc/extensions
+          echo "
+            * New coc-nvim changes detected, installing...
+          "
+          ${pkgs.nodejs}/bin/npm install \
+            --ignore-scripts --no-logfile --production --legacy-peer-deps
+        '';
       };
 
-      onChange = ''
-        cd ~/.config/coc/extensions
-        echo "
-          * New coc-nvim changes detected, installing...
-        "
-        ${pkgs.nodejs}/bin/npm install \
-          --ignore-scripts --no-logfile --production --legacy-peer-deps
-      '';
     };
-
-  };
 
   programs.neovim = {
 
@@ -86,50 +84,54 @@ in rec {
     extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
 
-    extraConfig = vimPluginUtils.vimPlugRc {
-      pluginInstallDir = "~/.config/vim-plug";
-      extraRc = builtins.readFile ./packages/minimal.vim;
-      plugins = [
-        { plugin = "preservim/nerdcommenter"; }
-        { plugin = "tpope/vim-surround"; }
-        { plugin = "tpope/vim-repeat"; }
-        { plugin = "kien/rainbow_parentheses.vim"; }
-        { plugin = "LnL7/vim-nix"; }
-        { plugin = "elmcast/elm-vim"; }
-        { plugin = "aklt/plantuml-syntax"; }
-        { plugin = "leafgarland/typescript-vim"; }
-        { plugin = "derekwyatt/vim-scala"; }
-        { plugin = "udalov/kotlin-vim"; }
-        { plugin = "purescript-contrib/purescript-vim"; }
-        {
-          plugin = "iamcco/markdown-preview.nvim";
-          onLoad = ''
-            {'do': 'cd app && yarn install'}
-          '';
-          config = ''
-            let g:mkdp_auto_start = 1
-            let g:mkdp_command_for_global = 1
-          '';
-        }
-        {
-          plugin = "neoclide/coc.nvim";
-          onLoad = "{'branch': 'release'}";
-        }
-        { plugin = "cespare/vim-toml"; }
-        {
-          plugin = "ctrlpvim/ctrlp.vim";
-          config = ''
-            let g:ctrlp_cmd = 'CtrlPMRU'
-          '';
-        }
-        {
-          plugin = "preservim/nerdtree";
-          config = ''
-            nnoremap <C-n> :NERDTreeToggle<CR>
-          '';
-        }
-      ];
-    };
+    extraConfig = with packages.utils;
+      vimPluginUtils.vimPlugRc {
+        pluginInstallDir = "~/.config/vim-plug";
+        extraRc = builtins.readFile ./packages/minimal.vim;
+        plugins = [
+          { plugin = "preservim/nerdcommenter"; }
+          { plugin = "tpope/vim-surround"; }
+          { plugin = "tpope/vim-repeat"; }
+          { plugin = "kien/rainbow_parentheses.vim"; }
+          { plugin = "LnL7/vim-nix"; }
+          { plugin = "elmcast/elm-vim"; }
+          { plugin = "aklt/plantuml-syntax"; }
+          { plugin = "leafgarland/typescript-vim"; }
+          { plugin = "derekwyatt/vim-scala"; }
+          { plugin = "udalov/kotlin-vim"; }
+          {
+            plugin = "purescript-contrib/purescript-vim";
+            onLoad = "{ 'tag': 'v1.0.0' }";
+          }
+          {
+            plugin = "iamcco/markdown-preview.nvim";
+            onLoad = ''
+              {'do': 'cd app && yarn install'}
+            '';
+            config = ''
+              let g:mkdp_auto_start = 1
+              let g:mkdp_command_for_global = 1
+            '';
+          }
+          {
+            plugin = "neoclide/coc.nvim";
+            onLoad = "{'branch': 'release'}";
+          }
+          { plugin = "cespare/vim-toml"; }
+          {
+            plugin = "ctrlpvim/ctrlp.vim";
+            config = ''
+              let g:ctrlp_cmd = 'CtrlPMRU'
+            '';
+          }
+          {
+            plugin = "preservim/nerdtree";
+            config = ''
+              nnoremap <C-n> :NERDTreeToggle<CR>
+            '';
+          }
+        ];
+      };
   };
 
   programs.home-manager = {
