@@ -5,13 +5,6 @@ let
 
   devTools = packages.devTools;
 
-  lsps = import ./packages/lsps {
-    enabled = devTools.lsps;
-    pkgs = pkgs;
-  };
-
-  sourceWhenAvaliable = packages.utils.sourceWhenAvaliable;
-
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with pkgs.lib;
     filter (drv: !(hasInfix "neovim" drv.name))
@@ -19,7 +12,7 @@ let
 
 in rec {
 
-  nixpkgs.config = import ./packages/nixpkgs-config.nix;
+  nixpkgs.config = packages.nixpkgs-config;
 
   xdg.configFile."nixpkgs/config.nix".source =
     ./packages/nixpkgs-config.nix;
@@ -37,7 +30,7 @@ in rec {
       devTools.python
       devTools.ts
       devTools.terraform
-      [ lsps.package ]
+      [ packages.lsps.package ]
     ];
 
   home.file = with packages.utils;
@@ -47,7 +40,7 @@ in rec {
     } {
 
       ".config/nvim/coc-settings.json".source =
-        lsps.coc-settings-json;
+        packages.lsps.coc-settings-json;
 
       ".config/coc/extensions/package.json" = {
         text = builtins.toJSON {
@@ -188,7 +181,7 @@ in rec {
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right \
         | source /dev/stdin
 
-      ${sourceWhenAvaliable [ "~/.smoke" ]}
+      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" ]}
     '';
   };
 

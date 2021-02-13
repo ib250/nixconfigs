@@ -3,7 +3,7 @@ let
 
   hostPlatform = import ./hostPlatform.nix { pkgs = pkgs; };
 
-in {
+in rec {
 
   basics = import ./basics.nix { pkgs = pkgs; };
 
@@ -13,6 +13,13 @@ in {
     import ./nixosPackages.nix { pkgs = pkgs; };
 
   neovim = import ./neovim.nix { pkgs = pkgs; };
+
+  lsps = import ./lsps {
+    enabled = devTools.lsps;
+    pkgs = pkgs;
+  };
+
+  nixpkgs-config = import ./nixpkgs-config.nix;
 
   utils = rec {
 
