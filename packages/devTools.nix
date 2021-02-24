@@ -65,6 +65,7 @@ with pkgs; {
     nodePackages.bash-language-server
     nodePackages.purescript-language-server
     terraform-lsp
+    yaml-language-server
   ];
 
 }

@@ -46,7 +46,6 @@ in rec {
         text = builtins.toJSON {
           dependencies = {
             coc-json = ">=1.3.2";
-            coc-yaml = ">=1.1.2";
             coc-format-json = ">=0.2.0";
             coc-python = ">=1.2.13";
             coc-java = ">=1.5.0";
@@ -62,6 +61,7 @@ in rec {
           echo "
             * New coc-nvim changes detected, installing...
           "
+          [ -e ./packages-json.lock ] && rm -rf ./packages-json.lock
           ${pkgs.nodejs}/bin/npm install \
             --ignore-scripts --no-logfile --production --legacy-peer-deps
         '';

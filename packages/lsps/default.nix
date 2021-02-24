@@ -15,11 +15,12 @@ let
       import ./bash.nix drv
     else if hasInfix "kotlin-language-server" drv.name then
       import ./kotlin.nix drv
-    else if hasInfix "purescript-language-server"
-    drv.name then
+    else if hasInfix "purescript" drv.name then
       import ./purescript.nix drv
     else if hasInfix "terraform-ls" drv.name then
       import ./terraform.nix drv
+    else if hasInfix "yaml-language-server" drv.name then
+      import ./yaml-language-server.nix drv
     else
       abort "${drv.name} not matched to lsp configuration";
 
