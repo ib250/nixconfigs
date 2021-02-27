@@ -57,14 +57,16 @@ in {
   time.timeZone = "Europe/London";
 
   # opengl
-  hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-    libvdpau-va-gl
-    libvdpau
-    vaapiVdpau
-  ];
+  #hardware.opengl.extraPackages = with pkgs; [
+  #vaapiIntel libvdpau-va-gl libvdpau vaapiVdpau
+  #];
 
   hardware.pulseaudio.enable = true;
+  hardware.nvidia.prime = {
+    sync.enable = true;
+    nvidiaBusId = "PCI:1:0:0";
+    intelBusId = "PCI:0:2:0";
+  };
 
   virtualisation.docker.enable = true;
 
@@ -140,7 +142,7 @@ in {
     enableCtrlAltBackspace = true;
     exportConfiguration = true;
 
-    videoDrivers = [ "intel" ];
+    videoDrivers = [ "modesetting" "nvidia" ];
 
     displayManager = {
 
@@ -152,14 +154,16 @@ in {
 
       sessionCommands = with pkgs;
         lib.mkAfter "xmodmap ~/.Xmodmap";
-      session = [{
-        manage = "window";
-        name = "bspwm";
-        start = ''
-          ${pkgs.sxhkd}/bin/sxhkd &
-          ${pkgs.bspwm}/bin/bspwm
-        '';
-      }];
+      session = [
+        {
+          manage = "window";
+          name = "bspwm";
+          start = ''
+            ${pkgs.sxhkd}/bin/sxhkd &
+            ${pkgs.bspwm}/bin/bspwm
+          '';
+        }
+      ];
 
       defaultSession = "none+bspwm";
 
@@ -167,7 +171,7 @@ in {
   };
 
   services.compton = rec {
-    enable = true;
+    enable = false; # TODO nvidia issues
     fade = false;
     shadow = true;
     backend = "xrender";
