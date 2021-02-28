@@ -50,7 +50,6 @@ in rec {
             coc-python = ">=1.2.13";
             coc-java = ">=1.5.0";
             coc-tsserver = "1.6.0";
-            coc-deno = ">=0.11.0";
             coc-marketplace = ">=1.8.0";
             coc-spell-checker = ">=1.2.0";
           };
