@@ -52,6 +52,7 @@ in rec {
             coc-tsserver = "1.6.0";
             coc-marketplace = ">=1.8.0";
             coc-spell-checker = ">=1.2.0";
+            coc-denoland = ">=3.0.0";
           };
         };
 
@@ -192,13 +193,13 @@ in rec {
   };
 
   home.activation = {
-    rangerCopyConfigs =
+    rangerCopyConfigs = with packages.utils;
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-
         $DRY_RUN_CMD rm -rf $VERBOSE_ARG ~/.config/ranger/*
         $DRY_RUN_CMD ${pkgs.ranger}/bin/ranger --copy-config=all
 
-        ${packages.utils.setRangerPreviewMethod { }}
+        ${setRangerPreviewMethod { }}
+        ${ranger-rifle-conf-patch { }}
       '';
   };
 

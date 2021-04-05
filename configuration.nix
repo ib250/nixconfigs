@@ -154,16 +154,14 @@ in {
 
       sessionCommands = with pkgs;
         lib.mkAfter "xmodmap ~/.Xmodmap";
-      session = [
-        {
-          manage = "window";
-          name = "bspwm";
-          start = ''
-            ${pkgs.sxhkd}/bin/sxhkd &
-            ${pkgs.bspwm}/bin/bspwm
-          '';
-        }
-      ];
+      session = [{
+        manage = "window";
+        name = "bspwm";
+        start = ''
+          ${pkgs.sxhkd}/bin/sxhkd &
+          ${pkgs.bspwm}/bin/bspwm
+        '';
+      }];
 
       defaultSession = "none+bspwm";
 

@@ -1,0 +1,16 @@
+90,91c90,91
+< !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|js|sh|php = ${VISUAL:-$EDITOR} -- "$@"
+< !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|js|sh|php = "$PAGER" -- "$@"
+---
+> !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php = ${VISUAL:-$EDITOR} -- "$@"
+> !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php = "$PAGER" -- "$@"
+106a107
+> ext ts  = deno -- "$1"
+269,271c270,272
+<               !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = ask
+< label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = ${VISUAL:-$EDITOR} -- "$@"
+< label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = "$PAGER" -- "$@"
+---
+>               !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = ask
+> label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = ${VISUAL:-$EDITOR} -- "$@"
+> label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = "$PAGER" -- "$@"

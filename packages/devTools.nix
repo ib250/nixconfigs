@@ -2,7 +2,7 @@
 , hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
 }:
 with pkgs; {
-  jvm-family = [ scala sbt maven jdk11 ];
+  jvm-family = [ scala sbt maven ];
 
   haskell = let
     globalHaskellPackages = hackage:

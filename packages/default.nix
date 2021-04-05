@@ -52,12 +52,30 @@ in rec {
       in ''
         ${fixUpScript}
         echo "fixed up ranger/rc.conf:"
-        $DRY_RUN_CMD diff --color \
-          ~/.config/ranger/rc.conf \
-          ~/.config/ranger/rc.conf.new || (
+        $DRY_RUN_CMD diff --color ~/.config/ranger/rc.conf ~/.config/ranger/rc.conf.new || (
           $DRY_RUN_CMD mv -f $VERBOSE_ARG ~/.config/ranger/rc.conf.new \
             ~/.config/ranger/rc.conf
         )
+      '';
+
+    ranger-rifle-conf-patch = { }:
+      let
+
+        rifle-conf = pkgs.writeTextFile {
+          name = "ranger-rifle-conf-patch";
+          text =
+            builtins.readFile ./ranger.rifle.conf.patch;
+          destination = "/rifle.conf.patch";
+        };
+
+      in ''
+        $DRY_RUN_CMD cp ~/.config/ranger/rifle.conf ~/.config/ranger/rifle.conf.new
+        $DRY_RUN_CMD ${pkgs.gnupatch}/bin/patch \
+          ~/.config/ranger/rifle.conf.new ${rifle-conf}/rifle.conf.patch && (
+            echo "fixed up ranger/rifle.conf"
+            $DRY_RUN_CMD mv -f $VERBOSE_ARG ~/.config/ranger/rifle.conf.new \
+              ~/.config/ranger/rifle.conf
+          )
       '';
 
     vimPluginUtils =
