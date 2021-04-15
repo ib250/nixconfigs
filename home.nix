@@ -53,6 +53,7 @@ in rec {
             coc-marketplace = ">=1.8.0";
             coc-spell-checker = ">=1.2.0";
             coc-denoland = ">=3.0.0";
+            coc-html = ">=1.4.1";
           };
         };
 
