@@ -54,6 +54,7 @@ in rec {
             coc-spell-checker = ">=1.2.0";
             coc-denoland = ">=3.0.0";
             coc-html = ">=1.4.1";
+            coc-sql = ">=0.5.0";
           };
         };
 
