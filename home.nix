@@ -93,6 +93,7 @@ in rec {
           { plugin = "aklt/plantuml-syntax"; }
           { plugin = "leafgarland/typescript-vim"; }
           { plugin = "derekwyatt/vim-scala"; }
+          { plugin = "hashivim/vim-terraform"; }
           { plugin = "udalov/kotlin-vim"; }
           {
             plugin = "purescript-contrib/purescript-vim";
