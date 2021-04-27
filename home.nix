@@ -132,6 +132,12 @@ in rec {
               nnoremap <C-n> :NERDTreeToggle<CR>
             '';
           }
+          {
+            plugin = "arcticicestudio/nord-vim";
+            config = ''
+              colorscheme nord
+            '';
+          }
         ];
       };
   };
