@@ -55,7 +55,6 @@ in rec {
             coc-denoland = ">=3.0.0";
             coc-html = ">=1.4.1";
             coc-sql = ">=0.5.0";
-            coc-sh = ">=0.6.0";
           };
         };
 
