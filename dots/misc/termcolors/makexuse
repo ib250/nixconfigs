@@ -1,19 +1,30 @@
 #!/usr/bin/env sh
 
-config() {
+termiteconfig() {
 
-	# remove the old one
-	[ -e "xuse" ] && rm xuse
+    COLORS=$(xrdb -query | ag "color(\d+)" | sed -e s/\*color/color/g -e s/\*\.color/color/g -e s/\:/\=/g)
+    which termite && {
+        TERMITE_CONFIG=${HOME}/.config/termite/config
 
-	# copy target
-	[ -e "${1}" ] && {
-	    cat "$1" > xuse
-	}
+        [ -e ${TERMITE_CONFIG} ] && rm ${TERMITE_CONFIG}
+        echo "
+[options]
+font = Fira Code 12
+scrollback_lines = -1
+hyperlinks = true
 
-	# change stuff to add transparency
-	sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
-	echo "#define xftfnt xft:Fira Mono:style=regular:size=11" >> xuse
-	echo "#define fnt Fira Mono Regular 11" >> xuse
+[hints]
+font = Fira Code 12
+padding = 2
+roundness = 2.0
+
+[colors]
+${COLORS}
+        " > ${TERMITE_CONFIG}
+    }
+}
+
+zathuraconfig() {
 	which zathura && {
 	    # update zathurarc
 	    ZRC=${HOME}/.config/zathura/zathurarc 
@@ -53,6 +64,23 @@ config() {
 	}
 }
 
+config() {
+
+	# remove the old one
+	[ -e "xuse" ] && rm xuse
+
+	# copy target
+	[ -e "${1}" ] && {
+	    cat "$1" > xuse
+	}
+
+	# change stuff to add transparency
+	sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
+	echo "#define xftfnt xft:Fira Mono:style=regular:size=11" >> xuse
+	echo "#define fnt Fira Mono Regular 11" >> xuse
+    zathuraconfig
+}
+
 apply() {
 
 	# reload Xresources
@@ -73,19 +101,27 @@ apply() {
 	    echo "hsetroot command not found, skippint..."
 	}
 
+    termiteconfig
+
 	# chang bsp stuff
 	pgrep bspwm && {
 
 	    bspc config normal_border_color "${barBG}"
 	    bspc config focused_border_color "${barFG}"
 	    bspc config active_border_color "${barFG}"
-            polybar --reload main
+        polybar --reload main
 
 	}
+
 }
 
 case ${1} in
 	apply ) shift && apply $*;;
 	config ) shift && config $*;;
+    use )
+        shift
+        config $*
+        apply $*
+        ;;
 	* ) echo "<script> [config|apply] <file>";;
 esac
