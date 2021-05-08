@@ -2,8 +2,8 @@
 < !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|js|sh|php = ${VISUAL:-$EDITOR} -- "$@"
 < !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|js|sh|php = "$PAGER" -- "$@"
 ---
-> !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php = ${VISUAL:-$EDITOR} -- "$@"
-> !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php = "$PAGER" -- "$@"
+> !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|ts|js|sh|sql|php = ${VISUAL:-$EDITOR} -- "$@"
+> !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|ts|js|sh|sql|php = "$PAGER" -- "$@"
 106a107
 > ext ts  = deno -- "$1"
 269,271c270,272
@@ -11,6 +11,6 @@
 < label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = ${VISUAL:-$EDITOR} -- "$@"
 < label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = "$PAGER" -- "$@"
 ---
->               !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = ask
-> label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = ${VISUAL:-$EDITOR} -- "$@"
-> label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|php  = "$PAGER" -- "$@"
+>               !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|sql|php  = ask
+> label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|sql|php  = ${VISUAL:-$EDITOR} -- "$@"
+> label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|ts|js|sh|sql|php  = "$PAGER" -- "$@"

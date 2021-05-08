@@ -88,30 +88,26 @@ in rec {
           { plugin = "tpope/vim-surround"; }
           { plugin = "tpope/vim-repeat"; }
           { plugin = "kien/rainbow_parentheses.vim"; }
-          { plugin = "LnL7/vim-nix"; }
-          { plugin = "elmcast/elm-vim"; }
-          { plugin = "aklt/plantuml-syntax"; }
-          { plugin = "leafgarland/typescript-vim"; }
-          { plugin = "derekwyatt/vim-scala"; }
           {
-            plugin = "hashivim/vim-terraform";
+            plugin = "sheerun/vim-polyglot";
             config = ''
+              " terraform
               let g:terraform_align=1
               let g:terraform_fold_sections=1
             '';
           }
-          { plugin = "udalov/kotlin-vim"; }
-          {
-            plugin = "purescript-contrib/purescript-vim";
-            onLoad = "{ 'tag': 'v1.0.0' }";
-          }
+          { plugin = "elmcast/elm-vim"; }
+          { plugin = "aklt/plantuml-syntax"; }
+          { plugin = "leafgarland/typescript-vim"; }
+          { plugin = "derekwyatt/vim-scala"; }
+          { plugin = "jidn/vim-dbml"; }
           {
             plugin = "iamcco/markdown-preview.nvim";
             onLoad = ''
               {'do': 'cd app && yarn install'}
             '';
             config = ''
-              let g:mkdp_auto_start = 1
+              let g:mkdp_auto_start = 0
               let g:mkdp_command_for_global = 1
             '';
           }
@@ -119,7 +115,6 @@ in rec {
             plugin = "neoclide/coc.nvim";
             onLoad = "{'branch': 'release'}";
           }
-          { plugin = "cespare/vim-toml"; }
           {
             plugin = "ctrlpvim/ctrlp.vim";
             config = ''
