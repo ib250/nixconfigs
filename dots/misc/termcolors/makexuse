@@ -35,9 +35,9 @@ zathuraconfig() {
 		set adjust-open \"width\"
 		# One page per row by default
 		set pages-per-row 1
-		set recolor-reverse-video True
-		set recolor-keephue
-		set recolor
+		# set recolor-reverse-video True
+		# set recolor-keephue
+		# set recolor
 
 		# Appearance
 		set default-bg \""${barBG}"\"
@@ -78,7 +78,6 @@ config() {
 	sed -e "s/define /define a/g; s/ #/ #D9/g;" $1 >> xuse
 	echo "#define xftfnt xft:Fira Mono:style=regular:size=11" >> xuse
 	echo "#define fnt Fira Mono Regular 11" >> xuse
-    zathuraconfig
 }
 
 apply() {
@@ -102,6 +101,7 @@ apply() {
 	}
 
     termiteconfig
+    zathuraconfig
 
 	# chang bsp stuff
 	pgrep bspwm && {

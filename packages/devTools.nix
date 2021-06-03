@@ -11,6 +11,7 @@ with pkgs; {
         hlint
         stylish-haskell
         hpack
+        hspec
       ];
   in [ stack (ghc.withPackages (globalHaskellPackages)) ];
 
