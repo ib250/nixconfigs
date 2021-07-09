@@ -1,4 +1,4 @@
-{ pkgs, lib, config, options, modulesPath }:
+{ pkgs, lib, ... }:
 let
 
   packages = import ./packages pkgs;
@@ -6,7 +6,7 @@ let
   devTools = packages.devTools;
 
   # programs.neovim manages its own install of neovim so no need here
-  homePackages = with pkgs.lib;
+  homePackages = with lib;
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
