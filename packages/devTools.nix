@@ -2,7 +2,7 @@
 , hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
 }:
 with pkgs; {
-  jvm-family = [ scala sbt maven jdk11 ];
+  jvm-family = [ scala sbt maven ];
 
   haskell = let
     globalHaskellPackages = hackage:
@@ -11,6 +11,7 @@ with pkgs; {
         hlint
         stylish-haskell
         hpack
+        hspec
       ];
   in [ stack (ghc.withPackages (globalHaskellPackages)) ];
 
@@ -65,6 +66,7 @@ with pkgs; {
     nodePackages.bash-language-server
     nodePackages.purescript-language-server
     terraform-lsp
+    yaml-language-server
   ];
 
 }

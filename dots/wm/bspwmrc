@@ -38,7 +38,6 @@
   bspc rule -a "Butter" desktop="^1" follow=on
   
   hsetroot -solid "${barBG}"
-  compton &
   polybar main &
   ${HOME}/.local/bin/squeezewin.sh +10 +bar
 

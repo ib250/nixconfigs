@@ -23,6 +23,7 @@ with pkgs; {
   ];
 
   graphical = [
+    arandr
     w3m
     pulseaudioFull
     pulsemixer

@@ -1,25 +1,18 @@
-{ pkgs, lib, config, options, modulesPath }:
+{ pkgs, lib, ... }:
 let
 
   packages = import ./packages pkgs;
 
   devTools = packages.devTools;
 
-  lsps = import ./packages/lsps {
-    enabled = devTools.lsps;
-    pkgs = pkgs;
-  };
-
-  sourceWhenAvaliable = packages.utils.sourceWhenAvaliable;
-
   # programs.neovim manages its own install of neovim so no need here
-  homePackages = with pkgs.lib;
+  homePackages = with lib;
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
 in rec {
 
-  nixpkgs.config = import ./packages/nixpkgs-config.nix;
+  nixpkgs.config = packages.nixpkgs-config;
 
   xdg.configFile."nixpkgs/config.nix".source =
     ./packages/nixpkgs-config.nix;
@@ -37,49 +30,106 @@ in rec {
       devTools.python
       devTools.ts
       devTools.terraform
-      [ lsps.package ]
+      [ packages.lsps.package ]
     ];
 
+  home.file = with packages.utils;
+    vimPluginUtils.install {
+      pluginManager = "vim-plug";
+      version = "master";
+    } {
+
+      ".config/nvim/coc-settings.json".source =
+        packages.lsps.coc-settings-json;
+
+      ".config/coc/extensions/package.json" = {
+        text = builtins.toJSON {
+          dependencies = {
+            coc-json = ">=1.3.2";
+            coc-format-json = ">=0.2.0";
+            coc-python = ">=1.2.13";
+            coc-java = ">=1.5.0";
+            coc-tsserver = "1.6.0";
+            coc-marketplace = ">=1.8.0";
+            coc-spell-checker = ">=1.2.0";
+            coc-denoland = ">=3.0.0";
+            coc-html = ">=1.4.1";
+            coc-sql = ">=0.5.0";
+          };
+        };
+
+        onChange = ''
+          cd ~/.config/coc/extensions
+          echo "
+            * New coc-nvim changes detected, installing...
+          "
+          [ -e ./packages-json.lock ] && rm -rf ./packages-json.lock
+          ${pkgs.nodejs}/bin/npm install \
+            --ignore-scripts --no-logfile --production --legacy-peer-deps
+        '';
+      };
+
+    };
+
   programs.neovim = {
+
     enable = true;
-    inherit (packages.neovim) package plugins extraConfig;
     withPython3 = true;
     withNodeJs = true;
     extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
-  };
 
-  home.file = {
-
-    ".config/nvim/coc-settings.json".source =
-      lsps.coc-settings-json;
-
-    ".config/coc/extensions/package.json" = {
-      text = builtins.toJSON {
-        dependencies = {
-          coc-json = ">=1.3.2";
-          coc-yaml = ">=1.1.2";
-          coc-format-json = ">=0.2.0";
-          coc-python = ">=1.2.13";
-          coc-java = ">=1.5.0";
-          coc-tsserver = "1.6.0";
-          coc-deno = ">=0.11.0";
-          coc-marketplace = ">=1.8.0";
-          coc-spell-checker = ">=1.2.0";
-        };
+    extraConfig = with packages.utils;
+      vimPluginUtils.vimPlugRc {
+        pluginInstallDir = "~/.config/vim-plug";
+        extraRc = builtins.readFile ./packages/minimal.vim;
+        plugins = [
+          { plugin = "preservim/nerdcommenter"; }
+          { plugin = "tpope/vim-surround"; }
+          { plugin = "tpope/vim-repeat"; }
+          { plugin = "kien/rainbow_parentheses.vim"; }
+          {
+            plugin = "sheerun/vim-polyglot";
+            config = ''
+              " terraform
+              let g:terraform_align=1
+              let g:terraform_fold_sections=1
+            '';
+          }
+          { plugin = "elmcast/elm-vim"; }
+          { plugin = "aklt/plantuml-syntax"; }
+          { plugin = "leafgarland/typescript-vim"; }
+          { plugin = "derekwyatt/vim-scala"; }
+          { plugin = "jidn/vim-dbml"; }
+          {
+            plugin = "iamcco/markdown-preview.nvim";
+            onLoad = ''
+              {'do': 'cd app && yarn install'}
+            '';
+            config = ''
+              let g:mkdp_auto_start = 0
+              let g:mkdp_auto_close = 0
+              let g:mkdp_command_for_global = 1
+            '';
+          }
+          {
+            plugin = "neoclide/coc.nvim";
+            onLoad = "{'branch': 'release'}";
+          }
+          {
+            plugin = "ctrlpvim/ctrlp.vim";
+            config = ''
+              let g:ctrlp_cmd = 'CtrlPMRU'
+            '';
+          }
+          {
+            plugin = "preservim/nerdtree";
+            config = ''
+              nnoremap <C-n> :NERDTreeToggle<CR>
+            '';
+          }
+        ];
       };
-
-      onChange = ''
-        cd ~/.config/coc/extensions
-        echo "
-          * New coc-nvim changes detected, installing...
-        "
-        ${pkgs.nodejs}/bin/npm install \
-          --ignore-scripts --no-logfile --production --legacy-peer-deps
-      '';
-
-    };
-
   };
 
   programs.home-manager = {
@@ -136,7 +186,7 @@ in rec {
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right \
         | source /dev/stdin
 
-      ${sourceWhenAvaliable [ "~/.smoke" ]}
+      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" ]}
     '';
   };
 
@@ -148,15 +198,13 @@ in rec {
   };
 
   home.activation = {
-    # * re-write ranger config because...
-    # TODO: write hm module for ranger?
-    rangerCopyConfigs =
+    rangerCopyConfigs = with packages.utils;
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-
         $DRY_RUN_CMD rm -rf $VERBOSE_ARG ~/.config/ranger/*
         $DRY_RUN_CMD ${pkgs.ranger}/bin/ranger --copy-config=all
 
-        ${packages.utils.setRangerPreviewMethod { }}
+        ${setRangerPreviewMethod { }}
+        ${ranger-rifle-conf-patch { }}
       '';
   };
 
