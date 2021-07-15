@@ -7,6 +7,7 @@ let
   commonPackages = [
     awscli
     awless
+    pgcli
     wget
     gawk
     coreutils
