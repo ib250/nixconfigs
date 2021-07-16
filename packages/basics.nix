@@ -8,6 +8,7 @@ let
     awscli
     awless
     pgcli
+    mycli
     wget
     gawk
     coreutils
