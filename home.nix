@@ -79,7 +79,7 @@ in rec {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
-    extraPackages = [ pkgs.yarn ];
+    extraPackages = [ pkgs.yarn pkgs.nodePackages.pyright ];
     extraPython3Packages =
       (ps: with ps; [ pynvim jedi mypy pylint ]);
 
