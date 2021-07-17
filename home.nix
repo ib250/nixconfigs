@@ -45,10 +45,10 @@ in rec {
       ".config/coc/extensions/package.json" = {
         text = builtins.toJSON {
           dependencies = {
-            coc-json = ">=1.3.2";
+            coc-json = "==1.3.5";
             coc-format-json = ">=0.2.0";
-            coc-python = ">=1.2.13";
             coc-java = ">=1.5.0";
+            coc-python = ">=1.2.13";
             coc-tsserver = "1.8.1";
             coc-marketplace = ">=1.8.0";
             coc-spell-checker = ">=1.2.0";
@@ -73,15 +73,15 @@ in rec {
 
   programs.neovim = {
 
+    # nvim 0.5.0
+    package =
+      (import <nixpkgs-unstable> { }).neovim-unwrapped;
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPackages = [ pkgs.yarn ];
-    extraPython3Packages = (ps: with ps; [ pynvim ]);
-
-    # nvim 0.5.0
-    package =
-      (import <nixpkgs-unstable> { }).neovim-unwrapped;
+    extraPython3Packages =
+      (ps: with ps; [ pynvim jedi mypy pylint ]);
 
     extraConfig = with packages.utils;
       vimPluginUtils.vimPlugRc {
