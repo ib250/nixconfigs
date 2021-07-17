@@ -191,6 +191,8 @@ in rec {
         | source /dev/stdin
 
       ${packages.utils.sourceWhenAvaliable [ "~/.smoke" ]}
+
+      source <(${pkgs.awless}/bin/awless completion zsh)
     '';
   };
 
