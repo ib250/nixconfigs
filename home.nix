@@ -48,7 +48,7 @@ in rec {
             coc-json = "==1.3.5";
             coc-format-json = ">=0.2.0";
             coc-java = ">=1.5.0";
-            coc-python = ">=1.2.13";
+            coc-pyright = "1.1.156";
             coc-tsserver = "1.8.1";
             coc-marketplace = ">=1.8.0";
             coc-spell-checker = ">=1.2.0";
