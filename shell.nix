@@ -31,15 +31,20 @@ let
       "master.tar.gz";
 
     poetry2nix = "master.tar.gz";
+
+    nixpkgs-unstable = "nixpkgs-unstable";
+
   };
 
 in pkgs.mkShell rec {
 
-  inherit (channels) hm nixpkgs poetry2nix;
+  inherit (channels) hm nixpkgs poetry2nix nixpkgs-unstable;
 
   HOME_MANAGER = mkUrl [ homeManagerBase hm ];
   POETRY2NIX = mkUrl [ poetry2nixBase poetry2nix ];
   NIXPKGS = mkUrl [ nixChannelsBase nixpkgs ];
+  NIXPKGS_UNSTABLE =
+    mkUrl [ nixChannelsBase nixpkgs-unstable ];
 
   buildInputs = with pkgs; [ fmt fd exa coreutils zsh ];
 

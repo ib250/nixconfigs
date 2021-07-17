@@ -43,6 +43,7 @@ nix-set-channels() {
         nix-channel --add ${HOME_MANAGER} home-manager
         nix-channel --add ${NIXPKGS} nixpkgs
         nix-channel --add ${POETRY2NIX} poetry2nix
+        nix-channel --add ${NIXPKGS_UNSTABLE} nixpkgs-unstable
         nix-channel --update
     '
 }

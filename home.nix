@@ -79,6 +79,10 @@ in rec {
     extraPackages = [ pkgs.yarn ];
     extraPython3Packages = (ps: with ps; [ pynvim ]);
 
+    # nvim 0.5.0
+    package =
+      (import <nixpkgs-unstable> { }).neovim-unwrapped;
+
     extraConfig = with packages.utils;
       vimPluginUtils.vimPlugRc {
         pluginInstallDir = "~/.config/vim-plug";
