@@ -10,7 +10,8 @@ let g:mapleader = ";"
 set noswapfile
 set number
 set rnu
-set clipboard=unnamed
+set undofile
+set clipboard+=unnamed
 set wildmenu
 set wildmode=longest,full
 set foldenable
@@ -33,10 +34,13 @@ set shellslash
 set tabstop=4
 set shiftwidth=4
 set lazyredraw
+set nocursorline
+set scrolljump=5
+set re=1
 set scrolloff=3
 set laststatus=1
 set noerrorbells
-set completeopt=menuone,menu,longest,preview
+set completeopt=menuone,menu,longest
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 set autochdir
