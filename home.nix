@@ -123,18 +123,13 @@ in rec {
                 CocUpdate
               endfunction
 
+              nnoremap <C-n> :CocCommand explorer<CR>
             '';
           })
           {
             plugin = "ctrlpvim/ctrlp.vim";
             config = ''
               let g:ctrlp_cmd = 'CtrlPMRU'
-            '';
-          }
-          {
-            plugin = "preservim/nerdtree";
-            config = ''
-              nnoremap <C-n> :NERDTreeToggle<CR>
             '';
           }
         ];
