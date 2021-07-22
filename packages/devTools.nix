@@ -51,7 +51,12 @@ with pkgs; {
 
       in extras ++ linting ++ nonOSXExtras;
 
-  in [ pipenv poetry (python38.withPackages fromPypi) ];
+  in [
+    pipenv
+    poetry
+    (python38.withPackages fromPypi)
+    nodePackages.pyright
+  ];
 
   nix = [ nix-doc nixfmt nixpkgs-fmt ];
 

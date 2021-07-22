@@ -41,34 +41,6 @@ in rec {
 
       ".config/nvim/coc-settings.json".source =
         packages.lsps.coc-settings-json;
-
-      ".config/coc/extensions/package.json" = {
-        text = builtins.toJSON {
-          dependencies = {
-            coc-json = "==1.3.5";
-            coc-format-json = ">=0.2.0";
-            coc-java = ">=1.5.0";
-            coc-pyright = "1.1.156";
-            coc-tsserver = "1.8.1";
-            coc-marketplace = ">=1.8.0";
-            coc-spell-checker = ">=1.2.0";
-            coc-denoland = ">=3.0.0";
-            coc-html = ">=1.4.1";
-            coc-sql = ">=0.5.0";
-          };
-        };
-
-        onChange = ''
-          cd ~/.config/coc/extensions
-          echo "
-            * New coc-nvim changes detected, installing...
-          "
-          [ -e ./packages-json.lock ] && rm -rf ./packages-json.lock
-          ${pkgs.nodejs}/bin/npm install \
-            --ignore-scripts --no-logfile --production --legacy-peer-deps
-        '';
-      };
-
     };
 
   programs.neovim = {
@@ -79,9 +51,7 @@ in rec {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
-    extraPackages = [ pkgs.yarn pkgs.nodePackages.pyright ];
-    extraPython3Packages =
-      (ps: with ps; [ pynvim jedi mypy pylint ]);
+    extraPython3Packages = (ps: with ps; [ pynvim ]);
 
     extraConfig = with packages.utils;
       vimPluginUtils.vimPlugRc {
@@ -116,7 +86,22 @@ in rec {
               let g:mkdp_command_for_global = 1
             '';
           }
-          {
+          (let
+            coc-install-plugins = [
+              "CocInstall"
+              "coc-json"
+              "coc-format-json"
+              "coc-java"
+              "coc-pyright"
+              "coc-tsserver"
+              "coc-marketplace"
+              "coc-spell-checker"
+              "coc-denoland"
+              "coc-explorer"
+              "coc-html"
+              "coc-sql"
+            ];
+          in {
             plugin = "neoclide/coc.nvim";
             onLoad = "{'branch': 'release'}";
             config = ''
@@ -127,8 +112,19 @@ in rec {
               set updatetime=300
               set shortmess+=c
               set signcolumn
+
+              function g:InstallIde()
+                PlugInstall
+                ${builtins.concatStringsSep " " coc-install-plugins}
+              endfunction
+
+              function g:UpdateIde()
+                PlugUpdate
+                CocUpdate
+              endfunction
+
             '';
-          }
+          })
           {
             plugin = "ctrlpvim/ctrlp.vim";
             config = ''
