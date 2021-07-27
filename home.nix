@@ -111,7 +111,7 @@ in rec {
               set cmdheight=1
               set updatetime=300
               set shortmess+=c
-              set signcolumn
+              set signcolumn=auto
 
               function g:InstallIde()
                 PlugInstall
@@ -124,6 +124,14 @@ in rec {
               endfunction
 
               nnoremap <C-n> :CocCommand explorer<CR>
+
+              augroup coc_vimrc_filetype_jsx_support
+                au!
+                autocmd BufEnter *.jsx :setlocal filetype=javascript.jsx
+                autocmd BufEnter *.tsx :setlocal filetype=typescript.tsx
+              augroup end
+
+              inoremap <silent><expr> <c-space> coc#refresh()
             '';
           })
           {

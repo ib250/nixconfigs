@@ -49,14 +49,18 @@ augroup vimrc_set_working_dir
   autocmd BufEnter * silent! lcd %:p:h
 augroup end
 
-if has('nvim')
-  autocmd TermOpen * :setlocal norelativenumber nonumber
-elseif has('terminal')
-  autocmd TerminalOpen * :setlocal norelativenumber nonumber
-endif
+augroup vimrc_set_numbering
+  au!
 
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
+  if has('nvim')
+    autocmd TermOpen * :setlocal norelativenumber nonumber
+  elseif has('terminal')
+    autocmd TerminalOpen * :setlocal norelativenumber nonumber
+  endif
+
+  autocmd InsertEnter * :set norelativenumber
+  autocmd InsertLeave * :set relativenumber
+augroup end
 
 augroup vimrc_file_type_indentation
   au!

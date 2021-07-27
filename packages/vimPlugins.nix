@@ -74,7 +74,7 @@ in rec {
         in "Plug '${plugin}'" + onLoadMap;
 
       mkPlugPluginRc = { plugin, config ? "", ... }: ''
-        " ${plugin} specific configuration
+        " -- ${plugin} configuration
         ${config}
       '';
 
