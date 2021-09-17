@@ -40,7 +40,12 @@ in rec {
     } {
 
       ".config/nvim/coc-settings.json".source =
-        packages.lsps.coc-settings-json;
+        packages.lsps.mkCocConfigJson {
+          extraConfig = {
+            "explorer.width" = 30;
+            "explorer.previewAction.onHover" = true;
+          };
+        };
     };
 
   programs.neovim = {
