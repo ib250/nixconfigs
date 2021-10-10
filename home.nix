@@ -120,7 +120,10 @@ in rec {
 
               function g:InstallIde()
                 PlugInstall
-                ${builtins.concatStringsSep " " coc-install-plugins}
+                ${
+                  builtins.concatStringsSep " "
+                  coc-install-plugins
+                }
               endfunction
 
               function g:UpdateIde()

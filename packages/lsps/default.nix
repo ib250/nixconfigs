@@ -35,8 +35,8 @@ let
         lsps;
     };
 
-  mkCocConfigJson = { extraConfig ? {} }:
-    let data = (createCocConfig enabled) // extraConfig ;
+  mkCocConfigJson = { extraConfig ? { } }:
+    let data = (createCocConfig enabled) // extraConfig;
     in jsonfmt.generate "coc-config.json" data;
 
   versions = map (drv: drv.version);
