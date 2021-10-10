@@ -72,6 +72,7 @@ with pkgs; {
     nodePackages.purescript-language-server
     terraform-lsp
     yaml-language-server
+    # graphql-language-service-cli
   ];
 
 }

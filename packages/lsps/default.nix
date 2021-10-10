@@ -21,6 +21,8 @@ let
       import ./terraform.nix drv
     else if hasInfix "yaml-language-server" drv.name then
       import ./yaml-language-server.nix drv
+    else if hasInfix "graphql" drv.name then
+      import ./graphql.nix drv
     else
       abort "${drv.name} not matched to lsp configuration";
 
