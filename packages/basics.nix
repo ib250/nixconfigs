@@ -34,6 +34,7 @@ let
     httpie
     gnused
     any-nix-shell
+    gh
   ];
 
   linuxExtras = lib.optional hostPlatform.isLinux ueberzug;
