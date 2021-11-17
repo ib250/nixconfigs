@@ -7,6 +7,7 @@ let
   commonPackages = [
     awscli
     awless
+    fzf
     pgcli
     mycli
     wget

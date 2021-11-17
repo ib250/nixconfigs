@@ -19,7 +19,7 @@ with pkgs; {
     [ cmake gnumake stdmanpages ] ++ lib.optional isWsl gcc
     ++ lib.optional (isLinux && !isWsl) clang_10;
 
-  js = [ nodejs deno yarn yarn2nix nodePackages.node2nix ];
+  js = [ deno yarn yarn2nix nodePackages.node2nix ];
 
   ts = [ nodePackages.typescript ];
 
@@ -65,7 +65,7 @@ with pkgs; {
 
   lsps = [
     haskellPackages.ghcide
-    metals
+    # metals -> switch to coc-metals
     clang-tools
     rnix-lsp
     nodePackages.bash-language-server

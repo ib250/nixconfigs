@@ -68,6 +68,20 @@ in rec {
           { plugin = "tpope/vim-repeat"; }
           { plugin = "kien/rainbow_parentheses.vim"; }
           {
+            plugin = "junegunn/fzf";
+            onLoad = ''
+              {'dir': '~/.fzf','do': './install.sh --all'}
+            '';
+          }
+          {
+            plugin = "junegunn/fzf.vim";
+            config = ''
+              set mouse=a
+              let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+            '';
+          }
+          { plugin = "antoinemadec/coc-fzf"; }
+          {
             plugin = "sheerun/vim-polyglot";
             config = ''
               " terraform
@@ -103,8 +117,10 @@ in rec {
               "coc-spell-checker"
               "coc-denoland"
               "coc-explorer"
+              "coc-metals"
               "coc-html"
               "coc-sql"
+              # "coc-fzf" not available via coc-install unfortunately
             ];
           in {
             plugin = "neoclide/coc.nvim";
