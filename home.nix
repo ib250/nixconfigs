@@ -223,7 +223,7 @@ in rec {
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right \
         | source /dev/stdin
 
-      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" ]}
+      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
 
       source <(${pkgs.awless}/bin/awless completion zsh)
     '';
