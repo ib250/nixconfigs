@@ -76,11 +76,21 @@ in rec {
           {
             plugin = "junegunn/fzf.vim";
             config = ''
-              set mouse=a
               let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
             '';
           }
-          { plugin = "antoinemadec/coc-fzf"; }
+          {
+            # not available via coc-install unfortunately
+            plugin = "antoinemadec/coc-fzf";
+            config = ''
+              " mappings
+              nnoremap <silent> <space><space> :<C-u>CocFzfList<CR>
+              nmap <silent> gd <Plug>(coc-definition)
+              nmap <silent> gy <Plug>(coc-type-definition)
+              nmap <silent> gi <Plug>(coc-implementation)
+              nmap <silent> gr <Plug>(coc-references)
+            '';
+          }
           {
             plugin = "sheerun/vim-polyglot";
             config = ''
@@ -120,7 +130,6 @@ in rec {
               "coc-metals"
               "coc-html"
               "coc-sql"
-              # "coc-fzf" not available via coc-install unfortunately
             ];
           in {
             plugin = "neoclide/coc.nvim";
@@ -223,7 +232,10 @@ in rec {
       ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right \
         | source /dev/stdin
 
-      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
+      ${packages.utils.sourceWhenAvaliable [
+        "~/.smoke"
+        "~/.nvm/nvm.sh"
+      ]}
 
       source <(${pkgs.awless}/bin/awless completion zsh)
     '';

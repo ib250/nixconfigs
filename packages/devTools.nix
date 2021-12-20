@@ -12,6 +12,7 @@ with pkgs; {
         stylish-haskell
         hpack
         hspec
+        dotenv
       ];
   in [ stack (ghc.withPackages (globalHaskellPackages)) ];
 
