@@ -40,4 +40,7 @@ let
 
   linuxExtras = lib.optional hostPlatform.isLinux ueberzug;
 
-in linuxExtras ++ commonPackages
+  osxExtras =
+    lib.optional hostPlatform.isDarwin coreutils-prefixed;
+
+in linuxExtras ++ commonPackages ++ osxExtras
