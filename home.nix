@@ -42,6 +42,7 @@ in rec {
       ".config/nvim/coc-settings.json".source =
         packages.lsps.mkCocConfigJson {
           extraConfig = {
+            "cSpell.language" = "en-GB";
             "explorer.width" = 30;
             "explorer.previewAction.onHover" = true;
           };

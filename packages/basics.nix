@@ -36,6 +36,7 @@ let
     gnused
     any-nix-shell
     gh
+    loc
   ];
 
   linuxExtras = lib.optional hostPlatform.isLinux ueberzug;
