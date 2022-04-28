@@ -21,12 +21,12 @@ let
 
   channels = {
     hm = if hostPlatform.isDarwin then
-      "release-21.05.tar.gz"
+      "release-21.11.tar.gz"
     else
       "master.tar.gz";
 
     nixpkgs = if hostPlatform.isDarwin then
-      "nixpkgs-21.05-darwin"
+      "nixpkgs-21.11-darwin"
     else
       "master.tar.gz";
 

@@ -70,7 +70,7 @@ with pkgs; {
     clang-tools
     rnix-lsp
     nodePackages.bash-language-server
-    nodePackages.purescript-language-server
+    # nodePackages.purescript-language-server
     terraform-lsp
     yaml-language-server
     # graphql-language-service-cli
