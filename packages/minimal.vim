@@ -87,5 +87,3 @@ nnoremap <leader>bd      :bdelete<cr>
 nnoremap <leader>q       :q<cr>
 nnoremap <leader>w       :w!<cr>
 nnoremap <leader><space> :noh<cr>
-
-colorscheme desert
