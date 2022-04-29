@@ -16,8 +16,14 @@ in rec {
 
   xdg.configFile."nixpkgs/config.nix".source =
     ./packages/nixpkgs-config.nix;
+
   xdg.configFile."nixpkgs/overlays.nix".source =
     ./packages/overlays.nix;
+
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   home.packages = with builtins;
     concatLists [

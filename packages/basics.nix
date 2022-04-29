@@ -35,6 +35,7 @@ let
     httpie
     gnused
     any-nix-shell
+    nix-info
     gh
     loc
   ];

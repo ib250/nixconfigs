@@ -11,7 +11,6 @@ clean-nixos:            delete current nixos configurations
 show:                   show links to current configuration
 set-channels:           setup nix channels
 home-manager-install:   install home-manager
-switch:                 home-manager switch via home-manager channel
 "
 
 link-configs() {
@@ -62,16 +61,6 @@ home-manager-install() {
 }
 
 
-home-manager-switch() {
-    case ${CHATTY} in
-        yes | 1 )
-            nix run home-manager.home-manager -c \
-                home-manager switch --verbose --show-trace;;
-        no | * )
-            nix run home-manager.home-manager -c home-manager switch;;
-    esac
-}
-
 show-configs() {
     nix-shell --run '
         exa -T ~/.config/nixpkgs
@@ -97,8 +86,6 @@ main() {
                 clean-configs home;;
             clean-nixos )
                 clean-configs nixos;;
-            switch )
-                home-manager-switch;;
             home-manager-install )
                 home-manager-install;;
             show )
