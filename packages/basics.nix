@@ -6,6 +6,7 @@ let
 
   commonPackages = [
     awscli
+    google-cloud-sdk
     awless
     fzf
     pgcli
