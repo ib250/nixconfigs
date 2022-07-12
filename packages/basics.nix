@@ -7,7 +7,6 @@ let
   commonPackages = [
     awscli
     google-cloud-sdk
-    awless
     fzf
     pgcli
     mycli
@@ -15,7 +14,7 @@ let
     gawk
     coreutils
     binutils
-    manpages
+    man-pages
     pstree
     zsh
     zplug
@@ -24,11 +23,12 @@ let
     git
     ruby
     gitAndTools.git-extras
+    pre-commit
     htop
     highlight
     jq
     fd
-    ag
+    silver-searcher
     exa
     zip
     unzip

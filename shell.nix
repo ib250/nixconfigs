@@ -20,15 +20,12 @@ let
   mkUrl = builtins.concatStringsSep "/";
 
   channels = {
-    hm = if hostPlatform.isDarwin then
-      "release-21.11.tar.gz"
-    else
-      "master.tar.gz";
+    hm = "release-22.05.tar.gz";
 
     nixpkgs = if hostPlatform.isDarwin then
-      "nixpkgs-21.11-darwin"
+      "nixpkgs-22.05-darwin"
     else
-      "master.tar.gz";
+      "nixpkgs-22.05";
 
     poetry2nix = "master.tar.gz";
 
@@ -42,9 +39,10 @@ in pkgs.mkShell rec {
 
   HOME_MANAGER = mkUrl [ homeManagerBase hm ];
   POETRY2NIX = mkUrl [ poetry2nixBase poetry2nix ];
-  NIXPKGS = mkUrl [ nixChannelsBase nixpkgs ];
   NIXPKGS_UNSTABLE =
     mkUrl [ nixChannelsBase nixpkgs-unstable ];
+
+  NIXPKGS = mkUrl [ nixChannelsBase nixpkgs ];
 
   buildInputs = with pkgs; [ fmt fd exa coreutils zsh ];
 

@@ -12,6 +12,10 @@ let
 
 in rec {
 
+  home.stateVersion = "22.05";
+  home.username = "ismailbello";
+  home.homeDirectory = "/home/ismailbello";
+
   nixpkgs.config = packages.nixpkgs-config;
 
   xdg.configFile."nixpkgs/config.nix".source =
@@ -19,6 +23,18 @@ in rec {
 
   xdg.configFile."nixpkgs/overlays.nix".source =
     ./packages/overlays.nix;
+
+  xdg.configFile."git/gitignore.global".text = ''
+    *~
+    *.swp
+    .vim
+    scratch
+    .scratch
+    scratch.*
+    .roast
+    .http
+    .DS_Store
+  '';
 
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
@@ -56,14 +72,19 @@ in rec {
     };
 
   programs.neovim = {
-
     # nvim 0.5.0
     package =
       (import <nixpkgs-unstable> { }).neovim-unwrapped;
     enable = true;
     withPython3 = true;
     withNodeJs = true;
-    extraPython3Packages = (ps: with ps; [ pynvim ]);
+    extraPython3Packages = ps:
+      with ps; [
+        pynvim
+        # the following are needed for roast.vim
+        requests
+        jinja2
+      ];
 
     extraConfig = with packages.utils;
       vimPluginUtils.vimPlugRc {
@@ -173,12 +194,31 @@ in rec {
 
               inoremap <silent><expr> <c-space> coc#refresh()
               inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
             '';
           })
+          { plugin = "sharat87/roast.vim"; }
+          { plugin = "diepm/vim-rest-console"; }
           {
             plugin = "ctrlpvim/ctrlp.vim";
             config = ''
               let g:ctrlp_cmd = 'CtrlPMRU'
+            '';
+          }
+          {
+            plugin = "NLKNguyen/papercolor-theme";
+            config = ''
+              set t_Co=256
+              set background=dark
+              let g:PaperColor_Theme_Options = {
+              \   'theme': {
+              \     'default': {
+              \       'transparent_background': 1
+              \     }
+              \   }
+              \ }
+
+              colorscheme PaperColor
             '';
           }
         ];
@@ -192,6 +232,8 @@ in rec {
   };
 
   programs.bat.enable = true;
+
+  programs.go.enable = true;
 
   programs.starship = {
     enable = true;
@@ -233,6 +275,7 @@ in rec {
     initExtraBeforeCompInit = ''
       bindkey jk vi-cmd-mode
       bindkey kj vi-cmd-mode
+
     '';
 
     initExtra = ''
@@ -244,7 +287,12 @@ in rec {
         "~/.nvm/nvm.sh"
       ]}
 
-      source <(${pkgs.awless}/bin/awless completion zsh)
+      # not yet supported in hm module
+      zplug "plugins/docker", from:oh-my-zsh
+      zplug "plugins/docker-compose", from:oh-my-zsh
+      zplug install 2> /dev/null
+      zplug load
+
     '';
   };
 
@@ -252,7 +300,12 @@ in rec {
     extraConfig = {
       user.name = "Ismail Bello";
       credential.helper = "store";
+      core.excludesfile =
+        "$XDG_CONFIG_HOME/git/gitignore.global";
+      pull.rebase = true;
     };
+    includes = [{ path = "~/.gitconfig"; }];
+    aliases = { git-clean = "git clean -xdf -e .vim"; };
   };
 
   home.activation = {

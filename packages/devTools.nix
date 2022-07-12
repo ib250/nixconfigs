@@ -17,8 +17,11 @@ with pkgs; {
   in [ stack (ghc.withPackages (globalHaskellPackages)) ];
 
   c-family = with hostPlatform;
-    [ cmake gnumake stdmanpages ] ++ lib.optional isWsl gcc
-    ++ lib.optional (isLinux && !isWsl) clang_10;
+    let
+      compiler = if isWsl then [ gcc ] else [ clang_13 ];
+      # collision between binutils and
+      # clang/gcc use nix-shell for now
+    in [ cmake gnumake stdmanpages ];
 
   js = [ deno yarn yarn2nix nodePackages.node2nix ];
 
@@ -28,29 +31,11 @@ with pkgs; {
     fromPypi = pypi:
       with pypi;
       let
-        extras = [
-          pip
-          pipx
-          tox
-          black
-          isort
-          boto3
-          ipython
-          pandas
-          matplotlib
-          numpy
-          scipy
-        ];
-
-        nonOSXExtras =
-          lib.optionals (!hostPlatform.isDarwin) [
-            jupyter
-            jupyterlab
-          ];
+        extras = [ pip pipx tox black isort ];
 
         linting = [ mypy flake8 jedi ];
 
-      in extras ++ linting ++ nonOSXExtras;
+      in extras ++ linting;
 
   in [
     pipenv
