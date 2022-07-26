@@ -12,9 +12,14 @@ let
 
 in rec {
 
+  programs.direnv.enable = true;
+  programs.direnv.enableZshIntegration = true;
+  programs.direnv.enableBashIntegration = true;
+  programs.direnv.nix-direnv.enable = true;
+
   home.stateVersion = "22.05";
   home.username = "ismailbello";
-  home.homeDirectory = "/home/ismailbello";
+  home.homeDirectory = "/Users/ismailbello";
 
   nixpkgs.config = packages.nixpkgs-config;
 
@@ -47,7 +52,7 @@ in rec {
       devTools.js
       devTools.c-family
       devTools.nix
-      devTools.haskell
+      #devTools.haskell
       devTools.jvm-family
       devTools.python
       devTools.ts
@@ -158,6 +163,7 @@ in rec {
               "coc-metals"
               "coc-html"
               "coc-sql"
+              "coc-go"
             ];
           in {
             plugin = "neoclide/coc.nvim";
@@ -221,6 +227,7 @@ in rec {
               colorscheme PaperColor
             '';
           }
+          { plugin = "vim-python/python-syntax"; }
         ];
       };
   };
@@ -279,9 +286,6 @@ in rec {
     '';
 
     initExtra = ''
-      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right \
-        | source /dev/stdin
-
       ${packages.utils.sourceWhenAvaliable [
         "~/.smoke"
         "~/.nvm/nvm.sh"

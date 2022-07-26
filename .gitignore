@@ -4,3 +4,5 @@
 .scratch
 scratch
 .vim
+.envrc
+.direnv
