@@ -16,6 +16,11 @@ in rec {
   programs.direnv.enableZshIntegration = true;
   programs.direnv.enableBashIntegration = true;
   programs.direnv.nix-direnv.enable = true;
+  programs.direnv.config = {
+    disable_stdin = false;
+    bash_path = "${pkgs.bashInteractive}/bin/bash";
+    strict_env = true;
+  };
 
   home.stateVersion = "22.05";
   home.username = "ismailbello";
