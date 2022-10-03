@@ -5,8 +5,6 @@ let
     with pkgs.lib;
     if hasInfix "ghcide" drv.name then
       import ./ghcide.nix drv
-    else if hasInfix "metals" drv.name then
-      import ./scala-metals.nix drv
     else if hasInfix "clang-tools" drv.name then
       import ./clangd.nix drv
     else if hasInfix "rnix-lsp" drv.name then

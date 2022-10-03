@@ -158,17 +158,17 @@ in rec {
               "CocInstall"
               "coc-json"
               "coc-format-json"
-              "coc-java"
               "coc-pyright"
               "coc-tsserver"
               "coc-marketplace"
               "coc-spell-checker"
               "coc-denoland"
               "coc-explorer"
-              "coc-metals"
               "coc-html"
               "coc-sql"
               "coc-go"
+              "coc-git"
+              "coc-metals"
             ];
           in {
             plugin = "neoclide/coc.nvim";
@@ -205,7 +205,9 @@ in rec {
 
               inoremap <silent><expr> <c-space> coc#refresh()
               inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+              set statusline^=%{get(g:,'coc_git_status',\'\')}%{get(b:,'coc_git_status',\'\')}%{get(b:,'coc_git_blame',\'\')}
 
+              nnoremap <leader>gbl :CocCommand git.showBlameDoc<CR>
             '';
           })
           { plugin = "sharat87/roast.vim"; }
@@ -244,8 +246,6 @@ in rec {
   };
 
   programs.bat.enable = true;
-
-  programs.go.enable = true;
 
   programs.starship = {
     enable = true;
