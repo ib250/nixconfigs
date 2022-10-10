@@ -18,9 +18,12 @@ in rec {
   programs.direnv.nix-direnv.enable = true;
   programs.direnv.config = {
     disable_stdin = false;
-    bash_path = "${pkgs.bashInteractive}/bin/bash";
     strict_env = true;
   };
+
+  programs.scmpuff.enable = true;
+  programs.zoxide.enable = true;
+  programs.fzf.enable = true;
 
   home.stateVersion = "22.05";
   home.username = "ismailbello";
@@ -57,7 +60,7 @@ in rec {
       devTools.js
       devTools.c-family
       devTools.nix
-      #devTools.haskell
+      devTools.haskell
       devTools.jvm-family
       devTools.python
       devTools.ts
@@ -270,6 +273,9 @@ in rec {
       tree = "exa -T";
       d = "dirs -v";
       cat = "bat";
+      gc = "git commit";
+      gps = "git push";
+      gsh = "git show";
     };
 
     zplug = {
@@ -280,7 +286,6 @@ in rec {
         { name = "zsh-users/zsh-autosuggestions"; }
         { name = "zsh-users/zsh-history-substring-search"; }
         { name = "zdharma/fast-syntax-highlighting"; }
-        { name = "scmbreeze/scm_breeze"; }
       ];
     };
 

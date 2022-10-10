@@ -36,6 +36,7 @@ let
     httpie
     gnused
     nix-info
+    nox
     gh
     loc
   ];
