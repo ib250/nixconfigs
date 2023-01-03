@@ -85,10 +85,10 @@ in rec {
     };
 
   programs.neovim = {
+    enable = true;
     # nvim 0.5.0
     package =
       (import <nixpkgs-unstable> { }).neovim-unwrapped;
-    enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps:
