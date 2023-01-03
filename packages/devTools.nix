@@ -38,8 +38,6 @@ with pkgs; {
       in extras ++ linting;
 
   in [
-    pipenv
-    poetry
     (python38.withPackages fromPypi)
     nodePackages.pyright
   ];

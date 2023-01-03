@@ -274,7 +274,12 @@ in rec {
       d = "dirs -v";
       cat = "bat";
       gc = "git commit";
+      ga = "git add";
+      gb = "git branch";
+      gf = "git fetch";
       gps = "git push";
+      gm = "git merge";
+      gpl = "git pull";
       gsh = "git show";
     };
 

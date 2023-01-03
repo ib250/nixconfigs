@@ -23,9 +23,9 @@ let
     hm = "release-22.05.tar.gz";
 
     nixpkgs = if hostPlatform.isDarwin then
-      "nixpkgs-22.05-darwin"
+      "nixpkgs-22.11-darwin"
     else
-      "nixpkgs-22.05";
+      "nixpkgs-22.11";
 
     poetry2nix = "master.tar.gz";
 
@@ -43,6 +43,8 @@ in pkgs.mkShell rec {
     mkUrl [ nixChannelsBase nixpkgs-unstable ];
 
   NIXPKGS = mkUrl [ nixChannelsBase nixpkgs ];
+
+  NIXPKGS_ALLOW_BROKEN = "1";
 
   buildInputs = with pkgs; [ fmt fd exa coreutils zsh ];
 
