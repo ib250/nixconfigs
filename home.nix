@@ -68,36 +68,83 @@ in rec {
       [ packages.lsps.package ]
     ];
 
-  home.file = with packages.utils;
-    vimPluginUtils.install {
-      pluginManager = "vim-plug";
-      version = "master";
-    } {
-
-      ".config/nvim/coc-settings.json".source =
-        packages.lsps.mkCocConfigJson {
-          extraConfig = {
-            "cSpell.language" = "en-GB";
-            "explorer.width" = 30;
-            "explorer.previewAction.onHover" = true;
-          };
-        };
-    };
+  home.file = let
+    vimPlugInstallation = with packages.utils;
+      vimPluginUtils.install {
+        pluginManager = "vim-plug";
+        version = "master";
+      } { };
+  in vimPlugInstallation;
 
   programs.neovim = {
     enable = true;
-    # nvim 0.5.0
-    package =
-      (import <nixpkgs-unstable> { }).neovim-unwrapped;
     withPython3 = true;
     withNodeJs = true;
-    extraPython3Packages = ps:
-      with ps; [
-        pynvim
-        # the following are needed for roast.vim
-        requests
-        jinja2
-      ];
+    extraPython3Packages = ps: with ps; [ pynvim ];
+
+    coc = {
+      enable = true;
+      pluginConfig = let
+        coc-install-plugins = [
+          "CocInstall"
+          "coc-json"
+          "coc-format-json"
+          "coc-pyright"
+          "coc-tsserver"
+          "coc-marketplace"
+          "coc-spell-checker"
+          "coc-denoland"
+          "coc-explorer"
+          "coc-html"
+          "coc-sql"
+          "coc-go"
+          "coc-git"
+          "coc-lua"
+          "coc-metals"
+        ];
+      in ''
+        set hidden
+        set nobackup
+        set nowritebackup
+        set cmdheight=1
+        set updatetime=300
+        set shortmess+=c
+        set signcolumn=auto
+
+        function g:UpdateIde()
+          PlugUpdate
+          CocUpdate
+        endfunction
+
+        function g:InstallIde()
+          PlugInstall
+          ${
+            builtins.concatStringsSep " "
+            coc-install-plugins
+          }
+        endfunction
+
+        nnoremap <C-n> :CocCommand explorer<CR>
+
+        augroup coc_vimrc_filetype_jsx_support
+          au!
+          autocmd BufEnter *.jsx :setlocal filetype=javascript.jsx
+          autocmd BufEnter *.tsx :setlocal filetype=typescript.tsx
+        augroup end
+
+        inoremap <silent><expr> <c-space> coc#refresh()
+        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+        set statusline^=%{get(g:,'coc_git_status',\'\')}%{get(b:,'coc_git_status',\'\')}%{get(b:,'coc_git_blame',\'\')}
+
+        nnoremap <leader>tb :CocCommand git.showBlameDoc<CR>
+      '';
+      settings = {
+        cSpell.language = "en-GB";
+        explorer.previewAction.onHover = true;
+        explorer.width = 42;
+        languageserver = packages.lsps.cocLspConfigs;
+      };
+    };
 
     extraConfig = with packages.utils;
       vimPluginUtils.vimPlugRc {
@@ -156,64 +203,6 @@ in rec {
               let g:mkdp_command_for_global = 1
             '';
           }
-          (let
-            coc-install-plugins = [
-              "CocInstall"
-              "coc-json"
-              "coc-format-json"
-              "coc-pyright"
-              "coc-tsserver"
-              "coc-marketplace"
-              "coc-spell-checker"
-              "coc-denoland"
-              "coc-explorer"
-              "coc-html"
-              "coc-sql"
-              "coc-go"
-              "coc-git"
-              "coc-metals"
-            ];
-          in {
-            plugin = "neoclide/coc.nvim";
-            onLoad = "{'branch': 'release'}";
-            config = ''
-              set hidden
-              set nobackup
-              set nowritebackup
-              set cmdheight=1
-              set updatetime=300
-              set shortmess+=c
-              set signcolumn=auto
-
-              function g:InstallIde()
-                PlugInstall
-                ${
-                  builtins.concatStringsSep " "
-                  coc-install-plugins
-                }
-              endfunction
-
-              function g:UpdateIde()
-                PlugUpdate
-                CocUpdate
-              endfunction
-
-              nnoremap <C-n> :CocCommand explorer<CR>
-
-              augroup coc_vimrc_filetype_jsx_support
-                au!
-                autocmd BufEnter *.jsx :setlocal filetype=javascript.jsx
-                autocmd BufEnter *.tsx :setlocal filetype=typescript.tsx
-              augroup end
-
-              inoremap <silent><expr> <c-space> coc#refresh()
-              inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-              set statusline^=%{get(g:,'coc_git_status',\'\')}%{get(b:,'coc_git_status',\'\')}%{get(b:,'coc_git_blame',\'\')}
-
-              nnoremap <leader>gbl :CocCommand git.showBlameDoc<CR>
-            '';
-          })
-          { plugin = "sharat87/roast.vim"; }
           { plugin = "diepm/vim-rest-console"; }
           {
             plugin = "ctrlpvim/ctrlp.vim";
@@ -240,6 +229,7 @@ in rec {
           { plugin = "vim-python/python-syntax"; }
         ];
       };
+
   };
 
   programs.home-manager = {

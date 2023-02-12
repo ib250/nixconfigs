@@ -41,6 +41,9 @@ let
 
 in {
 
+  # TODO: only lsp section of coc-settings-json;
+  cocLspConfigs = (createCocConfig enabled).languageserver;
+
   mkCocConfigJson = mkCocConfigJson;
 
   coc-settings-json = mkCocConfigJson { };

@@ -2,7 +2,8 @@
 , hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
 }:
 with pkgs; {
-  jvm-family = [ scala sbt maven coursier ];
+
+  jvm-family = [ scala-cli sbt maven coursier ];
 
   haskell = let
     globalHaskellPackages = hackage:
@@ -60,4 +61,3 @@ with pkgs; {
   ];
 
 }
-
