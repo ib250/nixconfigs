@@ -65,171 +65,20 @@ in rec {
       devTools.python
       devTools.ts
       devTools.terraform
-      [ packages.lsps.package ]
     ];
 
-  home.file = let
-    vimPlugInstallation = with packages.utils;
-      vimPluginUtils.install {
-        pluginManager = "vim-plug";
-        version = "master";
-      } { };
-  in vimPlugInstallation;
+  xdg.configFile."nvim" = {
+    source = ./dots/nvim;
+    recursive = true;
+  };
 
   programs.neovim = {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-
-    coc = {
-      enable = true;
-      pluginConfig = let
-        coc-install-plugins = [
-          "CocInstall"
-          "coc-json"
-          "coc-format-json"
-          "coc-pyright"
-          "coc-tsserver"
-          "coc-marketplace"
-          "coc-spell-checker"
-          "coc-denoland"
-          "coc-explorer"
-          "coc-html"
-          "coc-sql"
-          "coc-go"
-          "coc-git"
-          "coc-lua"
-          "coc-metals"
-        ];
-      in ''
-        set hidden
-        set nobackup
-        set nowritebackup
-        set cmdheight=1
-        set updatetime=300
-        set shortmess+=c
-        set signcolumn=auto
-
-        function g:UpdateIde()
-          PlugUpdate
-          CocUpdate
-        endfunction
-
-        function g:InstallIde()
-          PlugInstall
-          ${
-            builtins.concatStringsSep " "
-            coc-install-plugins
-          }
-        endfunction
-
-        nnoremap <C-n> :CocCommand explorer<CR>
-
-        augroup coc_vimrc_filetype_jsx_support
-          au!
-          autocmd BufEnter *.jsx :setlocal filetype=javascript.jsx
-          autocmd BufEnter *.tsx :setlocal filetype=typescript.tsx
-        augroup end
-
-        inoremap <silent><expr> <c-space> coc#refresh()
-        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-        set statusline^=%{get(g:,'coc_git_status',\'\')}%{get(b:,'coc_git_status',\'\')}%{get(b:,'coc_git_blame',\'\')}
-
-        nnoremap <leader>tb :CocCommand git.showBlameDoc<CR>
-      '';
-      settings = {
-        cSpell.language = "en-GB";
-        explorer.previewAction.onHover = true;
-        explorer.width = 42;
-        languageserver = packages.lsps.cocLspConfigs;
-      };
-    };
-
-    extraConfig = with packages.utils;
-      vimPluginUtils.vimPlugRc {
-        pluginInstallDir = "~/.config/vim-plug";
-        extraRc = builtins.readFile ./packages/minimal.vim;
-        plugins = [
-          { plugin = "preservim/nerdcommenter"; }
-          { plugin = "tpope/vim-surround"; }
-          { plugin = "tpope/vim-repeat"; }
-          { plugin = "kien/rainbow_parentheses.vim"; }
-          {
-            plugin = "junegunn/fzf";
-            onLoad = ''
-              {'dir': '~/.fzf','do': './install.sh --all'}
-            '';
-          }
-          {
-            plugin = "junegunn/fzf.vim";
-            config = ''
-              let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-            '';
-          }
-          {
-            # not available via coc-install unfortunately
-            plugin = "antoinemadec/coc-fzf";
-            config = ''
-              " mappings
-              nnoremap <silent> <space><space> :<C-u>CocFzfList<CR>
-              nmap <silent> gd <Plug>(coc-definition)
-              nmap <silent> gy <Plug>(coc-type-definition)
-              nmap <silent> gi <Plug>(coc-implementation)
-              nmap <silent> gr <Plug>(coc-references)
-            '';
-          }
-          {
-            plugin = "sheerun/vim-polyglot";
-            config = ''
-              " terraform
-              let g:terraform_align=1
-              let g:terraform_fold_sections=1
-            '';
-          }
-          { plugin = "elmcast/elm-vim"; }
-          { plugin = "aklt/plantuml-syntax"; }
-          { plugin = "leafgarland/typescript-vim"; }
-          { plugin = "derekwyatt/vim-scala"; }
-          { plugin = "jidn/vim-dbml"; }
-          {
-            plugin = "iamcco/markdown-preview.nvim";
-            onLoad = ''
-              {'do': 'cd app && yarn install'}
-            '';
-            config = ''
-              let g:mkdp_auto_start = 0
-              let g:mkdp_auto_close = 0
-              let g:mkdp_command_for_global = 1
-            '';
-          }
-          { plugin = "diepm/vim-rest-console"; }
-          {
-            plugin = "ctrlpvim/ctrlp.vim";
-            config = ''
-              let g:ctrlp_cmd = 'CtrlPMRU'
-            '';
-          }
-          {
-            plugin = "NLKNguyen/papercolor-theme";
-            config = ''
-              set t_Co=256
-              set background=dark
-              let g:PaperColor_Theme_Options = {
-              \   'theme': {
-              \     'default': {
-              \       'transparent_background': 1
-              \     }
-              \   }
-              \ }
-
-              colorscheme PaperColor
-            '';
-          }
-          { plugin = "vim-python/python-syntax"; }
-        ];
-      };
-
+    # config: see xdg.configFile."nvim"
+    plugins = [ pkgs.vimPlugins.packer-nvim ];
   };
 
   programs.home-manager = {

@@ -14,11 +14,6 @@ in rec {
 
   neovim = import ./neovim.nix { pkgs = pkgs; };
 
-  lsps = import ./lsps {
-    enabled = devTools.lsps;
-    pkgs = pkgs;
-  };
-
   nixpkgs-config = import ./nixpkgs-config.nix;
 
   utils = rec {
