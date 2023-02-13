@@ -41,7 +41,10 @@ vim.opt.scrolljump=5
 vim.opt.re=1
 vim.opt.scrolloff=3
 vim.opt.laststatus=1
+
 vim.opt.errorbells = false
+vim.opt.visualbell = false
+
 vim.opt.completeopt = {"menuone", "menu", "longest"}
 vim.opt.wildignore = {"*/tmp/*","*.so","*.swp", "*.zip"}
 

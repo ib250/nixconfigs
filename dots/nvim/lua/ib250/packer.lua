@@ -13,13 +13,12 @@ return require('packer').startup(function(use)
             run = ":TSUpdate"
         }
         use "nvim-treesitter/playground"
+        use "lewis6991/spellsitter.nvim"
         use "tpope/vim-fugitive"
-        
         use {
             "rose-pine/neovim",
             as = "rose-pine"
         }
-
         use {
             "VonHeikemen/lsp-zero.nvim",
             branch = "v1.x",
@@ -40,7 +39,15 @@ return require('packer').startup(function(use)
                 -- Snippets
                 {'L3MON4D3/LuaSnip'},
                 {'rafamadriz/friendly-snippets'},
+
             }
         }
+        use {
+            'scalameta/nvim-metals',
+            requires = {
+                { 'nvim-lua/plenary.nvim' }
+            }
+        }
+        use "folke/neodev.nvim"
     end
 )
