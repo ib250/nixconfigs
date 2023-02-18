@@ -41,6 +41,7 @@ in rec {
     *~
     *.swp
     .vim
+    .nvim
     scratch
     .scratch
     scratch.*
@@ -175,6 +176,7 @@ in rec {
         ${setRangerPreviewMethod { }}
         ${ranger-rifle-conf-patch { }}
       '';
+
   };
 
 }

@@ -9,6 +9,13 @@ return require('packer').startup(function(use)
             }
         }
         use {
+            'nvim-telescope/telescope-file-browser.nvim',
+            requires = {
+                'nvim-telescope/telescope.nvim',
+                'nvim-lua/plenary.nvim'
+            }
+        }
+        use {
             'nvim-treesitter/nvim-treesitter',
             run = ":TSUpdate"
         }
@@ -40,7 +47,27 @@ return require('packer').startup(function(use)
                 {'L3MON4D3/LuaSnip'},
                 {'rafamadriz/friendly-snippets'},
 
+                -- local lsp setup
+                {'tamago324/nlsp-settings.nvim'}
+
             }
+        }
+        use {
+            "folke/trouble.nvim",
+            config = function()
+                require("trouble").setup {
+                    icons = false,
+                    fold_open = "-",
+                    fold_closed = "+",
+                    indent_lines = true,
+                    signs = {
+                        error = "error",
+                        warning = "warning",
+                        hint = "hint",
+                        infomation = "info"
+                    }
+                }
+            end
         }
         use {
             'scalameta/nvim-metals',
@@ -49,5 +76,12 @@ return require('packer').startup(function(use)
             }
         }
         use "folke/neodev.nvim"
+        use {
+            "folke/zen-mode.nvim",
+            config = function ()
+                require("zen-mode").setup {}
+            end
+        }
+
     end
 )

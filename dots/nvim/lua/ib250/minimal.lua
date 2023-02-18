@@ -33,6 +33,7 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.shellslash = true
+vim.opt.clipboard = "unnamedplus"
 
 vim.opt.lazyredraw = true
 vim.opt.cursorline = false
@@ -99,3 +100,32 @@ vim.keymap.set("n", "<leader>bd", ":bdelete<cr>")
 vim.keymap.set("n", "<leader>q", ":q<cr>")
 vim.keymap.set("n", "<leader>w", ":w!<cr>")
 vim.keymap.set("n", "<leader><space>", ":noh<cr>")
+
+
+
+_G.Make = function(opts)
+    local root = vim.lsp.buf.list_workspace_folders()[1]
+    local f = io.open(root .. "/Makefile")
+    if f == nil then
+        return print("No makefile in root: ", root)
+    end
+
+    vim.pretty_print(opts)
+    local args = ""
+    if opts["args"] ~= nil then
+        args = opts["args"]
+    end
+
+    vim.pretty_print(opts)
+    local command = ""
+    for key, value in pairs(opts) do
+        if key ~= "args" then
+            command = command .. key .. [[="]] .. value .. [["]]
+        end
+    end
+
+    command = command .. " make -C " .. root .. " " .. args
+    print(command)
+    vim.cmd(":! "..command)
+
+end
