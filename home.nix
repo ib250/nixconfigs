@@ -162,6 +162,7 @@ in rec {
       core.excludesfile =
         "$XDG_CONFIG_HOME/git/gitignore.global";
       pull.rebase = true;
+      push.autoSetupRemote = true;
     };
     includes = [{ path = "~/.gitconfig"; }];
     aliases = { git-clean = "git clean -xdf -e .vim"; };

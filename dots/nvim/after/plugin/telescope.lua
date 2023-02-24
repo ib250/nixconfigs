@@ -46,4 +46,5 @@ vim.keymap.set(
     { noremap = true }
 )
 vim.keymap.set("n", "<leader>gs", tb.git_status, { noremap = true })
+vim.keymap.set("n", "<leader>gb", tb.git_branches, { noremap = true })
 vim.keymap.set("n", "<space><space>", tb.buffers, { noremap = true })

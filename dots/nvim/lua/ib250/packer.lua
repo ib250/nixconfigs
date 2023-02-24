@@ -23,6 +23,17 @@ return require('packer').startup(function(use)
         use "lewis6991/spellsitter.nvim"
         use "tpope/vim-fugitive"
         use {
+            "pwntester/octo.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-telescope/telescope.nvim"
+            },
+            config = function()
+                require("octo").setup {
+                }
+            end
+        }
+        use {
             "rose-pine/neovim",
             as = "rose-pine"
         }
