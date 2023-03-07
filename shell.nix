@@ -3,7 +3,7 @@ let
 
   fmt = pkgs.writeScriptBin "autoformat" ''
     #!${pkgs.stdenv.shell}
-    nixfmt --width=60 $@ $(fd .nix | xargs)
+    ${pkgs.nixfmt}/bin/nixfmt --width=60 $@ $(fd .nix | xargs)
   '';
 
   hostPlatform =

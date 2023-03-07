@@ -93,6 +93,36 @@ return require('packer').startup(function(use)
                 require("zen-mode").setup {}
             end
         }
+        use {
+            "toppair/peek.nvim",
+            run="deno task --quiet build:fast",
+            config = function()
+                local peek = require('peek')
+                peek.setup {
+                    app = 'browser'
+                }
+
+                vim.api.nvim_create_user_command(
+                    'PeekOpen',
+                    function()
+                        if peek.is_open() and vim.bo[vim.api.nvim_get_current_buf()].filetype == 'markdown' then
+                            peek.open()
+                        end
+                    end,
+                    {}
+                )
+
+                vim.api.nvim_create_user_command(
+                    'PeekClose',
+                    function()
+                        if peek.is_open() then
+                            peek.close()
+                        end
+                    end,
+                    {}
+                )
+            end
+        }
 
     end
 )

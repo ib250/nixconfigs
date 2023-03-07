@@ -17,7 +17,8 @@ require('mason-lspconfig').setup({
         'pyright',
         'tsserver',
         'jsonls',
-        'taplo'
+        'taplo',
+        'nil_ls'
     },
 })
 
@@ -68,11 +69,3 @@ require("neodev").setup({
 })
 
 lsp.setup()
-
-return {
-    run_make = function(opts)
-        for key, value in pairs(opts) do
-            print(key, value)
-        end
-    end
-}

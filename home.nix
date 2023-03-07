@@ -10,7 +10,7 @@ let
     filter (drv: !(hasInfix "neovim" drv.name))
     packages.basics;
 
-in rec {
+in {
 
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
@@ -66,6 +66,8 @@ in rec {
       devTools.python
       devTools.ts
       devTools.terraform
+      [ pkgs.rustup ]
+      [ pkgs.tree-sitter ]
     ];
 
   xdg.configFile."nvim" = {
@@ -79,7 +81,11 @@ in rec {
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
     # config: see xdg.configFile."nvim"
-    plugins = [ pkgs.vimPlugins.packer-nvim ];
+    plugins = [
+      pkgs.vimPlugins.packer-nvim
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+      pkgs.vimPlugins.rose-pine
+    ];
   };
 
   programs.home-manager = {

@@ -43,20 +43,20 @@ with pkgs; {
     nodePackages.pyright
   ];
 
-  nix = [ nix-doc nixfmt nixpkgs-fmt ];
+  nix = [ nil nix-doc nixpkgs-fmt ];
 
   terraform =
     lib.optional (!hostPlatform.isDarwin) terraform;
 
   lsps = [
-    haskellPackages.ghcide
+    # haskellPackages.ghcide
     # metals -> switch to coc-metals
     clang-tools
-    rnix-lsp
+    # rnix-lsp
     nodePackages.bash-language-server
     # nodePackages.purescript-language-server
-    terraform-lsp
-    yaml-language-server
+    # terraform-lsp
+    # yaml-language-server
     # graphql-language-service-cli
   ];
 
