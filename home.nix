@@ -100,6 +100,11 @@ in {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
+    settings = {
+      gcloud = {
+        format = "on [$symbol$account(@$domain/$project)]($style)";
+      };
+    };
   };
 
   programs.zsh = {
