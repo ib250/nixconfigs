@@ -3,7 +3,7 @@ let
 
   hostPlatform = import ./hostPlatform.nix { pkgs = pkgs; };
 
-in rec {
+in {
 
   basics = import ./basics.nix { pkgs = pkgs; };
 

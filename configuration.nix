@@ -164,7 +164,7 @@ in {
     };
   };
 
-  services.compton = rec {
+  services.compton = {
     enable = false; # TODO nvidia issues
     fade = false;
     shadow = true;

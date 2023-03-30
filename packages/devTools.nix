@@ -17,10 +17,11 @@ with pkgs; {
 
   c-family = with hostPlatform;
     let
-      compiler = if isWsl then [ gcc ] else [ clang_13 ];
+      compiler =
+        if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_13 ];
       # collision between binutils and
       # clang/gcc use nix-shell for now
-    in [ cmake gnumake stdmanpages ];
+    in [ cmake gnumake stdmanpages ] ++ compiler;
 
   js = [ deno yarn yarn2nix nodePackages.node2nix ];
 
