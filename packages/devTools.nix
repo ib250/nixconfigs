@@ -1,6 +1,4 @@
-{ pkgs
-, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
-}:
+{ pkgs, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; } }:
 with pkgs; {
 
   jvm-family = [ scala-cli sbt maven coursier ];
@@ -28,25 +26,11 @@ with pkgs; {
 
   ts = [ nodePackages.typescript ];
 
-  python = let
-    fromPypi = pypi:
-      with pypi;
-      let
-        extras = [ pip pipx tox black isort ];
-
-        linting = [ mypy flake8 jedi ];
-
-      in extras ++ linting;
-
-  in [
-    (python38.withPackages fromPypi)
-    nodePackages.pyright
-  ];
+  python = [ nodePackages.pyright ];
 
   nix = [ nil nix-doc nixpkgs-fmt ];
 
-  terraform =
-    lib.optional (!hostPlatform.isDarwin) terraform;
+  terraform = lib.optional (!hostPlatform.isDarwin) terraform;
 
   lsps = [
     # haskellPackages.ghcide

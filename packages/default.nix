@@ -9,8 +9,7 @@ in rec {
 
   devTools = import ./devTools.nix { pkgs = pkgs; };
 
-  nixosPackages =
-    import ./nixosPackages.nix { pkgs = pkgs; };
+  nixosPackages = import ./nixosPackages.nix { pkgs = pkgs; };
 
   neovim = import ./neovim.nix { pkgs = pkgs; };
 
@@ -18,29 +17,20 @@ in rec {
 
   utils = rec {
 
-    unlines = strings:
-      with pkgs.lib;
-      concatStrings (intersperse "\n" strings);
+    unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
 
     sourceWhenAvaliable = files:
-      unlines
-      (map (fp: "[ -e ${fp} ] && source ${fp}") files);
+      unlines (map (fp: "[ -e ${fp} ] && source ${fp}") files);
 
     setRangerPreviewMethod = { }:
       let
-        setPreview = method:
-          "set preview_images_method ${method}";
-        previewMethod = setPreview
-          (if hostPlatform.isDarwin then
-            "iterm2"
-          else
-            "ueberzug");
+        setPreview = method: "set preview_images_method ${method}";
+        previewMethod =
+          setPreview (if hostPlatform.isDarwin then "iterm2" else "ueberzug");
 
         fixUpScript = ''
           cat ~/.config/ranger/rc.conf \
-            | sed -e "s/${
-              setPreview "w3m"
-            }/${previewMethod}/g" \
+            | sed -e "s/${setPreview "w3m"}/${previewMethod}/g" \
             > ~/.config/ranger/rc.conf.new
         '';
 
@@ -58,8 +48,7 @@ in rec {
 
         rifle-conf = pkgs.writeTextFile {
           name = "ranger-rifle-conf-patch";
-          text =
-            builtins.readFile ./ranger.rifle.conf.patch;
+          text = builtins.readFile ./ranger.rifle.conf.patch;
           destination = "/rifle.conf.patch";
         };
 
@@ -73,8 +62,7 @@ in rec {
           )
       '';
 
-    vimPluginUtils =
-      import ./vimPlugins.nix { pkgs = pkgs; };
+    vimPluginUtils = import ./vimPlugins.nix { pkgs = pkgs; };
 
   };
 

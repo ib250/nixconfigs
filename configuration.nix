@@ -5,8 +5,7 @@
 { config, pkgs, ... }:
 let
 
-  systemLevel =
-    import ./packages/nixosPackages.nix { pkgs = pkgs; };
+  systemLevel = import ./packages/nixosPackages.nix { pkgs = pkgs; };
 
 in {
 
@@ -109,8 +108,7 @@ in {
 
     zhighlighting = {
       enable = true;
-      highlighters =
-        [ "main" "brackets" "pattern" "root" "line" ];
+      highlighters = [ "main" "brackets" "pattern" "root" "line" ];
     };
 
     zshConfig = {
@@ -148,12 +146,10 @@ in {
 
       job = {
         logToFile = true;
-        preStart =
-          "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
+        preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
       };
 
-      sessionCommands = with pkgs;
-        lib.mkAfter "xmodmap ~/.Xmodmap";
+      sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
       session = [{
         manage = "window";
         name = "bspwm";
@@ -183,13 +179,7 @@ in {
   users.extraUsers.ismail = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [
-      "wheel"
-      "video"
-      "vboxusers"
-      "networkmanager"
-      "docker"
-    ];
+    extraGroups = [ "wheel" "video" "vboxusers" "networkmanager" "docker" ];
   };
 
   # This value determines the NixOS release with which your system is to be

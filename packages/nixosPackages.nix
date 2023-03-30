@@ -1,6 +1,4 @@
-{ pkgs
-, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
-}:
+{ pkgs, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; } }:
 assert hostPlatform.isLinux;
 assert !(hostPlatform.isDarwin || hostPlatform.isWsl);
 with pkgs; {
@@ -68,8 +66,7 @@ with pkgs; {
     unifont
   ];
 
-  productivityPackages =
-    [ polybar font-manager acpi zathura google-chrome ];
+  productivityPackages = [ polybar font-manager acpi zathura google-chrome ];
 
   extraDevTools = [ docker ];
 }

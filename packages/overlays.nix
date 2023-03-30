@@ -10,31 +10,26 @@ let
         with prev.lib;
         concatStrings (intersperse "\n" strings);
 
-      unwords = strings:
-        with prev.lib;
-        concatStrings (intersperse " " strings);
+      unwords = strings: with prev.lib; concatStrings (intersperse " " strings);
 
       poetryRunScript = name: cmd:
         prev.writeScriptBin name ''
           ${final.poetry}/bin/poetry run ${cmd}
         '';
 
-      poetryRunPoe = name: cmd:
-        poetryRunScript name ''poe ${cmd} "$@"'';
+      poetryRunPoe = name: cmd: poetryRunScript name ''poe ${cmd} "$@"'';
 
       poeTask = task: poetryRunPoe task task;
 
       attrByDotPath = path: default:
-        prev.lib.attrByPath (prev.lib.splitString "." path)
-        default;
+        prev.lib.attrByPath (prev.lib.splitString "." path) default;
 
     in {
 
-      inherit readTOML unlines poetryRunScript poetryRunPoe
-        poeTask attrByDotPath;
+      inherit readTOML unlines poetryRunScript poetryRunPoe poeTask
+        attrByDotPath;
 
-      mkPoetryDevEnv =
-        attrs@{ src, extraPythonPackages, ... }:
+      mkPoetryDevEnv = attrs@{ src, extraPythonPackages, ... }:
         let
 
           pyproject = readTOML (src + "/pyproject.toml");
@@ -43,19 +38,14 @@ let
 
           poeTasks = with prev.lib;
             let
-              tasks = attrNames
-                (attrByDotPath "tool.poe.tasks" { }
-                  pyproject);
-              main-tasks =
-                lists.filter (s: !(hasPrefix "_" s)) tasks;
+              tasks = attrNames (attrByDotPath "tool.poe.tasks" { } pyproject);
+              main-tasks = lists.filter (s: !(hasPrefix "_" s)) tasks;
             in lists.map poeTask main-tasks;
 
           buildInputs = [ final.poetry ] ++ poeTasks
             ++ (attrByDotPath "buildInputs" [ ] attrs);
 
-          project =
-            attrByDotPath "tool.poetry.name" "<unknown>"
-            pyproject;
+          project = attrByDotPath "tool.poetry.name" "<unknown>" pyproject;
 
         in prev.mkShell (attrs // {
           inherit buildInputs;
