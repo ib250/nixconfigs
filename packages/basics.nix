@@ -3,7 +3,7 @@ with pkgs;
 let
 
   commonPackages = [
-    awscli
+    awscli2
     google-cloud-sdk
     fzf
     pgcli

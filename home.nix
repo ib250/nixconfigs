@@ -92,7 +92,12 @@ in {
       "https://github.com/nix-community/home-manager/archive/master.tar.gz";
   };
 
-  programs.bat.enable = true;
+  programs.bat = {
+    enable = true;
+    config = {
+      theme="ansi";
+    };
+  };
 
   programs.starship = {
     enable = true;
