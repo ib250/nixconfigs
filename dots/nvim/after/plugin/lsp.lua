@@ -18,7 +18,8 @@ require('mason-lspconfig').setup({
         'tsserver',
         'jsonls',
         'taplo',
-        'nil_ls'
+        'nil_ls',
+        "rust_analyzer"
     },
 })
 
