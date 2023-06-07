@@ -1,15 +1,20 @@
 require "telescope".setup {
-    defaults = require("telescope.themes").get_dropdown {
-        path_display = { "truncate" }
-    },
     extensions = {
         file_browser = {
-            depth = 1,
+            display_stat = false,
+            use_fd = true,
+            depth = false,
             hijack_netrw = true,
+            browse_folers = false,
+            hide_parent_dir = true,
             grouped = true,
+            add_dirs = false,
             dir_icon = "+",
-            browse_folders = true,
+            browse_folders = false,
             repsect_gitignore = true,
+            mappings = {
+                ["i"] = {}
+            }
         }
     }
 }
@@ -38,7 +43,6 @@ vim.keymap.set(
     function()
         tb.grep_string(
             require("telescope.themes").get_ivy {
-                theme = "ivy",
                 search_dirs = vim.lsp.buf.list_workspace_folders()
             }
         )
