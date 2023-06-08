@@ -1,7 +1,14 @@
 
 link-home:
-	ln -s ./{home.nix, packages} ~/.config/nixpkgs/.
-	ln -s ./dots/NvChad ~/.config/nvim
+	cp -rsf $(shell pwd)/{home.nix,packages} ~/.config/nixpkgs/.
+
+dot-nvim:
+	git clone https://github.com/doom-neovim/doom-nvim ~/.config/nvim
+ifdef $(bootstrap)
+	pushd ~/.config/nvim
+	git checkout tags/v4.1.0 -b ib250
+	popd
+endif
 
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.

@@ -53,30 +53,30 @@ in {
     allow-import-from-derivation = true
   '';
 
-  home.packages = with builtins;
-    concatLists [
-      homePackages
-      devTools.js
-      devTools.c-family
-      devTools.nix
-      devTools.haskell
-      devTools.jvm-family
-      devTools.python
-      devTools.ts
-      devTools.terraform
-      [ pkgs.rustup ]
-      [ pkgs.tree-sitter ]
-    ];
+  home.packages = homePackages;
 
   programs.neovim = {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-    # config: see `make link-home`
+    # config: see `make dot-nvim`
     plugins = [
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
     ];
+
+    extraPackages = with builtins;
+      concatLists [
+        devTools.js
+        devTools.c-family
+        devTools.nix
+        devTools.haskell
+        devTools.jvm-family
+        devTools.python
+        devTools.ts
+        devTools.terraform
+        [ pkgs.tree-sitter pkgs.cargo ]
+      ];
   };
 
   programs.helix = { enable = true; };

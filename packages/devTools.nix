@@ -22,7 +22,7 @@ with pkgs; {
         if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_13 ];
       # collision between binutils and
       # clang/gcc use nix-shell for now
-    in [ cmake gnumake stdmanpages ] ++ compiler;
+    in [ clang-tools cmake gnumake stdmanpages ] ++ compiler;
 
   js = [ deno yarn yarn2nix nodePackages.node2nix ];
 
@@ -37,8 +37,6 @@ with pkgs; {
   lsps = [
     # haskellPackages.ghcide
     # metals -> switch to coc-metals
-    clang-tools
-    rnix-lsp
     nodePackages.bash-language-server
     # nodePackages.purescript-language-server
     # terraform-lsp
