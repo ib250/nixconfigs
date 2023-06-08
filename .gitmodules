@@ -1,6 +1,6 @@
 [submodule "dots/misc/termcolors/crayolo"]
 	path = dots/misc/termcolors/crayolo
 	url = https://github.com/dkeg/crayolo
-[submodule "doom-nvim"]
-	path = doom-nvim
+[submodule "dots/doom-nvim"]
+	path = dots/doom-nvim
 	url = https://github.com/doom-neovim/doom-nvim

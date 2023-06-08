@@ -69,7 +69,7 @@ in {
     ];
 
   xdg.configFile."nvim" = {
-    source = ./doom-nvim;
+    source = ./dots/doom-nvim;
     recursive = true;
   };
 
