@@ -1,6 +1,7 @@
 
 link-home:
 	cp -rsf ./{home.nix,packages} ~/.config/nixpkgs/.
+	cp -rsf ./dots/doom-nvim/* ~/.config/nvim/.
 
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
