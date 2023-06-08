@@ -69,7 +69,7 @@ in {
     ];
 
   xdg.configFile."nvim" = {
-    source = ./dots/nvim;
+    source = ./dots/NvChad;
     recursive = true;
   };
 
@@ -80,9 +80,7 @@ in {
     extraPython3Packages = ps: with ps; [ pynvim ];
     # config: see xdg.configFile."nvim"
     plugins = [
-      pkgs.vimPlugins.packer-nvim
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-      pkgs.vimPlugins.rose-pine
     ];
   };
 
