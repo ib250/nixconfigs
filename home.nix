@@ -3,7 +3,7 @@ let
 
   packages = import ./packages pkgs;
 
-  devTools = packages.devTools;
+  inherit (packages) devTools;
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with lib;
@@ -68,17 +68,12 @@ in {
       [ pkgs.tree-sitter ]
     ];
 
-  xdg.configFile."nvim" = {
-    source = ./dots/doom-nvim;
-    recursive = true;
-  };
-
   programs.neovim = {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-    # config: see xdg.configFile."nvim"
+    # config: see `make link-home`
     plugins = [
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
     ];

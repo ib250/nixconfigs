@@ -1,4 +1,4 @@
-{ pkgs, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; } }:
+{ pkgs, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; } }:
 with pkgs; {
 
   jvm-family = [ scala-cli sbt maven coursier ];
@@ -6,6 +6,7 @@ with pkgs; {
   haskell = let
     globalHaskellPackages = hackage:
       with hackage; [
+        haskell-language-server
         hoogle
         hlint
         stylish-haskell
@@ -13,7 +14,7 @@ with pkgs; {
         hspec
         dotenv
       ];
-  in [ stack (ghc.withPackages (globalHaskellPackages)) ];
+  in [ stack (ghc.withPackages globalHaskellPackages) ];
 
   c-family = with hostPlatform;
     let
@@ -29,7 +30,7 @@ with pkgs; {
 
   python = [ nodePackages.pyright ];
 
-  nix = [ nil nix-doc nixpkgs-fmt ];
+  nix = [ nil nix-doc nixpkgs-fmt rnix-lsp statix deadnix ];
 
   terraform = lib.optional (!hostPlatform.isDarwin) terraform;
 
@@ -37,7 +38,7 @@ with pkgs; {
     # haskellPackages.ghcide
     # metals -> switch to coc-metals
     clang-tools
-    # rnix-lsp
+    rnix-lsp
     nodePackages.bash-language-server
     # nodePackages.purescript-language-server
     # terraform-lsp
