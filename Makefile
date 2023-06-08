@@ -1,7 +1,7 @@
 
 link-home:
-	cp -rsf ./{home.nix,packages} ~/.config/nixpkgs/.
-	cp -rl $(shell pwd)/dots/NvChad ~/.config/nvim
+	ln -s ./{home.nix, packages} ~/.config/nixpkgs/.
+	ln -s ./dots/NvChad ~/.config/nvim
 
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
