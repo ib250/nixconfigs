@@ -4,10 +4,8 @@ link-home:
 
 dot-nvim:
 	git clone https://github.com/doom-neovim/doom-nvim ~/.config/nvim
-ifdef $(bootstrap)
-	pushd ~/.config/nvim
-	git checkout tags/v4.1.0 -b ib250
-	popd
+ifeq ($(bootstrap), true)
+	git --git-dir ~/.config/nvim/.git checkout v4.1.0 -b ib250
 endif
 
 link-nixos:
