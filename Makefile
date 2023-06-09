@@ -2,12 +2,6 @@
 link-home:
 	cp -rsf $(shell pwd)/{home.nix,packages} ~/.config/nixpkgs/.
 
-dot-nvim:
-	git clone https://github.com/ib250/doom-nvim ~/.config/nvim
-ifdef $(bootstrap)
-	git --git-dir ~/.config/nvim/.git checkout $(bootstrap)
-endif
-
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
 

@@ -55,12 +55,17 @@ in {
 
   home.packages = homePackages;
 
+  xdg.configFile."nvim" = {
+    source = ./doom-nvim;
+    recursive = true;
+  };
+
   programs.neovim = {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-    # config: see `make dot-nvim`
+    # config: see `xdg.configFile."nvim"`
     extraPackages = with builtins;
       concatLists [
         devTools.js
