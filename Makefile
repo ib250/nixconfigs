@@ -3,14 +3,13 @@ link-home:
 	cp -rsf $(shell pwd)/{home.nix,packages} ~/.config/nixpkgs/.
 
 dot-nvim:
-	git clone https://github.com/doom-neovim/doom-nvim ~/.config/nvim
-ifeq ($(bootstrap), true)
-	git --git-dir ~/.config/nvim/.git checkout v4.1.0 -b ib250
+	git clone https://github.com/ib250/doom-nvim ~/.config/nvim
+ifdef $(bootstrap)
+	git --git-dir ~/.config/nvim/.git checkout $(bootstrap)
 endif
 
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
-
 
 install:
 	nix run .#homeConfigurations.default.activationPackage

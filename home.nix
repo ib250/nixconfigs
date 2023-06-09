@@ -61,10 +61,6 @@ in {
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
     # config: see `make dot-nvim`
-    plugins = [
-      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-    ];
-
     extraPackages = with builtins;
       concatLists [
         devTools.js
@@ -75,7 +71,7 @@ in {
         devTools.python
         devTools.ts
         devTools.terraform
-        [ pkgs.tree-sitter pkgs.cargo ]
+        [ pkgs.gcc pkgs.luarocks pkgs.tree-sitter pkgs.cargo ]
       ];
   };
 
