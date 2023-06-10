@@ -1,5 +1,8 @@
 nix_with_flakes=NIX_CONFIG="experimental-features = nix-command flakes" nix
 
+lock:
+	$(nix_with_flakes) flake lock
+
 link-home:
 	cp -rsf $(shell pwd)/{home.nix,flake.nix,flake.lock,packages} \
 		~/.config/nixpkgs/.
