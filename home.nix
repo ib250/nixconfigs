@@ -11,6 +11,8 @@ let
 
 in {
 
+  home.packages = homePackages;
+
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
   programs.direnv.enableBashIntegration = true;
@@ -53,7 +55,6 @@ in {
     allow-import-from-derivation = true
   '';
 
-  home.packages = homePackages;
 
   xdg.configFile."nvim" = {
     source = ./doom-nvim;
@@ -84,8 +85,6 @@ in {
 
   programs.home-manager = {
     enable = true;
-    path =
-      "https://github.com/nix-community/home-manager/archive/master.tar.gz";
   };
 
   programs.bat = {
