@@ -5,14 +5,9 @@ let
 
   inherit (packages) devTools;
 
-  # programs.neovim manages its own install of neovim so no need here
-  homePackages = with lib;
-    filter (drv: !(hasInfix "neovim" drv.name))
-    packages.basics;
-
 in {
 
-  home.packages = homePackages;
+  home.packages = packages.basics;
 
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
@@ -52,6 +47,16 @@ in {
     .DS_Store
   '';
 
+  xdg.configFile."joshuto" = {
+    source = ./dots/joshuto;
+    recursive = true;
+  };
+
+  xdg.configFile."nvim" = {
+    source = ./dots/nvim;
+    recursive = true;
+  };
+
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -63,7 +68,8 @@ in {
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-    # config(TODO): see `xdg.configFile."nvim"`
+    defaultEditor = true;
+    # TODO(config): see `xdg.configFile."nvim"`
     extraPackages = with builtins;
       concatLists [
         devTools.js
@@ -111,7 +117,6 @@ in {
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
     autocd = true;
-    sessionVariables = { EDITOR = "nvim"; };
     shellAliases = {
       c = "clear";
       ls = "exa";
@@ -173,19 +178,6 @@ in {
       push.autoSetupRemote = true;
     };
     includes = [{ path = "~/.gitconfig"; }];
-    aliases = { git-clean = "git clean -xdf -e .vim"; };
-  };
-
-  home.activation = {
-    rangerCopyConfigs = with packages.utils;
-      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        $DRY_RUN_CMD rm -rf $VERBOSE_ARG ~/.config/ranger/*
-        $DRY_RUN_CMD ${pkgs.ranger}/bin/ranger --copy-config=all
-
-        ${setRangerPreviewMethod { }}
-        ${ranger-rifle-conf-patch { }}
-      '';
-
   };
 
 }

@@ -18,13 +18,12 @@ let
     pstree
     zsh
     zplug
-    ranger
-    neovim
     git
     ruby
     gitAndTools.git-extras
     pre-commit
     htop
+    joshuto
     highlight
     jq
     fd
