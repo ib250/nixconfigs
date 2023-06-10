@@ -6,16 +6,21 @@ let
   pypi = from pkgs "python${python-version}Packages";
 
   withAwsExtras = { buildInputs, shellHook, ... }: {
-    buildInputs = (buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
+    buildInputs = (buildInputs
+      ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
     shellHook = shellHook;
   };
 
-  stdPythonEnv = (_: with pypi; [ tox pip virtualenv setuptools mypy ]);
+  stdPythonEnv =
+    (_: with pypi; [ tox pip virtualenv setuptools mypy ]);
 
   envDef = {
 
-    buildInputs =
-      [ (python.withPackages stdPythonEnv) pkgs.poetry pkgs.pipenv ];
+    buildInputs = [
+      (python.withPackages stdPythonEnv)
+      pkgs.poetry
+      pkgs.pipenv
+    ];
 
     shellHook = ''
       unset SOURCE_DATE_EPOCH
@@ -23,11 +28,13 @@ let
 
     meta = with pkgs.stdenv.lib; {
       homepage = "https://github.com/ib250";
-      description = "A minimal nix version of pyenv for linux and osx";
+      description =
+        "A minimal nix version of pyenv for linux and osx";
       license = licenses.mit;
       platforms = platforms.linux ++ platforms.darwin;
     };
 
   };
 
-in pkgs.mkShell (if enable-aws then (withAwsExtras envDef) else envDef)
+in pkgs.mkShell
+(if enable-aws then (withAwsExtras envDef) else envDef)

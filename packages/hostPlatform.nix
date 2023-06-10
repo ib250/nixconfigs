@@ -7,6 +7,8 @@
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
   basedOnHost = attrset:
-    builtins.intersetAttrs { inherit isWsl isDarwin isLinux; } attrset;
+    builtins.intersetAttrs {
+      inherit isWsl isDarwin isLinux;
+    } attrset;
 
 }

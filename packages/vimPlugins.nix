@@ -1,7 +1,9 @@
 { pkgs ? import <nixpkgs> { } }:
 let
 
-  unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
+  unlines = strings:
+    with pkgs.lib;
+    concatStrings (intersperse "\n" strings);
 
   vimPlugSrc = version:
     builtins.fetchurl
@@ -13,7 +15,9 @@ in rec {
     let
 
       mkPlugAdd = { plugin, onLoad ? null, ... }:
-        let onLoadMap = if onLoad == null then "" else ", " + onLoad;
+        let
+          onLoadMap =
+            if onLoad == null then "" else ", " + onLoad;
         in "Plug '${plugin}'" + onLoadMap;
 
       mkPlugPluginRc = { plugin, config ? "", ... }: ''

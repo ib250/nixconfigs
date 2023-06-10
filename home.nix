@@ -7,7 +7,8 @@ let
 
   # programs.neovim manages its own install of neovim so no need here
   homePackages = with lib;
-    filter (drv: !(hasInfix "neovim" drv.name)) packages.basics;
+    filter (drv: !(hasInfix "neovim" drv.name))
+    packages.basics;
 
 in {
 
@@ -26,15 +27,17 @@ in {
   programs.zoxide.enable = true;
   programs.fzf.enable = true;
 
-  home.stateVersion = "22.05";
+  home.stateVersion = "23.05";
   home.username = "ismailbello";
   home.homeDirectory = "/Users/ismailbello";
 
   nixpkgs.config = packages.nixpkgs-config;
 
-  xdg.configFile."nixpkgs/config.nix".source = ./packages/nixpkgs-config.nix;
+  xdg.configFile."nixpkgs/config.nix".source =
+    ./packages/nixpkgs-config.nix;
 
-  xdg.configFile."nixpkgs/overlays.nix".source = ./packages/overlays.nix;
+  xdg.configFile."nixpkgs/overlays.nix".source =
+    ./packages/overlays.nix;
 
   xdg.configFile."git/gitignore.global".text = ''
     *~
@@ -55,18 +58,12 @@ in {
     allow-import-from-derivation = true
   '';
 
-
-  xdg.configFile."nvim" = {
-    source = ./doom-nvim;
-    recursive = true;
-  };
-
   programs.neovim = {
     enable = true;
     withPython3 = true;
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
-    # config: see `xdg.configFile."nvim"`
+    # config(TODO): see `xdg.configFile."nvim"`
     extraPackages = with builtins;
       concatLists [
         devTools.js
@@ -77,21 +74,22 @@ in {
         devTools.python
         devTools.ts
         devTools.terraform
-        [ pkgs.gcc pkgs.luarocks pkgs.tree-sitter pkgs.cargo ]
+        [
+          pkgs.gcc
+          pkgs.luarocks
+          pkgs.tree-sitter
+          pkgs.cargo
+        ]
       ];
   };
 
   programs.helix = { enable = true; };
 
-  programs.home-manager = {
-    enable = true;
-  };
+  programs.home-manager = { enable = true; };
 
   programs.bat = {
     enable = true;
-    config = {
-      theme="ansi";
-    };
+    config = { theme = "ansi"; };
   };
 
   programs.starship = {
@@ -99,7 +97,10 @@ in {
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
-      gcloud = { format = "on [$symbol$account(@$domain/$project)]($style)"; };
+      gcloud = {
+        format =
+          "on [$symbol$account(@$domain/$project)]($style)";
+      };
     };
   };
 
@@ -148,7 +149,10 @@ in {
     '';
 
     initExtra = ''
-      ${packages.utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
+      ${packages.utils.sourceWhenAvaliable [
+        "~/.smoke"
+        "~/.nvm/nvm.sh"
+      ]}
 
       # not yet supported in hm module
       zplug "plugins/docker", from:oh-my-zsh
@@ -163,7 +167,8 @@ in {
     extraConfig = {
       user.name = "Ismail Bello";
       credential.helper = "store";
-      core.excludesfile = "$XDG_CONFIG_HOME/git/gitignore.global";
+      core.excludesfile =
+        "$XDG_CONFIG_HOME/git/gitignore.global";
       pull.rebase = true;
       push.autoSetupRemote = true;
     };

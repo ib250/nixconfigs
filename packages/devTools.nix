@@ -1,4 +1,6 @@
-{ pkgs, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; } }:
+{ pkgs
+, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; }
+}:
 with pkgs; {
 
   jvm-family = [ scala-cli sbt maven coursier ];
@@ -18,11 +20,16 @@ with pkgs; {
 
   c-family = with hostPlatform;
     let
-      compiler =
-        if isWsl then [ gcc ] else if isDarwin then [ ] else [ clang_13 ];
+      compiler = if isWsl then
+        [ gcc ]
+      else if isDarwin then
+        [ ]
+      else
+        [ clang_13 ];
       # collision between binutils and
       # clang/gcc use nix-shell for now
-    in [ clang-tools cmake gnumake stdmanpages ] ++ compiler;
+    in [ clang-tools cmake gnumake stdmanpages ]
+    ++ compiler;
 
   js = [ deno yarn yarn2nix nodePackages.node2nix ];
 
@@ -32,7 +39,8 @@ with pkgs; {
 
   nix = [ nil nix-doc nixpkgs-fmt rnix-lsp statix deadnix ];
 
-  terraform = lib.optional (!hostPlatform.isDarwin) terraform;
+  terraform =
+    lib.optional (!hostPlatform.isDarwin) terraform;
 
   lsps = [
     # haskellPackages.ghcide
