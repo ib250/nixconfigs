@@ -8,11 +8,10 @@ lock:
 link-nixos:
 	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
 
-install:
-	$(nix_with_flakes) run home-manager/master -- init --switch . --show-trace
-
 switch:
-	$(nix_with_flakes) run home-manager/master -- switch --flake . --show-trace
+	$(nix_with_flakes) run $(if $(debugger),--debugger,) \
+		home-manager/master -- \
+		switch --flake '.?submodules=1'
 
 develop:
 	$(nix_with_flakes) develop

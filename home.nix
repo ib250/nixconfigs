@@ -31,9 +31,6 @@ in {
   xdg.configFile."nixpkgs/config.nix".source =
     ./packages/nixpkgs-config.nix;
 
-  xdg.configFile."nixpkgs/overlays.nix".source =
-    ./packages/overlays.nix;
-
   xdg.configFile."git/gitignore.global".text = ''
     *~
     *.swp
@@ -134,6 +131,7 @@ in {
       gm = "git merge";
       gpl = "git pull";
       gsh = "git show";
+      ranger = "joshuto";
     };
 
     zplug = {
