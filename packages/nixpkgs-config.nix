@@ -1,17 +1,13 @@
 let
 
-  hostPlatform =
-    import ./hostPlatform.nix (import <nixpkgs> { });
+  hostPlatform = import ./hostPlatform.nix (import <nixpkgs> { });
 
-  lib-extentions =
-    if hostPlatform.isDarwin then "dylib" else "so";
+  lib-extentions = if hostPlatform.isDarwin then "dylib" else "so";
 
-in
-{
+in {
 
   allowUnfree = true;
 
-  plugin-files =
-    "~/.nix-profile/lib/libnix_doc_plugin.${lib-extentions}";
+  plugin-files = "~/.nix-profile/lib/libnix_doc_plugin.${lib-extentions}";
 
 }

@@ -6,8 +6,6 @@
 
   inherit (pkgs.stdenv.hostPlatform) isLinux;
 
-  basedOnHost = builtins.intersetAttrs {
-    inherit isWsl isDarwin isLinux;
-  };
+  basedOnHost = builtins.intersetAttrs { inherit isWsl isDarwin isLinux; };
 
 }
