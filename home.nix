@@ -81,7 +81,7 @@ in
         [
           pkgs.gcc
           pkgs.luarocks
-          pkgs.tree-sitter
+          (pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
           pkgs.cargo
         ]
       ];
