@@ -1,5 +1,5 @@
 { pkgs
-, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
+, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; }
 }:
 assert hostPlatform.isLinux;
 assert !(hostPlatform.isDarwin || hostPlatform.isWsl);

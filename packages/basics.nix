@@ -1,5 +1,5 @@
 { pkgs
-, hostPlatform ? import ./hostPlatform.nix { pkgs = pkgs; }
+, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; }
 }:
 with pkgs;
 let
@@ -45,4 +45,5 @@ let
   osxExtras =
     lib.optional hostPlatform.isDarwin coreutils-prefixed;
 
-in linuxExtras ++ commonPackages ++ osxExtras
+in
+linuxExtras ++ commonPackages ++ osxExtras

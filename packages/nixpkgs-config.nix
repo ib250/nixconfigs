@@ -6,7 +6,8 @@ let
   lib-extentions =
     if hostPlatform.isDarwin then "dylib" else "so";
 
-in {
+in
+{
 
   allowUnfree = true;
 

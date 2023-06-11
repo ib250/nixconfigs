@@ -1,17 +1,12 @@
 pkgs:
-let
+{
 
-  hostPlatform =
-    import ./hostPlatform.nix { inherit pkgs; };
+  basics = import ./basics.nix { inherit pkgs; };
 
-in {
-
-  basics = import ./basics.nix { pkgs = pkgs; };
-
-  devTools = import ./devTools.nix { pkgs = pkgs; };
+  devTools = import ./devTools.nix { inherit pkgs; };
 
   nixosPackages =
-    import ./nixosPackages.nix { pkgs = pkgs; };
+    import ./nixosPackages.nix { inherit pkgs; };
 
   nixpkgs-config = import ./nixpkgs-config.nix;
 
@@ -23,7 +18,7 @@ in {
 
     sourceWhenAvaliable = files:
       unlines
-      (map (fp: "[ -e ${fp} ] && source ${fp}") files);
+        (map (fp: "[ -e ${fp} ] && source ${fp}") files);
 
   };
 

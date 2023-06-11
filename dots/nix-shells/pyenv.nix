@@ -6,13 +6,12 @@ let
   pypi = from pkgs "python${python-version}Packages";
 
   withAwsExtras = { buildInputs, shellHook, ... }: {
-    buildInputs = (buildInputs
-      ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ]);
-    shellHook = shellHook;
+    inherit shellHook;
+    buildInputs = buildInputs ++ [ pypi.boto3 pypi.ipython pypi.matplotlib ];
   };
 
   stdPythonEnv =
-    (_: with pypi; [ tox pip virtualenv setuptools mypy ]);
+    _: with pypi; [ tox pip virtualenv setuptools mypy ];
 
   envDef = {
 
@@ -36,5 +35,6 @@ let
 
   };
 
-in pkgs.mkShell
-(if enable-aws then (withAwsExtras envDef) else envDef)
+in
+pkgs.mkShell
+  (if enable-aws then (withAwsExtras envDef) else envDef)

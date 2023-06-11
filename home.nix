@@ -1,11 +1,12 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
 
   packages = import ./packages pkgs;
 
   inherit (packages) devTools;
 
-in {
+in
+{
 
   home.packages = packages.basics;
 

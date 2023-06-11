@@ -5,30 +5,34 @@ with pkgs; {
 
   jvm-family = [ scala-cli sbt maven coursier ];
 
-  haskell = let
-    globalHaskellPackages = hackage:
-      with hackage; [
-        haskell-language-server
-        hoogle
-        hlint
-        stylish-haskell
-        hpack
-        hspec
-        dotenv
-      ];
-  in [ stack (ghc.withPackages globalHaskellPackages) ];
+  haskell =
+    let
+      globalHaskellPackages = hackage:
+        with hackage; [
+          haskell-language-server
+          hoogle
+          hlint
+          stylish-haskell
+          hpack
+          hspec
+          dotenv
+        ];
+    in
+    [ stack (ghc.withPackages globalHaskellPackages) ];
 
   c-family = with hostPlatform;
     let
-      compiler = if isWsl then
-        [ gcc ]
-      else if isDarwin then
-        [ ]
-      else
-        [ clang_13 ];
+      compiler =
+        if isWsl then
+          [ gcc ]
+        else if isDarwin then
+          [ ]
+        else
+          [ clang_13 ];
       # collision between binutils and
       # clang/gcc use nix-shell for now
-    in [ clang-tools cmake gnumake stdmanpages ]
+    in
+    [ clang-tools cmake gnumake stdmanpages ]
     ++ compiler;
 
   js = [ deno yarn yarn2nix nodePackages.node2nix ];
