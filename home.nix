@@ -80,6 +80,7 @@ in
         devTools.terraform
         [
           pkgs.gcc
+          pkgs.rustup
           pkgs.luarocks
           (pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
           pkgs.cargo
