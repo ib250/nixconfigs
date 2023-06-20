@@ -1,5 +1,7 @@
 { pkgs, hostPlatform ? import ./hostPlatform.nix { inherit pkgs; } }:
-with pkgs; {
+with pkgs;
+let xs = 1;
+in {
 
   jvm-family = [ scala-cli sbt maven coursier ];
 
