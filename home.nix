@@ -68,6 +68,10 @@ in
     extraPython3Packages = ps: with ps; [ pynvim ];
     defaultEditor = true;
     # TODO(config): see `xdg.configFile."nvim"`
+    plugins = [
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+    ];
+
     extraPackages = with builtins;
       concatLists [
         devTools.js
