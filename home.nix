@@ -69,6 +69,7 @@ in
     colorschemes.nord.enable = true;
 
     plugins.nvim-cmp.enable = true;
+    plugins.nvim-cmp.mappingPresets = ["insert" "cmdline"];
     plugins.cmp-buffer.enable = true;
     plugins.cmp-calc.enable = true;
     plugins.cmp-clippy.enable = true;
