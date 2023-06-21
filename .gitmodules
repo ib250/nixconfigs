@@ -4,3 +4,6 @@
 [submodule "dots/nvim"]
 	path = dots/nvim
 	url = https://github.com/ib250/doom-nvim
+[submodule "nixvim"]
+	path = nixvim
+	url = https://github.com/ib250/nixvim
