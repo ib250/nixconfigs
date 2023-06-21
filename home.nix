@@ -124,6 +124,10 @@ in
     plugins.telescope.extensions.fzf-native.enable = true;
     plugins.rust-tools.enable = true;
 
+    extraPlugins = [
+        pkgs.vimPlugins.nvim-lsputils
+    ];
+
     extraPackages = with builtins;
       concatLists [
         devTools.js
