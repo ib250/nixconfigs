@@ -1,4 +1,4 @@
-pkgs: {
+{ pkgs }: {
 
   basics = import ./basics.nix { inherit pkgs; };
 

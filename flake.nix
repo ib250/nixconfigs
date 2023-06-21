@@ -19,22 +19,24 @@
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let pkgs = nixpkgs.legacyPackages."aarch64-darwin";
-    in {
+    in
+    {
 
       homeConfigurations = {
         "ismailbello" =
           home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            modules = [ 
-                ./home.nix
-                inputs.nixvim.homeManagerModules.nixvim
+            modules = [
+              ./home.nix
+              inputs.nixvim.homeManagerModules.nixvim
             ];
           };
       };
 
     } // flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
-      in {
+      in
+      {
         devShell = import ./shell.nix { inherit pkgs; };
       });
 }

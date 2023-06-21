@@ -11,7 +11,7 @@ link-nixos:
 switch:
 	$(nix_with_flakes) run $(if $(debugger),--debugger,) \
 		home-manager/master -- \
-		switch --flake '.?submodules=1'
+		switch --flake '.?submodules=1' --show-trace
 
 develop:
 	$(nix_with_flakes) develop
@@ -19,8 +19,10 @@ develop:
 update:
 	nix flake update
 	
-sync:
-	nix run nixpkgs#nixfmt -- -w 80 **/*.nix
+format:
+	nix run nixpkgs#nixfmt -- -w 80 home.nix modules/*.nix
+
+sync: format
 	git commit -am "sync"
 	git push
 

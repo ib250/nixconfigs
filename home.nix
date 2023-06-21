@@ -1,37 +1,44 @@
-{ pkgs, ... }:
-let
+{ pkgs, ... }: {
 
-  packages = import ./packages pkgs;
+  home.packages = with (import ./modules/basics.nix { inherit pkgs; });
+    homePackages;
+  programs.home-manager = { enable = true; };
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+    config = {
+      disable_stdin = false;
+      strict_env = true;
+    };
+  };
 
-  inherit (packages) devTools;
-
-in
-{
-
-  home.packages = packages.basics;
-
-  programs.direnv.enable = true;
-  programs.direnv.enableZshIntegration = true;
-  programs.direnv.enableBashIntegration = true;
-  programs.direnv.nix-direnv.enable = true;
-  programs.direnv.config = {
-    disable_stdin = false;
-    strict_env = true;
+  programs.git = {
+    extraConfig = {
+      user.name = "Ismail Bello";
+      credential.helper = "store";
+      core.excludesfile = "$XDG_CONFIG_HOME/git/gitignore.global";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+    };
+    includes = [{ path = "~/.gitconfig"; }];
   };
 
   programs.scmpuff.enable = true;
   programs.zoxide.enable = true;
-  programs.fzf.enable = true;
-  programs.fzf.enableZshIntegration = true;
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.helix = { enable = true; };
 
   home.stateVersion = "23.05";
   home.username = "ismailbello";
   home.homeDirectory = "/Users/ismailbello";
 
-  nixpkgs.config = packages.nixpkgs-config;
-
-  xdg.configFile."nixpkgs/config.nix".source =
-    ./packages/nixpkgs-config.nix;
+  nixpkgs.config = import ./modules/nixpkgs-config.nix { inherit pkgs; };
 
   xdg.configFile."git/gitignore.global".text = ''
     *~
@@ -51,12 +58,14 @@ in
     recursive = true;
   };
 
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-    allow-import-from-derivation = true
-  '';
+  nix = {
+    package = pkgs.nixFlakes;
 
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      allow-import-from-derivation = true
+    '';
+  };
 
   programs.nixvim = {
     enable = true;
@@ -69,7 +78,7 @@ in
     colorschemes.nord.enable = true;
 
     plugins.nvim-cmp.enable = true;
-    plugins.nvim-cmp.mappingPresets = ["insert" "cmdline"];
+    plugins.nvim-cmp.mappingPresets = [ "insert" "cmdline" ];
     plugins.cmp-buffer.enable = true;
     plugins.cmp-calc.enable = true;
     plugins.cmp-clippy.enable = true;
@@ -180,29 +189,9 @@ in
     #     end
     # '';
 
-    extraPackages = with builtins;
-      concatLists [
-        devTools.js
-        devTools.c-family
-        devTools.nix
-        devTools.haskell
-        devTools.jvm-family
-        devTools.python
-        devTools.ts
-        devTools.terraform
-        [
-          pkgs.gcc
-          pkgs.rustup
-          pkgs.luarocks
-          (pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
-          pkgs.cargo
-        ]
-      ];
+    extraPackages = with (import ./modules/devtools.nix { inherit pkgs; });
+      allDevtools;
   };
-
-  programs.helix = { enable = true; };
-
-  programs.home-manager = { enable = true; };
 
   programs.bat = {
     enable = true;
@@ -214,10 +203,7 @@ in
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
-      gcloud = {
-        format =
-          "on [$symbol$account(@$domain/$project)]($style)";
-      };
+      gcloud = { format = "on [$symbol$account(@$domain/$project)]($style)"; };
     };
   };
 
@@ -262,14 +248,11 @@ in
     initExtraBeforeCompInit = ''
       bindkey jk vi-cmd-mode
       bindkey kj vi-cmd-mode
-
     '';
 
-    initExtra = ''
-      ${packages.utils.sourceWhenAvaliable [
-        "~/.smoke"
-        "~/.nvm/nvm.sh"
-      ]}
+    initExtra = let inherit (import ./modules { inherit pkgs; }) utils;
+    in ''
+      ${utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
 
       # not yet supported in hm module
       zplug "plugins/docker", from:oh-my-zsh
@@ -278,18 +261,6 @@ in
       zplug load
 
     '';
-  };
-
-  programs.git = {
-    extraConfig = {
-      user.name = "Ismail Bello";
-      credential.helper = "store";
-      core.excludesfile =
-        "$XDG_CONFIG_HOME/git/gitignore.global";
-      pull.rebase = true;
-      push.autoSetupRemote = true;
-    };
-    includes = [{ path = "~/.gitconfig"; }];
   };
 
 }
