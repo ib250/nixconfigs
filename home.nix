@@ -130,7 +130,7 @@ in
     ];
 
     extraConfigLuaPost = ''
-          if vim.fn.has('nvim-0.5.1') == 1 then
+      if vim.fn.has('nvim-0.5.1') == 1 then
           vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
           vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
           vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
@@ -173,6 +173,7 @@ in
           vim.lsp.handlers['textDocument/symbol'] = function(_, _, result, _, bufn)
               require('lsputil.symbols').workspace_handler(nil, result, { bufnr = bufn }, nil)
           end
+        end
     '';
 
     extraPackages = with builtins;
