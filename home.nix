@@ -126,6 +126,7 @@ in
 
     extraPlugins = [
         pkgs.vimPlugins.nvim-lsputils
+        pkgs.vimPlugins.popfix
     ];
 
     extraPackages = with builtins;
