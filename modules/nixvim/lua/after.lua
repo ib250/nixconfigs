@@ -60,6 +60,3 @@ wk.register {
   ["<leader>dp"] = { vim.diagnostic.goto_prev, "Jump to next" },
   ["<leader>dl"] = { vim.diagnostic.setloclist, "Jump to next" },
 }
-
-local nlsb = require('null-ls.builtins')
-vim.print(nlsb)
