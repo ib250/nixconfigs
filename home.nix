@@ -2,7 +2,7 @@
 
   home.packages = with (import ./modules/basics.nix { inherit pkgs; });
     homePackages;
-    
+
   programs.home-manager = { enable = true; };
   programs.direnv = {
     enable = true;
@@ -28,6 +28,7 @@
 
   programs.scmpuff.enable = true;
   programs.zoxide.enable = true;
+  programs.lf.enable = true;
 
   programs.fzf = {
     enable = true;
@@ -54,11 +55,6 @@
     .DS_Store
   '';
 
-  xdg.configFile."joshuto" = {
-    source = ./dots/joshuto;
-    recursive = true;
-  };
-
   nix = {
     package = pkgs.nixFlakes;
 
@@ -68,7 +64,8 @@
     '';
   };
 
-  programs.nixvim = import ./modules/nixvim.nix { inherit pkgs; };
+  programs.nixvim = import ./modules/nixvim { inherit pkgs; };
+  programs.neovim.defaultEditor = true;
 
   programs.bat = {
     enable = true;
@@ -108,7 +105,7 @@
       gm = "git merge";
       gpl = "git pull";
       gsh = "git show";
-      ranger = "joshuto";
+      ranger = "lf";
     };
 
     zplug = {
@@ -127,19 +124,17 @@
       bindkey kj vi-cmd-mode
     '';
 
-    initExtra =
-      let inherit (import ./modules { inherit pkgs; }) utils;
-      in
-      ''
-        ${utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
+    initExtra = let inherit (import ./modules { inherit pkgs; }) utils;
+    in ''
+      ${utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
 
-        # not yet supported in hm module
-        zplug "plugins/docker", from:oh-my-zsh
-        zplug "plugins/docker-compose", from:oh-my-zsh
-        zplug install 2> /dev/null
-        zplug load
+      # not yet supported in hm module
+      zplug "plugins/docker", from:oh-my-zsh
+      zplug "plugins/docker-compose", from:oh-my-zsh
+      zplug install 2> /dev/null
+      zplug load
 
-      '';
+    '';
   };
 
 }

@@ -20,7 +20,6 @@ let
     gitAndTools.git-extras
     pre-commit
     htop
-    joshuto
     highlight
     jq
     fd
