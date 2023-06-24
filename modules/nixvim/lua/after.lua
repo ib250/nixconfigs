@@ -71,3 +71,5 @@ wk.register({
   ["<leader>dp"] = { vim.diagnostic.goto_prev, "Jump to previous" },
   ["<leader>dl"] = { vim.diagnostic.setloclist, "Jump to next" },
 })
+
+-- mini
