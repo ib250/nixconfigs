@@ -1,3 +1,6 @@
+require("mini.sessions").setup()
+require("mini.starter").setup()
+
 local tb = require("telescope.builtin")
 local wk = require("which-key")
 
