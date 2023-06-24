@@ -38,10 +38,7 @@
 
   extraConfigLuaPre = builtins.readFile ./lua/before.lua;
   extraConfigLuaPost = builtins.readFile ./lua/after.lua;
-  colorschemes.catppuccin = {
-    enable = true;
-    flavour = "frappe";
-  };
+  colorschemes.catppuccin.enable = true;
   plugins = {
     todo-comments.enable = true;
     treesitter = {
@@ -165,9 +162,8 @@
     rust-tools.enable = true;
   };
 
-  extraPlugins = [
-    pkgs.vimPlugins.popfix
-  ];
-
   extraPackages = with (import ../devTools.nix { inherit pkgs; }); allDevtools;
+  extraPlugins = [
+    pkgs.vimPlugins.mini-nvim
+  ];
 }

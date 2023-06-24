@@ -68,6 +68,6 @@ wk.register({
 wk.register({
   ["<leader>d"] = { name = "+diagnostics" },
   ["<leader>dn"] = { vim.diagnostic.goto_next, "Jump to next" },
-  ["<leader>dp"] = { vim.diagnostic.goto_prev, "Jump to next" },
+  ["<leader>dp"] = { vim.diagnostic.goto_prev, "Jump to previous" },
   ["<leader>dl"] = { vim.diagnostic.setloclist, "Jump to next" },
 })
