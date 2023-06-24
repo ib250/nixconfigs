@@ -164,6 +164,9 @@
 
   extraPackages = with (import ../devTools.nix { inherit pkgs; }); allDevtools;
   extraPlugins = [
-    pkgs.vimPlugins.mini-nvim
+    {
+      plugin = pkgs.vimPlugins.mini-nvim;
+      config = builtins.readFile ./lua/mini.lua;
+    }
   ];
 }
