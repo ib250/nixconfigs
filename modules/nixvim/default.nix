@@ -72,7 +72,6 @@
     };
 
     lsp-format.enable = true;
-    lspsaga.enable = true;
     lsp-lines = {
       enable = false;
       currentLine = true;
@@ -103,14 +102,20 @@
 
     nvim-cmp = {
       enable = true;
+      performance.maxViewEntries = 10;
       sources = [
         { name = "nvim_lsp"; }
         { name = "luasnip"; }
         { name = "path"; }
         { name = "buffer"; }
+        { name = "nvim_lsp_document_symbol"; }
+        { name = "nvim_lsp_signature_help"; }
+        { name = "vim_lsp"; }
+        { name = "nvim_lua"; }
       ];
       mappingPresets = [ "insert" ];
       mapping = { "<CR>" = "cmp.mapping.confirm({ select = true })"; };
+      autoEnableSources = true;
       formatting.fields = [ "kind" "abbr" "menu" ];
 
       window.completion = {
@@ -150,15 +155,6 @@
       };
     };
 
-    cmp-nvim-lua.enable = true;
-    cmp-nvim-lsp.enable = true;
-    cmp-path.enable = true;
-    cmp-buffer.enable = true;
-    cmp-nvim-lsp-document-symbol.enable = true;
-    cmp-nvim-lsp-signature-help.enable = true;
-    luasnip.enable = true;
-    cmp_luasnip.enable = true;
-
     telescope = {
       enable = true;
       extensions.fzf-native.enable = true;
@@ -167,6 +163,11 @@
     treesitter-refactor.enable = true;
     rust-tools.enable = true;
   };
+
+  extraPlugins = [
+    pkgs.vimPlugins.popfix
+    pkgs.vimPlugins.nvim-lsputils
+  ];
 
   extraPackages = with (import ../devtools.nix { inherit pkgs; }); allDevtools;
 }
