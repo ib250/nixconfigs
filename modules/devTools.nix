@@ -25,7 +25,7 @@ in with pkgs; rec {
 
   python = [ nodePackages.pyright ];
 
-  nix = [ nil nix-doc nixpkgs-fmt rnix-lsp statix deadnix ];
+  nix = [ nil nix-doc nixpkgs-fmt statix deadnix ];
 
   terraform = lib.optional (!hostPlatform.isDarwin) [ terraform terraform-lsp ];
 

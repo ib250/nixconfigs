@@ -38,8 +38,10 @@
 
   extraConfigLuaPre = builtins.readFile ./lua/before.lua;
   extraConfigLuaPost = builtins.readFile ./lua/after.lua;
-
-  colorschemes.nord.enable = true;
+  colorschemes.catppuccin = {
+    enable = true;
+    flavour = "frappe";
+  };
   plugins = {
     todo-comments.enable = true;
     treesitter = {
@@ -64,7 +66,6 @@
       lua-ls.enable = true;
       metals.enable = true;
       nil_ls.enable = true;
-      rnix-lsp.enable = true;
       ruff-lsp.enable = true;
       rust-analyzer.enable = true;
       tsserver.enable = true;
@@ -166,8 +167,7 @@
 
   extraPlugins = [
     pkgs.vimPlugins.popfix
-    pkgs.vimPlugins.nvim-lsputils
   ];
 
-  extraPackages = with (import ../devtools.nix { inherit pkgs; }); allDevtools;
+  extraPackages = with (import ../devTools.nix { inherit pkgs; }); allDevtools;
 }
