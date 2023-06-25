@@ -190,11 +190,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-SuZW20AVN4h++akvnM8v9NlCqcRfdphjYUnUkGCgjzA=",
-        "path": "/nix/store/ldqpxc4mxp97rm6xhzj4anxcni8dz8jb-source/nixvim",
+        "path": "/nix/store/b1r6dcrd21vcysqa9k6myfm80zs377sx-source/nixvim",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/ldqpxc4mxp97rm6xhzj4anxcni8dz8jb-source/nixvim",
+        "path": "/nix/store/b1r6dcrd21vcysqa9k6myfm80zs377sx-source/nixvim",
         "type": "path"
       }
     },

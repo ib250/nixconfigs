@@ -38,7 +38,15 @@
 
   extraConfigLuaPre = builtins.readFile ./lua/before.lua;
   extraConfigLuaPost = builtins.readFile ./lua/after.lua;
-  colorschemes.catppuccin.enable = true;
+  colorschemes.catppuccin = {
+    enable = true;
+    integrations = {
+      treesitter = true;
+      mini = true;
+      which_key = true;
+      native_lsp.enabled = true;
+    };
+  };
   plugins = {
     todo-comments.enable = true;
     treesitter = {
