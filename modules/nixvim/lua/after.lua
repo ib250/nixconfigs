@@ -1,11 +1,22 @@
 require("mini.doc").setup()
 require("mini.sessions").setup()
 require("mini.starter").setup()
+require("mini.surround").setup()
 
 local tb = require("telescope.builtin")
 local wk = require("which-key")
 
--- lsp defaults
+-- lsp + ts
+local ts = require("nvim-treesitter.configs")
+ts.setup({
+  textobjects = {
+    lsp_interop = {
+      enable = true,
+      border = "none",
+      floating_preview_opts = {},
+    },
+  },
+})
 
 -- muscle memory things...
 vim.keymap.set("i", "jk", "<ESC>")
@@ -67,6 +78,10 @@ wk.register({
   ["<leader>cd"] = { vim.lsp.buf.definition, "Jump to definition" },
   ["<leader>cr"] = { vim.lsp.buf.references, "Jump to references" },
   ["<leader>ci"] = { vim.lsp.buf.implementation, "Jump to implementation" },
+  ["<leader>cf"] = { vim.lsp.buf.format, "Format buffer" },
+  -- peek_definition_code = { ["<leader>df"] = "@function.outer", ["<leader>dF"] = "@class.outer", },
+  ["<leader>cp"] = { "<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>", "Format buffer" },
+  ["<leader>cP"] = { "<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>", "Format buffer" },
 })
 
 wk.register({

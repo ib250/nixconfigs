@@ -56,6 +56,8 @@
       moduleConfig.autotag.enable = true;
       nixvimInjections = true;
     };
+    treesitter-context.enable = true;
+    treesitter-refactor.enable = true;
 
     comment-nvim.enable = true;
     gitsigns.enable = true;
@@ -166,12 +168,12 @@
       extensions.fzf-native.enable = true;
     };
 
-    treesitter-refactor.enable = true;
     rust-tools.enable = true;
   };
 
   extraPackages = with (import ../devTools.nix { inherit pkgs; }); allDevtools;
   extraPlugins = [
     pkgs.vimPlugins.mini-nvim
+    pkgs.vimPlugins.nvim-treesitter-textobjects
   ];
 }
