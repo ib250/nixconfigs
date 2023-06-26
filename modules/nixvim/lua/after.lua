@@ -80,8 +80,8 @@ wk.register({
   ["<leader>ci"] = { vim.lsp.buf.implementation, "Jump to implementation" },
   ["<leader>cf"] = { vim.lsp.buf.format, "Format buffer" },
   -- peek_definition_code = { ["<leader>df"] = "@function.outer", ["<leader>dF"] = "@class.outer", },
-  ["<leader>cp"] = { "<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>", "Format buffer" },
-  ["<leader>cP"] = { "<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>", "Format buffer" },
+  ["<leader>cp"] = { "<cmd>TSTextobjectPeekDefinitionCode @function.outer<cr>", "Peek function definition" },
+  ["<leader>cP"] = { "<cmd>TSTextobjectPeekDefinitionCode @class.outer<cr>", "Peek class definition" },
 })
 
 wk.register({
