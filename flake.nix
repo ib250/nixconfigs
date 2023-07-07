@@ -7,10 +7,10 @@
     nixpkgs.url =
       "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
 
-    nixvim.url = "./nixvim";
+    nixvim.url = "github:ib250/nixvim/nixos-23.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -44,11 +44,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1685518550,
-        "narHash": "sha256-o2d0KcvaXzTrPRIo0kOLV0/QXHhDQ5DTi+OxcjO8xqY=",
+        "lastModified": 1687709756,
+        "narHash": "sha256-Y5wKlQSkgEK2weWdOu4J3riRd+kV/VCgHsqLNTTWQ/0=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "a1720a10a6cfe8234c0e93907ffe81be440f4cef",
+        "rev": "dbabf0ca0c0c4bce6ea5eaf65af5cb694d2082c7",
         "type": "github"
       },
       "original": {
@@ -119,26 +119,27 @@
         ]
       },
       "locked": {
-        "lastModified": 1686342731,
-        "narHash": "sha256-GwCwviXcc5nrewuFwtsrxys8srrZcI+m8hdIGOt+fHY=",
+        "lastModified": 1687871164,
+        "narHash": "sha256-bBFlPthuYX322xOlpJvkjUBz0C+MOBjZdDOOJJ+G2jU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "0945875a2a20de314093b0f9d4d5448e9b4fdccb",
+        "rev": "07c347bb50994691d7b0095f45ebd8838cf6bc38",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
+        "ref": "release-23.05",
         "repo": "home-manager",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1686367486,
-        "narHash": "sha256-sHI3F4J9cfZxOgn10hy77tOTi5/m4cs8Nr1RoKQCQvM=",
+        "lastModified": 1688643991,
+        "narHash": "sha256-w2sffG1/RbzMh0UXXmqDDS7b5UY4Lja9bGNUahGIPwI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a28cf891f249c8498276e833fc9a6aa9ad52de17",
+        "rev": "6e66e44c5e8d14da2fee7caf3aa60536c52e4d2b",
         "type": "github"
       },
       "original": {
@@ -188,14 +189,18 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1,
+        "lastModified": 1685873524,
         "narHash": "sha256-SuZW20AVN4h++akvnM8v9NlCqcRfdphjYUnUkGCgjzA=",
-        "path": "/nix/store/xyl0jxkn819dzdvx1fxp4ddl31ymxmiv-source/nixvim",
-        "type": "path"
+        "owner": "ib250",
+        "repo": "nixvim",
+        "rev": "cae34a7b8f83293b21c1c0981ba810883719dfe0",
+        "type": "github"
       },
       "original": {
-        "path": "/nix/store/xyl0jxkn819dzdvx1fxp4ddl31ymxmiv-source/nixvim",
-        "type": "path"
+        "owner": "ib250",
+        "ref": "nixos-23.05",
+        "repo": "nixvim",
+        "type": "github"
       }
     },
     "poetry2nix": {

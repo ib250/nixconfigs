@@ -7,7 +7,7 @@ let
 
 in {
 
-  allowUnfree = true;
+  allowUnfreePredicate = (_: true);
 
   plugin-files = "~/.nix-profile/lib/libnix_doc_plugin.${lib-extentions}";
 

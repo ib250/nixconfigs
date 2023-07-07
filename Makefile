@@ -1,4 +1,4 @@
-nix_with_flakes=NIX_CONFIG="experimental-features = nix-command flakes" nix
+nix_with_flakes=NIX_CONFIG="experimental-features = nix-command flakes" NIXPKGS_ALLOW_UNFREE=1 nix
 
 lock:
 	$(nix_with_flakes) flake lock

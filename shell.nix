@@ -2,6 +2,7 @@
 pkgs.mkShell {
 
   NIX_CONFIG = "experimental-features = nix-command flakes";
-  buildInputs = with pkgs; [ fd exa coreutils zsh ];
+  NIXPKGS_ALLOW_UNFREE = "1";
+  buildInputs = with pkgs; [ fd exa silver-searcher coreutils zsh ];
 
 }
