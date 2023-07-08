@@ -39,6 +39,10 @@
   home.stateVersion = "23.05";
 
   nixpkgs.config = { allowUnfreePredicate = _: true; };
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+    allow-import-from-derivation = true
+  '';
 
   xdg.configFile."git/gitignore.global".text = ''
     *~
