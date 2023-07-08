@@ -38,9 +38,7 @@
 
   home.stateVersion = "23.05";
 
-  nixpkgs.config = {
-    allowUnfreePredicate = _: true;
-  };
+  nixpkgs.config = { allowUnfreePredicate = _: true; };
 
   xdg.configFile."git/gitignore.global".text = ''
     *~

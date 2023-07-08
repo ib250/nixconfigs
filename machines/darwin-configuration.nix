@@ -4,6 +4,7 @@
   environment.variables = {
     EDITOR = "nvim";
   };
+  environment.systemPackages = [ pkgs.iterm2 ];
   services.nix-daemon.enable = true;
   programs.zsh.enable = true;
   nix = {
