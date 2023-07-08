@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-
+{ pkgs, extraSpecialArgs, ... }: {
+  imports = [ extraSpecialArgs.nixvim.homeManagerModules.nixvim ];
   home.packages = with (import ./modules/basics.nix { inherit pkgs; });
     homePackages;
 
@@ -37,10 +37,10 @@
   programs.helix = { enable = true; };
 
   home.stateVersion = "23.05";
-  home.username = "ismailbello";
-  home.homeDirectory = "/Users/ismailbello";
 
-  nixpkgs.config = import ./modules/nixpkgs-config.nix { inherit pkgs; };
+  nixpkgs.config = {
+    allowUnfreePredicate = _: true;
+  };
 
   xdg.configFile."git/gitignore.global".text = ''
     *~
@@ -54,15 +54,6 @@
     .http
     .DS_Store
   '';
-
-  nix = {
-    package = pkgs.nixFlakes;
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      allow-import-from-derivation = true
-    '';
-  };
 
   programs.nixvim = import ./modules/nixvim { inherit pkgs; };
   programs.neovim.defaultEditor = true;
@@ -136,5 +127,4 @@
 
     '';
   };
-
 }

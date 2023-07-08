@@ -2,16 +2,7 @@ nix_with_flakes=NIX_CONFIG="experimental-features = nix-command flakes" NIXPKGS_
 
 lock:
 	$(nix_with_flakes) flake lock
-	$(nix_with_flakes) flake show --all-systems
-
-# TODO: flakify
-link-nixos:
-	cp -rsf ./{configuration.nix,packages} /etc/nixos/.
-
-switch:
-	$(nix_with_flakes) run $(if $(debugger),--debugger,) \
-		home-manager/master -- \
-		switch --flake '.?submodules=1' --show-trace
+	$(nix_with_flakes) flake show
 
 develop:
 	$(nix_with_flakes) develop

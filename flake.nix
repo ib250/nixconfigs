@@ -1,42 +1,55 @@
 {
-  description =
-    "Home Manager configuration of Ismail Bello";
+  description = "Ismail Bello's Nix configurations";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url =
-      "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
 
     nixvim.url = "github:ib250/nixvim/nixos-23.05";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
+    flake-utils.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
-    let pkgs = nixpkgs.legacyPackages."aarch64-darwin";
-    in
+  outputs = {
+    nixpkgs,
+    home-manager,
+    darwin,
+    nixvim,
+    flake-utils,
+    ...
+  }:
     {
-
-      homeConfigurations = {
-        "ismailbello" =
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+      darwinConfigurations = {
+        "Ismails-Laptop" = let
+          username = "ismailbello";
+          system = "aarch64-darwin";
+        in
+          darwin.lib.darwinSystem {
+            inherit system;
             modules = [
-              ./home.nix
-              inputs.nixvim.homeManagerModules.nixvim
+              ./machines/darwin-configuration.nix
+              home-manager.darwinModules.home-manager
+              nixvim.nixDarwinModules.nixvim
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.users.${username} = import ./home.nix {
+                  pkgs = nixpkgs.legacyPackages.${system};
+                  extraSpecialArgs = {inherit nixvim;};
+                };
+              }
             ];
           };
       };
-
-    } // flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        devShell = import ./shell.nix { inherit pkgs; };
-      });
+    }
+    // flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {devShell = import ./shell.nix {inherit pkgs;};});
 }
