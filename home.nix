@@ -1,9 +1,12 @@
-{ pkgs, extraSpecialArgs, ... }: {
-  imports = [ extraSpecialArgs.nixvim.homeManagerModules.nixvim ];
-  home.packages = with (import ./modules/basics.nix { inherit pkgs; });
-    homePackages;
+{
+  pkgs,
+  extraSpecialArgs,
+  ...
+}: {
+  imports = [extraSpecialArgs.nixvim.homeManagerModules.nixvim];
+  home.packages = with (import ./modules/basics.nix {inherit pkgs;}); homePackages;
 
-  programs.home-manager = { enable = true; };
+  programs.home-manager = {enable = true;};
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -23,7 +26,7 @@
       pull.rebase = true;
       push.autoSetupRemote = true;
     };
-    includes = [{ path = "~/.gitconfig"; }];
+    includes = [{path = "~/.gitconfig";}];
   };
 
   programs.scmpuff.enable = true;
@@ -34,11 +37,11 @@
     enable = true;
     enableZshIntegration = true;
   };
-  programs.helix = { enable = true; };
+  programs.helix = {enable = true;};
 
   home.stateVersion = "23.05";
 
-  nixpkgs.config = { allowUnfreePredicate = _: true; };
+  nixpkgs.config = {allowUnfreePredicate = _: true;};
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     allow-import-from-derivation = true
@@ -57,12 +60,12 @@
     .DS_Store
   '';
 
-  programs.nixvim = import ./modules/nixvim { inherit pkgs; };
+  programs.nixvim = import ./modules/nixvim {inherit pkgs;};
   programs.neovim.defaultEditor = true;
 
   programs.bat = {
     enable = true;
-    config = { theme = "ansi"; };
+    config = {theme = "Nord";};
   };
 
   programs.starship = {
@@ -70,7 +73,7 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     settings = {
-      gcloud = { format = "on [$symbol$account(@$domain/$project)]($style)"; };
+      gcloud = {format = "on [$symbol$account(@$domain/$project)]($style)";};
     };
   };
 
@@ -104,11 +107,11 @@
     zplug = {
       enable = true;
       plugins = [
-        { name = "mafredri/zsh-async"; }
-        { name = "zsh-users/zsh-completions"; }
-        { name = "zsh-users/zsh-autosuggestions"; }
-        { name = "zsh-users/zsh-history-substring-search"; }
-        { name = "zdharma/fast-syntax-highlighting"; }
+        {name = "mafredri/zsh-async";}
+        {name = "zsh-users/zsh-completions";}
+        {name = "zsh-users/zsh-autosuggestions";}
+        {name = "zsh-users/zsh-history-substring-search";}
+        {name = "zdharma/fast-syntax-highlighting";}
       ];
     };
 
@@ -117,9 +120,10 @@
       bindkey kj vi-cmd-mode
     '';
 
-    initExtra = let inherit (import ./modules { inherit pkgs; }) utils;
+    initExtra = let
+      inherit (import ./modules {inherit pkgs;}) utils;
     in ''
-      ${utils.sourceWhenAvaliable [ "~/.smoke" "~/.nvm/nvm.sh" ]}
+      ${utils.sourceWhenAvaliable ["~/.smoke" "~/.nvm/nvm.sh"]}
 
       # not yet supported in hm module
       zplug "plugins/docker", from:oh-my-zsh

@@ -11,7 +11,7 @@ update:
 	nix flake update
 	
 format:
-	nix run nixpkgs#nixfmt -- -w 80 home.nix modules/*.nix
+	nix fmt
 
 sync: format
 	git commit -am "sync"

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   enable = true;
   globals.mapleader = ";";
   editorconfig.enable = true;
@@ -21,7 +20,7 @@
     ruler = true;
     hidden = true;
     autoindent = true;
-    backspace = [ "indent" "eol" "start" ];
+    backspace = ["indent" "eol" "start"];
     ignorecase = true;
     smartcase = true;
     hlsearch = true;
@@ -32,7 +31,7 @@
     cursorline = false;
     errorbells = false;
     visualbell = false;
-    completeopt = [ "menuone" "menu" "longest" ];
+    completeopt = ["menuone" "menu" "longest"];
     autochdir = true;
   };
 
@@ -112,19 +111,19 @@
       enable = true;
       performance.maxViewEntries = 10;
       sources = [
-        { name = "nvim_lsp"; }
-        { name = "luasnip"; }
-        { name = "path"; }
-        { name = "buffer"; }
-        { name = "nvim_lsp_document_symbol"; }
-        { name = "nvim_lsp_signature_help"; }
-        { name = "vim_lsp"; }
-        { name = "nvim_lua"; }
+        {name = "nvim_lsp";}
+        {name = "luasnip";}
+        {name = "path";}
+        {name = "buffer";}
+        {name = "nvim_lsp_document_symbol";}
+        {name = "nvim_lsp_signature_help";}
+        {name = "vim_lsp";}
+        {name = "nvim_lua";}
       ];
-      mappingPresets = [ "insert" ];
-      mapping = { "<CR>" = "cmp.mapping.confirm({ select = true })"; };
+      mappingPresets = ["insert"];
+      mapping = {"<CR>" = "cmp.mapping.confirm({ select = true })";};
       autoEnableSources = true;
-      formatting.fields = [ "kind" "abbr" "menu" ];
+      formatting.fields = ["kind" "abbr" "menu"];
 
       window.completion = {
         winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None";
@@ -135,13 +134,12 @@
       };
 
       snippet.expand = "luasnip";
-
     };
     null-ls = {
       enable = true;
-      shouldAttach = ''function(bufnr)
-        return not vim.api.nvim_buf_get_name(bufnr):match("^git://")
-      end
+      shouldAttach = ''        function(bufnr)
+                return not vim.api.nvim_buf_get_name(bufnr):match("^git://")
+              end
       '';
       sources = {
         code_actions.shellcheck.enable = true;
@@ -171,7 +169,7 @@
     rust-tools.enable = true;
   };
 
-  extraPackages = with (import ../devTools.nix { inherit pkgs; }); allDevtools;
+  extraPackages = with (import ../devTools.nix {inherit pkgs;}); allDevtools;
   extraPlugins = [
     pkgs.vimPlugins.mini-nvim
     pkgs.vimPlugins.nvim-treesitter-textobjects

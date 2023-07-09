@@ -1,6 +1,5 @@
-{ pkgs, ... }:
-let
-  hostPlatform = import ./hostPlatform.nix { inherit pkgs; };
+{pkgs, ...}: let
+  hostPlatform = import ./hostPlatform.nix {inherit pkgs;};
   commonPackages = with pkgs; [
     awscli2
     google-cloud-sdk
@@ -37,5 +36,4 @@ let
   ];
   linuxExtras = with pkgs; lib.optional hostPlatform.isLinux ueberzug;
   osxExtras = with pkgs; lib.optional hostPlatform.isDarwin coreutils-prefixed;
-
-in { homePackages = commonPackages ++ linuxExtras ++ osxExtras; }
+in {homePackages = commonPackages ++ linuxExtras ++ osxExtras;}
