@@ -14,4 +14,7 @@
     '';
   };
   homebrew.enable = true;
+  homebrew.casks = [
+    "iterm2"
+  ];
 }

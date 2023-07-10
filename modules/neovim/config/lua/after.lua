@@ -1,3 +1,4 @@
+-- mini
 require("mini.doc").setup()
 require("mini.sessions").setup()
 require("mini.starter").setup()

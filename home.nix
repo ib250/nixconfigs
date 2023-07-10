@@ -3,8 +3,7 @@
   extraSpecialArgs,
   ...
 }: {
-  imports = [extraSpecialArgs.nixvim.homeManagerModules.nixvim];
-  home.packages = with (import ./modules/basics.nix {inherit pkgs;}); homePackages;
+  home.packages = with (import ./modules/basics.nix {inherit pkgs;}); with extraSpecialArgs; homePackages ++ [neovim-configured];
 
   programs.home-manager = {enable = true;};
   programs.direnv = {
@@ -60,7 +59,6 @@
     .DS_Store
   '';
 
-  programs.nixvim = import ./modules/nixvim {inherit pkgs;};
   programs.neovim.defaultEditor = true;
 
   programs.bat = {
