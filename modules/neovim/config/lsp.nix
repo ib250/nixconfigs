@@ -16,13 +16,18 @@
           settings.plugins.pylsp_mypy.enabled = true;
           settings.plugins.ruff.enabled = true;
         };
-        rust-analyzer.enable = true;
+        rust-analyzer = {
+          enable = true;
+          settings.hover.actions.enable = true;
+        };
         tsserver.enable = true;
         yamlls.enable = true;
       };
 
       postConfig = builtins.readFile ./lua/lsp-post-config.lua;
     };
+
+    plugins.rust-tools.enable = true;
 
     plugins.null-ls = {
       enable = true;
