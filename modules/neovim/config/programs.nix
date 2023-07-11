@@ -33,26 +33,31 @@ with pkgs; let
     yaml-language-server
   ];
 
-  rust = [cargo rustup];
+  rust = [cargo rustup rust-analyzer];
+
+  golang = [go_1_20];
 
   lua = [luarocks];
 
   treesitterFull = [(tree-sitter.withPlugins (_: tree-sitter.allGrammars))];
 in {
   config = {
-    extraPackages = builtins.concatLists [
-      jvm-family
-      haskell
-      c-family
-      js
-      ts
-      python
-      nix
-      tf
-      lsps
-      rust
-      lua
-      treesitterFull
-    ];
+    extraPackages =
+      builtins.concatLists [
+        jvm-family
+        haskell
+        c-family
+        js
+        ts
+        python
+        nix
+        tf
+        lsps
+        rust
+        golang
+        lua
+        treesitterFull
+      ]
+      ++ [git];
   };
 }

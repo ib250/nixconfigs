@@ -6,5 +6,8 @@
     ./lsp.nix
     ./programs.nix
     ./plugins.nix
+    ./cmp.nix
   ];
+
+  extraConfigLuaPost = builtins.readFile ./lua/after.lua;
 }

@@ -5,8 +5,6 @@
 
   nixosPackages = import ./nixosPackages.nix {inherit pkgs;};
 
-  nixpkgs-config = import ./nixpkgs-config.nix;
-
   utils = rec {
     unlines = strings: with pkgs.lib; concatStrings (intersperse "\n" strings);
 
