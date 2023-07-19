@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
 
-    neovim-configured.url = "./modules/neovim";
+    neovim-configured.url = "github:ib250/neovim-flake";
     neovim-configured.inputs.nixpkgs.follows = "nixpkgs";
 
     darwin.url = "github:lnl7/nix-darwin/master";
