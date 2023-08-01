@@ -1,6 +1,7 @@
 {pkgs, ...}: let
   hostPlatform = import ./hostPlatform.nix {inherit pkgs;};
   commonPackages = with pkgs; [
+    linode-cli
     awscli2
     google-cloud-sdk
     fzf

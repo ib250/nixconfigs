@@ -3,7 +3,10 @@
   extraSpecialArgs,
   ...
 }: {
-  home.packages = with (import ./modules/basics.nix {inherit pkgs;}); with extraSpecialArgs; homePackages ++ [neovim-configured];
+  home.packages = with (import ./modules/basics.nix {inherit pkgs;}); let
+    inherit (extraSpecialArgs) neovim-configured;
+  in
+    homePackages ++ [neovim-configured];
 
   programs.home-manager = {enable = true;};
   programs.direnv = {
