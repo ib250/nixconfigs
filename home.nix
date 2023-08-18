@@ -8,6 +8,13 @@
   in
     homePackages ++ [neovim-configured];
 
+  programs.broot = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    settings = { modal = true; };
+  };
+
   programs.home-manager = {enable = true;};
   programs.direnv = {
     enable = true;
