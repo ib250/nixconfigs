@@ -12,7 +12,7 @@
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    settings = { modal = true; };
+    settings = {modal = true;};
   };
 
   programs.home-manager = {enable = true;};
