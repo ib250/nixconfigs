@@ -17,5 +17,10 @@
   homebrew.casks = [
     "iterm2"
     "docker"
+    "cisco-jabber"
+  ];
+
+  homebrew.brews = [
+    "tmux"
   ];
 }
