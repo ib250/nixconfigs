@@ -13,6 +13,9 @@
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
+    fh.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:numtide/flake-utils/main";
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
   };

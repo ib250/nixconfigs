@@ -17,5 +17,7 @@ sync: format
 	git commit -am "sync"
 	git push
 
+use:
+	darwin-rebuild switch  --flake .
 
 .phony: link-home link-nixos install switch update sync
