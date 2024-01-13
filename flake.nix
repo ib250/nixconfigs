@@ -7,7 +7,7 @@
     neovim-configured.url = "github:ib250/neovim-flake/no-bins";
     neovim-configured.inputs.nixpkgs.follows = "nixpkgs";
 
-    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager/release-23.05";
