@@ -36,4 +36,5 @@
     loc
   ];
   linuxExtras = with pkgs; lib.optional hostPlatform.isLinux ueberzug;
-in {homePackages = commonPackages ++ linuxExtras;}
+  fonts = with pkgs; [fira-code fira-mono];
+in {homePackages = commonPackages ++ linuxExtras ++ fonts;}
