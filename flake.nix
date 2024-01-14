@@ -48,7 +48,7 @@
               {
                 home.username = username;
                 home.homeDirectory = "/${homeRoot}/${username}";
-                nix.package = pkgs.nix;
+                nix.package = pkgs.nixFlakes;
               }
               ./home.nix
             ];
@@ -61,27 +61,11 @@
       # Darwin hosts
       darwinConfigurations = {
         "Ismails-Laptop" = let
-          username = "ismailbello";
           system = with flake-utils.lib.system; aarch64-darwin;
         in
           darwin.lib.darwinSystem {
             inherit system;
-            modules = [
-              ./machines/darwin-configuration.nix
-              home-manager.darwinModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  users.${username} = import ./home.nix {
-                    pkgs = import nixpkgs {inherit system;};
-                    extraSpecialArgs = {
-                      neovim-configured = neovim-configured.packages.${system}.default;
-                    };
-                  };
-                };
-              }
-            ];
+            modules = [./machines/darwin-configuration.nix];
           };
       };
     };
