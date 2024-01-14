@@ -23,4 +23,4 @@ use:
 	nix run home-manager/release-23.11 -- init --switch . --show-trace
 
 
-.phony: link-home link-nixos install switch update sync
+.phony: lock develop update format sync use-darwin use
