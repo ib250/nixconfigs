@@ -35,11 +35,13 @@
           if pkgs.hostPlatform.isDarwin
           then "Users"
           else "home";
-      in {
+      in rec {
         devShell = import ./shell.nix {inherit pkgs;};
         formatter = pkgs.alejandra;
-        packages = rec {
+        packages = {
           neovim = neovim-configured.packages.${system}.default;
+        };
+        legacyPackages = {
           homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
             modules = [
@@ -50,7 +52,7 @@
               }
               ./home.nix
             ];
-            extraSpecialArgs = {neovim-configured = neovim;};
+            extraSpecialArgs = {neovim-configured = packages.neovim;};
           };
         };
       })
