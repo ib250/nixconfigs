@@ -1,10 +1,10 @@
 {
   pkgs,
-  extraSpecialArgs,
+  specialArgs,
   ...
 }: {
   home.packages = with (import ./modules/basics.nix {inherit pkgs;}); let
-    inherit (extraSpecialArgs) neovim-configured;
+    inherit (specialArgs) neovim-configured;
   in
     homePackages ++ [neovim-configured];
 

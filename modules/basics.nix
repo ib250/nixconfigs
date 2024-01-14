@@ -24,7 +24,7 @@
     jq
     fd
     silver-searcher
-    exa
+    eza
     zip
     unzip
     ripgrep
@@ -36,5 +36,4 @@
     loc
   ];
   linuxExtras = with pkgs; lib.optional hostPlatform.isLinux ueberzug;
-  osxExtras = with pkgs; lib.optional hostPlatform.isDarwin coreutils-prefixed;
-in {homePackages = commonPackages ++ linuxExtras ++ osxExtras;}
+in {homePackages = commonPackages ++ linuxExtras;}
