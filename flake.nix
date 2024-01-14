@@ -70,12 +70,14 @@
               ./machines/darwin-configuration.nix
               home-manager.darwinModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.${username} = import ./home.nix {
-                  pkgs = import nixpkgs {inherit system;};
-                  extraSpecialArgs = {
-                    neovim-configured = neovim-configured.packages.${system}.default;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.${username} = import ./home.nix {
+                    pkgs = import nixpkgs {inherit system;};
+                    extraSpecialArgs = {
+                      neovim-configured = neovim-configured.packages.${system}.default;
+                    };
                   };
                 };
               }

@@ -13,14 +13,16 @@
       allow-import-from-derivation = true
     '';
   };
-  homebrew.enable = true;
-  homebrew.casks = [
-    "iterm2"
-    "docker"
-    "cisco-jabber"
-  ];
+  homebrew = {
+    enable = true;
+    casks = [
+      "iterm2"
+      "docker"
+      "cisco-jabber"
+    ];
 
-  homebrew.brews = [
-    "tmux"
-  ];
+    brews = [
+      "tmux"
+    ];
+  };
 }
