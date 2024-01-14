@@ -8,6 +8,8 @@
   in
     homePackages ++ [neovim-configured];
 
+  home.sessionVariables.EDITOR = "nvim";
+
   programs.broot = {
     enable = true;
     enableBashIntegration = true;
@@ -15,7 +17,8 @@
     settings = {modal = true;};
   };
 
-  programs.home-manager = {enable = true;};
+  programs.home-manager.enable = true;
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -138,6 +141,8 @@
       zplug "plugins/docker-compose", from:oh-my-zsh
       zplug install 2> /dev/null
       zplug load
+
+      source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 
     '';
   };
