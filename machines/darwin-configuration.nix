@@ -12,6 +12,11 @@
       experimental-features = nix-command flakes
       allow-import-from-derivation = true
     '';
+    nixPath = [
+      {
+        nixpkgs-unstable = "https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz";
+      }
+    ];
   };
   homebrew = {
     enable = true;

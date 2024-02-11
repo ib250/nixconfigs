@@ -134,7 +134,10 @@
     };
   };
 
-  nixpkgs.config = {allowUnfreePredicate = _: true;};
+  nixpkgs.config = {
+    allowUnfreePredicate = _: true;
+  };
+
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     allow-import-from-derivation = true
