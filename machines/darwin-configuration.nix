@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   users.users."ismailbello".createHome = false;
   users.users."ismailbello".home = "/Users/ismailbello";
   environment.variables = {
