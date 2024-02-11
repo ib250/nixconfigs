@@ -27,10 +27,11 @@
     neovim-configured,
     ...
   }:
-    ( # devshells, fmt, editor, hm-configurations
+    ( # devshells, fmt, editor, standalone hm-configurations
       flake-utils.lib.eachDefaultSystem (system: let
         username = "ismailbello";
         pkgs = import nixpkgs {inherit system;};
+
         homeRoot =
           if pkgs.hostPlatform.isDarwin
           then "Users"
@@ -61,11 +62,25 @@
       # Darwin hosts
       darwinConfigurations = {
         "Ismails-Laptop" = let
+          username = "ismailbello";
           system = with flake-utils.lib.system; aarch64-darwin;
         in
           darwin.lib.darwinSystem {
             inherit system;
-            modules = [./machines/darwin-configuration.nix];
+            modules = [
+              ./machines/darwin-configuration.nix
+              home-manager.darwinModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.${username} = import ./home.nix;
+                  extraSpecialArgs = {
+                    neovim-configured = neovim-configured.packages.${system}.default;
+                  };
+                };
+              }
+            ];
           };
       };
     };

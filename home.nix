@@ -117,15 +117,18 @@
       initExtra = let
         inherit (import ./modules {inherit pkgs;}) utils;
       in ''
-        ${utils.sourceWhenAvaliable ["~/.smoke" "~/.nvm/nvm.sh"]}
-
         # not yet supported in hm module
         zplug "plugins/docker", from:oh-my-zsh
         zplug "plugins/docker-compose", from:oh-my-zsh
         zplug install 2> /dev/null
         zplug load
 
-        source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+        ${utils.sourceWhenAvaliable [
+          "~/.smoke"
+          "~/.nvm/nvm.sh"
+          "~/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        ]}
+
 
       '';
     };

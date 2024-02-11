@@ -4,8 +4,8 @@
   environment.variables = {
     EDITOR = "nvim";
   };
-  services.nix-daemon.enable = true;
   programs.zsh.enable = true;
+  services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
