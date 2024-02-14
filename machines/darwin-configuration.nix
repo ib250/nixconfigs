@@ -5,9 +5,6 @@
 }: {
   users.users."ismailbello".createHome = false;
   users.users."ismailbello".home = "/Users/ismailbello";
-  environment.variables = {
-    EDITOR = "nvim";
-  };
   programs.zsh.enable = true;
   services.nix-daemon.enable = true;
   nix = {
@@ -16,11 +13,17 @@
       experimental-features = nix-command flakes
       allow-import-from-derivation = true
     '';
-    nixPath = [
+    nixPath = lib.mkForce [
+      {nixpkgs = "flake:nixpkgs";}
+      {nix-darwin = "flake:nix-darwin";}
+      {nur = "flake:nur";}
       {
-        nixpkgs-unstable = "https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz";
+        nixpkgs-23-11-darwin = "https://nixos.org/channels/nixpkgs-23.11-darwin/nixexprs.tar.xz";
       }
     ];
+
+    linux-builder.enable = true;
+    settings.extra-trusted-users = ["@admin"];
   };
   homebrew = {
     enable = true;

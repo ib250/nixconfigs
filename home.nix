@@ -2,17 +2,20 @@
   pkgs,
   specialArgs,
   ...
-}: {
+}: let
+  inherit (specialArgs) neovim-configured;
+in {
   home = {
-    packages = with (import ./modules/basics.nix {inherit pkgs;}); let
-      inherit (specialArgs) neovim-configured;
-    in
-      homePackages ++ [neovim-configured];
-
-    sessionVariables.EDITOR = "nvim";
+    packages = with (import ./modules/basics.nix {inherit pkgs;});
+      homePackages ++ [neovim-configured pkgs.fh];
 
     stateVersion = "23.05";
+    sessionVariables = {
+      EDITOR = "${neovim-configured}/bin/nvim";
+      PAGER = "${pkgs.bat}/bin/bat --plain";
+    };
   };
+
   programs = {
     broot = {
       enable = true;
@@ -86,6 +89,7 @@
         q = "exit";
         tree = "exa -T";
         d = "dirs -v";
+        p = "$PAGER";
         cat = "bat";
         gc = "git commit";
         ga = "git add";
@@ -126,7 +130,6 @@
         ${utils.sourceWhenAvaliable [
           "~/.smoke"
           "~/.nvm/nvm.sh"
-          "~/.nix-profile/etc/profile.d/hm-session-vars.sh"
         ]}
 
 
