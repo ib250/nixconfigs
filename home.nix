@@ -12,7 +12,6 @@ in {
     stateVersion = "23.05";
     sessionVariables = {
       EDITOR = "${neovim-configured}/bin/nvim";
-      PAGER = "${pkgs.bat}/bin/bat --plain";
     };
   };
 
@@ -89,7 +88,7 @@ in {
         q = "exit";
         tree = "exa -T";
         d = "dirs -v";
-        p = "$PAGER";
+        p = "bat";
         cat = "bat";
         gc = "git commit";
         ga = "git add";

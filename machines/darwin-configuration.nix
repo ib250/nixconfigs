@@ -22,8 +22,13 @@
       }
     ];
 
+    settings = {
+      sandbox = true;
+      auto-optimise-store = true;
+      extra-trusted-users = ["@admin"];
+    };
+
     linux-builder.enable = true;
-    settings.extra-trusted-users = ["@admin"];
   };
   homebrew = {
     enable = true;
