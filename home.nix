@@ -39,8 +39,16 @@ in {
     git = {
       extraConfig = {
         user.name = "Ismail Bello";
+        core = {
+          excludesfile = "$XDG_CONFIG_HOME/git/gitignore.global";
+          fsmonitor = true;
+          preloadIndex = true;
+        };
+        maintenance = {
+          auto = true;
+          strategy = "incremental";
+        };
         credential.helper = "store";
-        core.excludesfile = "$XDG_CONFIG_HOME/git/gitignore.global";
         pull.rebase = true;
         push.autoSetupRemote = true;
       };
@@ -130,7 +138,6 @@ in {
           "~/.smoke"
           "~/.nvm/nvm.sh"
         ]}
-
 
       '';
     };
