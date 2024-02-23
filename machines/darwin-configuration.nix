@@ -14,11 +14,17 @@
       allow-import-from-derivation = true
     '';
     nixPath = lib.mkForce [
-      {nixpkgs = "flake:nixpkgs";}
-      {nix-darwin = "flake:nix-darwin";}
-      {nur = "flake:nur";}
       {
-        nixpkgs-23-11-darwin = "https://nixos.org/channels/nixpkgs-23.11-darwin/nixexprs.tar.xz";
+        nixpkgs = builtins.fetchTarball {
+          url = "https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz";
+          sha256 = "sha256:17n0arljd3zp0dbldsg0v0gv1zkbqhx0gvx28fq9jc304jm5idvr";
+        };
+      }
+      {
+        nixpkgs-23-11 = builtins.fetchTarball {
+          url = "https://nixos.org/channels/nixpkgs-23.11-darwin/nixexprs.tar.xz";
+          sha256 = "sha256:0vrrqwapknshqc0r6hhlqi2i3i8jswz7fvxn34miwi2shxi1m17g";
+        };
       }
     ];
 
