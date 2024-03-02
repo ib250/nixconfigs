@@ -28,25 +28,7 @@
       }
     ];
 
-    settings = {
-      auto-optimise-store = true;
-      extra-trusted-users = ["@admin"];
-    };
-    linux-builder.enable = false;
-    linux-builder.config = {pkgs, ...}: {
-      nix.enable = true;
-      nix.package = pkgs.nixFlakes;
-      programs = {
-        zsh = {
-          autosuggestions.enable = true;
-          enable = true;
-          enableCompletion = true;
-          syntaxHighlighting.enable = true;
-        };
-        neovim.enable = true;
-        neovim.defaultEditor = true;
-      };
-    };
+    settings.auto-optimise-store = true;
   };
   homebrew = {
     enable = true;
