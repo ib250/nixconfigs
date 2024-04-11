@@ -8,6 +8,7 @@
   programs.zsh.enable = true;
   services.nix-daemon.enable = true;
   nix = {
+    settings.trusted-users = ["root" "ismailbello"];
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -36,6 +37,7 @@
       "iterm2"
       "docker"
       "cisco-jabber"
+      "nomachine-enterprise-client"
     ];
 
     brews = [

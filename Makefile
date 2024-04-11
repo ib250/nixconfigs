@@ -20,10 +20,10 @@ UNAME := $(shell uname)
 
 ifeq ($(UNAME), Darwin)
 use:
-	nix run nix-darwin/master -- switch --flake . --show-trace
+	nix run -j8 nix-darwin/master -- switch --flake . --show-trace
 else
 use:
-	nix run home-manager/release-23.11 -- init --switch . --show-trace
+	nix run -j8 home-manager/release-23.11 -- init --switch . --show-trace
 endif
 
 
