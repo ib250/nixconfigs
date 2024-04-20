@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
 
-    neovim-configured.url = "github:ib250/neovim-flake/switch-to-kickstart";
+    neovim-configured.url = "github:ib250/neovim-flake";
     # follows nix-unstable by default
     # neovim-configured.inputs.nixpkgs.follows = "nixpkgs";
 
