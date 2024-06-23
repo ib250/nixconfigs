@@ -2,7 +2,7 @@
   description = "Ismail Bello's Nix configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
 
     neovim-configured.url = "github:ib250/neovim-flake";
     # follows nix-unstable by default
@@ -11,7 +11,7 @@
     darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils/main";
