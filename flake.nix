@@ -3,10 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
 
     neovim-configured.url = "github:ib250/neovim-flake";
-    # follows nix-unstable by default
-    # neovim-configured.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-configured.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -19,6 +19,7 @@
 
   outputs = {
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     darwin,
     flake-utils,
@@ -78,6 +79,14 @@
                     neovim-configured = neovim-configured.packages.${system}.default;
                   };
                 };
+              }
+              {
+                nix.nixPath = pkgs.lib.mkForce [
+                  {
+                    nixpkgs = nixpkgs.outPath;
+                    nixpkgs-unstable = nixpkgs-unstable.outPath;
+                  }
+                ];
               }
             ];
           };
