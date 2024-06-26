@@ -16,6 +16,22 @@ in {
   };
 
   programs = {
+    htop.enable = true;
+
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+      git = true;
+    };
+
+    ripgrep = {
+      enable = true;
+    };
+
+    gh = {
+      enable = true;
+    };
+
     broot = {
       enable = true;
       enableBashIntegration = true;
@@ -63,6 +79,7 @@ in {
       enable = true;
       enableZshIntegration = true;
     };
+
     helix = {enable = true;};
 
     neovim.defaultEditor = true;

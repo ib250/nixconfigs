@@ -28,8 +28,6 @@
         };
       }
     ];
-
-    settings.auto-optimise-store = true;
   };
   homebrew = {
     enable = true;
