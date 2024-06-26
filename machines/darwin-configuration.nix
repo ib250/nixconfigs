@@ -7,6 +7,11 @@
   users.users."ismailbello".home = "/Users/ismailbello";
   programs.zsh.enable = true;
   services.nix-daemon.enable = true;
+
+  environment = {
+    pathsToLink = ["/share/zsh" "/share/doc" "/share/man"];
+  };
+
   nix = {
     settings.trusted-users = ["root" "ismailbello"];
     package = pkgs.nixFlakes;
