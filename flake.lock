@@ -124,11 +124,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1719441693,
-        "narHash": "sha256-/emxQxTZEGTJtYZ9nPx+PKGQUfEgJncDE/bjSdl0f0o=",
+        "lastModified": 1719531649,
+        "narHash": "sha256-k39fHWiwri6YwtWK2G/lowSCSI2Jwtb3HPwQ2yCta60=",
         "owner": "ib250",
         "repo": "neovim-flake",
-        "rev": "acba5540268990814f75a2975da1292c66121bd3",
+        "rev": "f6bf02f945466cf4f503b679868a40be34658896",
         "type": "github"
       },
       "original": {
