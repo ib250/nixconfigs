@@ -100,7 +100,7 @@ in {
 
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
       defaultKeymap = "viins";
       dotDir = ".config/zsh";

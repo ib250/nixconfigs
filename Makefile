@@ -23,8 +23,14 @@ use:
 	nix run -j8 nix-darwin/master -- switch --flake . --show-trace
 else
 use:
-	nix run -j8 home-manager/release-23.11 -- init --switch . --show-trace
+	nix run -j8 home-manager/release-24.05 -- init --switch . --show-trace
 endif
 
+use-home:
+	nix run -j8 home-manager/release-24.05 -- init --switch . --show-trace
 
-.phony: lock develop update format sync use-darwin use
+use-darwin:
+	nix run -j8 nix-darwin/master -- switch --flake . --show-trace
+
+
+.phony: lock develop update format sync use-home use-darwin use
