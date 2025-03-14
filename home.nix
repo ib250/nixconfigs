@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   specialArgs,
   ...
 }: let
@@ -46,6 +47,7 @@ in {
       enableZshIntegration = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
+      nix-direnv.package = pkgs.nix-direnv.override {nix = config.nix.package;};
       config = {
         disable_stdin = false;
         strict_env = true;
