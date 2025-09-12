@@ -77,9 +77,37 @@ in {
     zoxide.enable = true;
     lf.enable = true;
 
+    tmux.enable = true;
+    tmux.extraConfig = ''
+      set -g mouse on
+      set -g mode-keys vi
+      set -g base-index 1
+      setw -g pane-base-index 1
+      set -g history-limit 50000
+
+      set-option -sg escape-time 10
+      set -g focus-events on
+
+      bind-key -r -n M-h select-pane -L
+      bind-key -r -n M-j select-pane -U
+      bind-key -r -n M-k select-pane -D
+      bind-key -r -n M-l select-pane -R
+
+      bind-key -r -n M-. select-pane -t :.+
+      bind-key -r -n M-, select-pane -t :.-
+      bind-key -r -n M-> next-window
+      bind-key -r -n M-< previous-window
+
+      bind-key -T prefix - split-window -h -c "#{pane_current_path}"
+      bind-key -T prefix _ split-window -c "#{pane_current_path}"
+
+      set -g set-clipboard external
+    '';
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
+      tmux.enableShellIntegration = true;
     };
 
     helix = {enable = true;};
