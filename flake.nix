@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    neovim-configured.url = "github:ib250/neovim-flake";
+    neovim-configured.url = "github:ib250/neovim-flake/nightly-no-framework";
     neovim-configured.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     darwin.url = "github:LnL7/nix-darwin";

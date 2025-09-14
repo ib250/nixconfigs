@@ -8,7 +8,7 @@
 in {
   home = {
     packages = with (import ./modules/basics.nix {inherit pkgs;});
-      homePackages ++ [neovim-configured pkgs.fh];
+      homePackages ++ [neovim-configured pkgs.fh pkgs.tig];
 
     stateVersion = "23.05";
     sessionVariables = {
@@ -185,7 +185,6 @@ in {
           "~/.smoke"
           "~/.nvm/nvm.sh"
         ]}
-
       '';
     };
   };
@@ -198,6 +197,11 @@ in {
     experimental-features = nix-command flakes
     allow-import-from-derivation = true
   '';
+
+
+  xdg.configFile."nvim" = {
+    source = "${neovim-configured}/opt/config/nvim";
+  };
 
   xdg.configFile."git/gitignore.global".text = ''
     *~
