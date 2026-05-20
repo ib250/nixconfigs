@@ -198,7 +198,6 @@ in {
     allow-import-from-derivation = true
   '';
 
-
   xdg.configFile."nvim" = {
     source = "${neovim-configured}/opt/config/nvim";
   };
