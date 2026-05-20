@@ -1,9 +1,0 @@
-#!/bin/sh
-
-which pacman > /dev/null && {
-  mate-power-manager &
-  setxkbmap -model pc105 -layout gb
-  start-pulseaudio-x11
-}
-sxhkd &
-exec bspwm

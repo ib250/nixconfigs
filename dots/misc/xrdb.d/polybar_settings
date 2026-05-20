@@ -1,7 +1,0 @@
-
-! Polybar
-
-polybar.background: bg
-polybar.foreground: fg
-
-! vim:ft=xdefaults

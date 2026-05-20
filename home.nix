@@ -167,14 +167,18 @@ in {
         ];
       };
 
-      initExtraBeforeCompInit = ''
+      initExtraBeforeCompInit =
+      # zsh
+      ''
         bindkey jk vi-cmd-mode
         bindkey kj vi-cmd-mode
       '';
 
       initExtra = let
         inherit (import ./modules {inherit pkgs;}) utils;
-      in ''
+      in
+      # zsh
+      ''
         # not yet supported in hm module
         zplug "plugins/docker", from:oh-my-zsh
         zplug "plugins/docker-compose", from:oh-my-zsh
@@ -193,7 +197,9 @@ in {
     allowUnfreePredicate = _: true;
   };
 
-  nix.extraOptions = ''
+  nix.extraOptions =
+  # toml
+  ''
     experimental-features = nix-command flakes
     allow-import-from-derivation = true
   '';
