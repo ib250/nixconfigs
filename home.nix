@@ -168,28 +168,28 @@ in {
       };
 
       initExtraBeforeCompInit =
-      # zsh
-      ''
-        bindkey jk vi-cmd-mode
-        bindkey kj vi-cmd-mode
-      '';
+        # zsh
+        ''
+          bindkey jk vi-cmd-mode
+          bindkey kj vi-cmd-mode
+        '';
 
       initExtra = let
         inherit (import ./modules {inherit pkgs;}) utils;
       in
-      # zsh
-      ''
-        # not yet supported in hm module
-        zplug "plugins/docker", from:oh-my-zsh
-        zplug "plugins/docker-compose", from:oh-my-zsh
-        zplug install 2> /dev/null
-        zplug load
+        # zsh
+        ''
+          # not yet supported in hm module
+          zplug "plugins/docker", from:oh-my-zsh
+          zplug "plugins/docker-compose", from:oh-my-zsh
+          zplug install 2> /dev/null
+          zplug load
 
-        ${utils.sourceWhenAvaliable [
-          "~/.smoke"
-          "~/.nvm/nvm.sh"
-        ]}
-      '';
+          ${utils.sourceWhenAvaliable [
+            "~/.smoke"
+            "~/.nvm/nvm.sh"
+          ]}
+        '';
     };
   };
 
@@ -198,11 +198,12 @@ in {
   };
 
   nix.extraOptions =
-  # toml
-  ''
-    experimental-features = nix-command flakes
-    allow-import-from-derivation = true
-  '';
+    # toml
+    ''
+      experimental-features = nix-command flakes
+      allow-import-from-derivation = true
+      post-build-hook =
+    '';
 
   xdg.configFile."nvim" = {
     source = "${neovim-configured}/opt/config/nvim";
