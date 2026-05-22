@@ -118,11 +118,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1779404871,
-        "narHash": "sha256-d1QlgmpWWt/XEjepzUCBqAroiI9NZiTVjo9ioSF9TEI=",
+        "lastModified": 1779458977,
+        "narHash": "sha256-81j+VVGIhDzoIWIaSJY4mI8nXz75AAVzW0kPOHWJoT8=",
         "owner": "ib250",
         "repo": "neovim-flake",
-        "rev": "9990305a797d38294679232b9b0588778348e14d",
+        "rev": "cc11fd2c256d58355be1024e3197f05e205d8fab",
         "type": "github"
       },
       "original": {
