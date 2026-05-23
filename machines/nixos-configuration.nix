@@ -5,10 +5,82 @@
   config,
   pkgs,
   ...
-}: let
-  systemLevel =
-    import ./packages/nixosPackages.nix {inherit pkgs;};
-in {
+}:
+let
+  systemPackages = with pkgs; [
+    # Basics
+    sudo
+    zsync
+    autoconf
+    gnumake
+    fuse
+    glib
+    openssl
+    libtool
+    inotify-tools
+    lz4
+    desktop_file_utils
+    cairo
+    libarchive
+    automake
+
+    # Graphical
+    arandr
+    w3m
+    pulseaudioFull
+    pulsemixer
+    pamixer
+    bspwm
+    sxhkd
+    spotify
+    rofi
+    lxappearance
+    mate.mate-power-manager
+    xorg.xorgserver
+    xorg.xdm
+    xorg.xinit
+    xorg.xrdb
+    xorg.xrandr
+    xorg.xprop
+    xorg.xmodmap
+    xorg.xauth
+    xorg.xhost
+    hsetroot
+    rxvt_unicode
+    termite
+    unclutter
+    xorg_sys_opengl
+    wmutils-core
+    wmutils-opt
+    compton
+
+    # Productivity
+    polybar
+    font-manager
+    acpi
+    zathura
+    google-chrome
+
+    # Extra Dev Tools
+    docker
+  ];
+
+  systemFonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-mono
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts
+    dina-font
+    proggyfonts
+    siji
+    unifont
+  ];
+in
+{
   imports = [
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
@@ -41,11 +113,13 @@ in {
   networking = {
     hostName = "ib250nix";
     networkmanager.enable = true;
-    nameservers = ["8.8.8.8"];
+    nameservers = [ "8.8.8.8" ];
   };
 
   # Select internationalisation properties.
-  i18n = {defaultLocale = "en_GB.UTF-8";};
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
+  };
 
   console = {
     font = "Lat2-Terminus16";
@@ -72,62 +146,70 @@ in {
   nixpkgs.config.allowUnfree = true;
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with builtins;
-    concatLists [
-      systemLevel.basics
-      systemLevel.graphical
-      systemLevel.productivityPackages
-      systemLevel.extraDevTools
-    ];
+  environment.systemPackages = systemPackages;
 
-  fonts.fonts = systemLevel.fonts;
+  fonts.fonts = systemFonts;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs = let
-    customAliases = {
-      c = "clear";
-      l = "exa --long --all --git";
-      ls = "exa";
-      r = "ranger";
-      ll = "exa --long --git";
-      rmi = "rm -iv";
-      cpi = "cp -iv";
-      mvi = "mv -iv";
-      trls = "exa -T -L 1";
-      tree = "exa -T";
-      quickLuaTex = "latexmk -lualatex";
-      quickPdfTex = "latexmk -pdf";
-      q = "exit";
-    };
+  programs =
+    let
+      customAliases = {
+        c = "clear";
+        l = "exa --long --all --git";
+        ls = "exa";
+        r = "ranger";
+        ll = "exa --long --git";
+        rmi = "rm -iv";
+        cpi = "cp -iv";
+        mvi = "mv -iv";
+        trls = "exa -T -L 1";
+        tree = "exa -T";
+        quickLuaTex = "latexmk -lualatex";
+        quickPdfTex = "latexmk -pdf";
+        q = "exit";
+      };
 
-    bashConfig = {
-      enableCompletion = true;
-      shellAliases = customAliases;
-    };
+      bashConfig = {
+        enableCompletion = true;
+        shellAliases = customAliases;
+      };
 
-    zhighlighting = {
-      enable = true;
-      highlighters = ["main" "brackets" "pattern" "root" "line"];
-    };
+      zhighlighting = {
+        enable = true;
+        highlighters = [
+          "main"
+          "brackets"
+          "pattern"
+          "root"
+          "line"
+        ];
+      };
 
-    zshConfig = {
-      enable = true;
-      autosuggestions = {enable = true;};
-      enableCompletion = true;
-      shellAliases = customAliases;
-      syntaxHighlighting = zhighlighting;
+      zshConfig = {
+        enable = true;
+        autosuggestions = {
+          enable = true;
+        };
+        enableCompletion = true;
+        shellAliases = customAliases;
+        syntaxHighlighting = zhighlighting;
+      };
+    in
+    {
+      mtr = {
+        enable = true;
+      };
+      bash = bashConfig;
+      zsh = zshConfig;
+      vim = {
+        defaultEditor = true;
+      };
+      gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
     };
-  in {
-    mtr = {enable = true;};
-    bash = bashConfig;
-    zsh = zshConfig;
-    vim = {defaultEditor = true;};
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-  };
 
   services.openssh.enable = true;
   services.upower.enable = true;
@@ -139,7 +221,10 @@ in {
     enableCtrlAltBackspace = true;
     exportConfiguration = true;
 
-    videoDrivers = ["modesetting" "nvidia"];
+    videoDrivers = [
+      "modesetting"
+      "nvidia"
+    ];
 
     displayManager = {
       job = {
@@ -147,8 +232,7 @@ in {
         preStart = "${pkgs.rxvt_unicode}/bin/urxvtd -q -f -o &";
       };
 
-      sessionCommands = with pkgs;
-        lib.mkAfter "xmodmap ~/.Xmodmap";
+      sessionCommands = with pkgs; lib.mkAfter "xmodmap ~/.Xmodmap";
       session = [
         {
           manage = "window";

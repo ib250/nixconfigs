@@ -16,54 +16,66 @@
     flake-utils.url = "github:numtide/flake-utils/main";
   };
 
-  outputs = {
-    nixpkgs,
-    nixpkgs-unstable,
-    home-manager,
-    darwin,
-    flake-utils,
-    neovim-configured,
-    ...
-  }:
-    ( # devshells, fmt, editor, standalone hm-configurations
-      flake-utils.lib.eachDefaultSystem (system: let
-        username = "ismailbello";
-        pkgs = import nixpkgs {inherit system;};
-
-        homeRoot =
-          if pkgs.hostPlatform.isDarwin
-          then "Users"
-          else "home";
-      in rec {
-        devShell = import ./shell.nix {inherit pkgs;};
-        formatter = pkgs.alejandra;
-        packages = {
-          neovim = neovim-configured.packages.${system}.default;
-        };
-        legacyPackages = {
-          homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [
-              {
-                home.username = username;
-                home.homeDirectory = "/${homeRoot}/${username}";
-                nix.package = pkgs.nixFlakes;
-              }
-              ./home.nix
-            ];
-            extraSpecialArgs = {neovim-configured = packages.neovim;};
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      darwin,
+      flake-utils,
+      neovim-configured,
+      ...
+    }:
+    (
+      # devshells, fmt, editor, standalone hm-configurations
+      flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          username = "ismailbello";
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
           };
-        };
-      })
+
+          homeRoot = if pkgs.hostPlatform.isDarwin then "Users" else "home";
+        in
+        rec {
+          devShell = import ./shell.nix { inherit pkgs; };
+          formatter = pkgs.alejandra;
+          packages = {
+            neovim = neovim-configured.packages.${system}.default;
+          };
+          legacyPackages = {
+            homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [
+                {
+                  home.username = username;
+                  home.homeDirectory = "/${homeRoot}/${username}";
+                  nix.package = pkgs.nixFlakes;
+                }
+                ./home.nix
+              ];
+              extraSpecialArgs = {
+                neovim-configured = packages.neovim;
+              };
+            };
+          };
+        }
+      )
     )
     // {
       # Darwin hosts
       darwinConfigurations = {
-        "Ismails-Laptop" = let
-          username = "ismailbello";
-          system = with flake-utils.lib.system; aarch64-darwin;
-          pkgs = import nixpkgs {inherit system;};
-        in
+        "Ismails-Laptop" =
+          let
+            username = "ismailbello";
+            system = with flake-utils.lib.system; aarch64-darwin;
+            pkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          in
           darwin.lib.darwinSystem {
             inherit pkgs system;
             modules = [

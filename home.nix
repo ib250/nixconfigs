@@ -1,14 +1,55 @@
 {
   pkgs,
   config,
-  specialArgs,
+  neovim-configured,
   ...
-}: let
-  inherit (specialArgs) neovim-configured;
-in {
+}:
+{
   home = {
-    packages = with (import ./modules/basics.nix {inherit pkgs;});
-      homePackages ++ [neovim-configured pkgs.fh pkgs.tig];
+    packages =
+      with pkgs;
+      [
+        # Editors & Core Utilities
+        neovim-configured
+        fh
+        tig
+        wget
+        gawk
+        coreutils
+        binutils
+        man-pages
+        pstree
+        zplug
+        git
+        ruby
+        gitAndTools.git-extras
+        pre-commit
+        highlight
+        jq
+        fd
+        silver-searcher
+        zip
+        unzip
+        httpie
+        gnused
+        nix-info
+        nox
+        loc
+        difftastic
+        delta
+
+        # Cloud Providers & Databases
+        linode-cli
+        awscli2
+        google-cloud-sdk
+        pgcli
+        mycli
+
+        # Fonts
+        fira-code
+        fira-mono
+      ]
+      ++ lib.optional stdenv.hostPlatform.isLinux ueberzug;
 
     stateVersion = "23.05";
     sessionVariables = {
@@ -37,7 +78,9 @@ in {
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      settings = {modal = true;};
+      settings = {
+        modal = true;
+      };
     };
 
     home-manager.enable = true;
@@ -47,7 +90,7 @@ in {
       enableZshIntegration = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
-      nix-direnv.package = pkgs.nix-direnv.override {nix = config.nix.package;};
+      nix-direnv.package = pkgs.nix-direnv.override { nix = config.nix.package; };
       config = {
         disable_stdin = false;
         strict_env = true;
@@ -55,6 +98,9 @@ in {
     };
 
     git = {
+      delta.enable = true;
+      difftastic.enable = true;
+
       extraConfig = {
         user.name = "Ismail Bello";
         core = {
@@ -70,7 +116,9 @@ in {
         pull.rebase = true;
         push.autoSetupRemote = true;
       };
-      includes = [{path = "~/.gitconfig";}];
+
+      includes = [ { path = "~/.gitconfig"; } ];
+
     };
 
     scmpuff.enable = true;
@@ -78,7 +126,9 @@ in {
     lf.enable = true;
 
     tmux.enable = true;
-    tmux.extraConfig = ''
+    tmux.extraConfig =
+    # tmux
+    ''
       set -g mouse on
       set -g mode-keys vi
       set -g base-index 1
@@ -110,13 +160,17 @@ in {
       tmux.enableShellIntegration = true;
     };
 
-    helix = {enable = true;};
+    helix = {
+      enable = true;
+    };
 
     neovim.defaultEditor = true;
 
     bat = {
       enable = true;
-      config = {theme = "Nord";};
+      config = {
+        theme = "Nord";
+      };
     };
 
     starship = {
@@ -124,7 +178,9 @@ in {
       enableBashIntegration = true;
       enableZshIntegration = true;
       settings = {
-        gcloud = {format = "on [$symbol$account(@$domain/$project)]($style)";};
+        gcloud = {
+          format = "on [$symbol$account(@$domain/$project)]($style)";
+        };
       };
     };
 
@@ -159,11 +215,11 @@ in {
       zplug = {
         enable = true;
         plugins = [
-          {name = "mafredri/zsh-async";}
-          {name = "zsh-users/zsh-completions";}
-          {name = "zsh-users/zsh-autosuggestions";}
-          {name = "zsh-users/zsh-history-substring-search";}
-          {name = "zdharma/fast-syntax-highlighting";}
+          { name = "mafredri/zsh-async"; }
+          { name = "zsh-users/zsh-completions"; }
+          { name = "zsh-users/zsh-autosuggestions"; }
+          { name = "zsh-users/zsh-history-substring-search"; }
+          { name = "zdharma/fast-syntax-highlighting"; }
         ];
       };
 
@@ -174,9 +230,7 @@ in {
           bindkey kj vi-cmd-mode
         '';
 
-      initExtra = let
-        inherit (import ./modules {inherit pkgs;}) utils;
-      in
+      initExtra =
         # zsh
         ''
           # not yet supported in hm module
@@ -185,31 +239,28 @@ in {
           zplug install 2> /dev/null
           zplug load
 
-          ${utils.sourceWhenAvaliable [
-            "~/.smoke"
-            "~/.nvm/nvm.sh"
-          ]}
+          [ -f ~/.smoke ] && source ~/.smoke
+          [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
         '';
     };
   };
 
-  nixpkgs.config = {
-    allowUnfreePredicate = _: true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   nix.extraOptions =
     # toml
     ''
       experimental-features = nix-command flakes
       allow-import-from-derivation = true
-      post-build-hook =
+      post-build-hook = ""
     '';
 
   xdg.configFile."nvim" = {
     source = "${neovim-configured}/opt/config/nvim";
   };
 
-  xdg.configFile."git/gitignore.global".text = ''
+  xdg.configFile."git/gitignore.global".text =
+  ''
     *~
     *.swp
     .vim
