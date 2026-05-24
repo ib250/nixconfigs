@@ -119,18 +119,14 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1779575845,
-        "narHash": "sha256-xK2eSbvyMdekbzWl8ILcO2wpodMCJtAlFxTW+OE2pGU=",
-        "owner": "ib250",
-        "repo": "neovim-flake",
-        "rev": "4035600acdf10e9744fdb872d5cb38b3a520696e",
-        "type": "github"
+        "path": "./neovim-flake",
+        "type": "path"
       },
       "original": {
-        "owner": "ib250",
-        "repo": "neovim-flake",
-        "type": "github"
-      }
+        "path": "./neovim-flake",
+        "type": "path"
+      },
+      "parent": []
     },
     "nix-appimage": {
       "inputs": {

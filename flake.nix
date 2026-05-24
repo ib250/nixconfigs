@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    neovim-configured.url = "github:ib250/neovim-flake";
+    neovim-configured.url = "./neovim-flake";
 
     darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,12 +38,14 @@
           };
 
           homeRoot = if pkgs.hostPlatform.isDarwin then "Users" else "home";
+
+          _neovim-configured-packages = removeAttrs neovim-configured.packages.${system} [ "default" ];
         in
         rec {
           devShell = import ./shell.nix { inherit pkgs; };
           formatter = pkgs.alejandra;
-          packages = {
-            neovim = neovim-configured.packages.${system}.default;
+          packages = _neovim-configured-packages // {
+            # if any...
           };
           legacyPackages = {
             homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
@@ -57,7 +59,7 @@
                 ./home.nix
               ];
               extraSpecialArgs = {
-                neovim-configured = packages.neovim;
+                neovim-configured = packages.nvim;
               };
             };
           };
