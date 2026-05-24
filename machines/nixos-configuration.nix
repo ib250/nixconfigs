@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   systemPackages = with pkgs; [
     # Basics
     sudo
@@ -79,8 +78,7 @@ let
     siji
     unifont
   ];
-in
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
@@ -113,7 +111,7 @@ in
   networking = {
     hostName = "ib250nix";
     networkmanager.enable = true;
-    nameservers = [ "8.8.8.8" ];
+    nameservers = ["8.8.8.8"];
   };
 
   # Select internationalisation properties.
@@ -152,64 +150,62 @@ in
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs =
-    let
-      customAliases = {
-        c = "clear";
-        l = "exa --long --all --git";
-        ls = "exa";
-        r = "ranger";
-        ll = "exa --long --git";
-        rmi = "rm -iv";
-        cpi = "cp -iv";
-        mvi = "mv -iv";
-        trls = "exa -T -L 1";
-        tree = "exa -T";
-        quickLuaTex = "latexmk -lualatex";
-        quickPdfTex = "latexmk -pdf";
-        q = "exit";
-      };
-
-      bashConfig = {
-        enableCompletion = true;
-        shellAliases = customAliases;
-      };
-
-      zhighlighting = {
-        enable = true;
-        highlighters = [
-          "main"
-          "brackets"
-          "pattern"
-          "root"
-          "line"
-        ];
-      };
-
-      zshConfig = {
-        enable = true;
-        autosuggestions = {
-          enable = true;
-        };
-        enableCompletion = true;
-        shellAliases = customAliases;
-        syntaxHighlighting = zhighlighting;
-      };
-    in
-    {
-      mtr = {
-        enable = true;
-      };
-      bash = bashConfig;
-      zsh = zshConfig;
-      vim = {
-        defaultEditor = true;
-      };
-      gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-      };
+  programs = let
+    customAliases = {
+      c = "clear";
+      l = "exa --long --all --git";
+      ls = "exa";
+      r = "ranger";
+      ll = "exa --long --git";
+      rmi = "rm -iv";
+      cpi = "cp -iv";
+      mvi = "mv -iv";
+      trls = "exa -T -L 1";
+      tree = "exa -T";
+      quickLuaTex = "latexmk -lualatex";
+      quickPdfTex = "latexmk -pdf";
+      q = "exit";
     };
+
+    bashConfig = {
+      enableCompletion = true;
+      shellAliases = customAliases;
+    };
+
+    zhighlighting = {
+      enable = true;
+      highlighters = [
+        "main"
+        "brackets"
+        "pattern"
+        "root"
+        "line"
+      ];
+    };
+
+    zshConfig = {
+      enable = true;
+      autosuggestions = {
+        enable = true;
+      };
+      enableCompletion = true;
+      shellAliases = customAliases;
+      syntaxHighlighting = zhighlighting;
+    };
+  in {
+    mtr = {
+      enable = true;
+    };
+    bash = bashConfig;
+    zsh = zshConfig;
+    vim = {
+      defaultEditor = true;
+    };
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+  };
 
   services.openssh.enable = true;
   services.upower.enable = true;

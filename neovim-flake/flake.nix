@@ -9,34 +9,31 @@
     nix-appimage.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      # NOTE(broken): neovim-nightly-overlay,
-      nix-appimage,
-      ...
-    }:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    # NOTE(broken): neovim-nightly-overlay,
+    nix-appimage,
+    ...
+  }: let
+    supportedSystems = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
 
-      named = drv: {
-        name = drv.pname or drv.name;
-        value = drv;
-      };
+    named = drv: {
+      name = drv.pname or drv.name;
+      value = drv;
+    };
 
-      matches = regex: string: !(isNull (builtins.match regex string));
-    in
+    matches = regex: string: !(isNull (builtins.match regex string));
+  in
     flake-utils.lib.eachSystem supportedSystems (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
+      system: let
+        pkgs = import nixpkgs {inherit system;};
 
         # NOTE(treesitter): this allows the queries to be bundled into nvim-treesitter
         # for the parsers themselves, we need to handle that separately
@@ -44,15 +41,14 @@
 
         # NOTE(broken): neovim-nightly-overlay.packages.${system}.default;
         _neovim = pkgs.neovim;
-      in
-      {
-        packages = rec {
-          default = pkgs.buildEnv {
-            pname = "nvim";
-            inherit (_neovim) version;
-            name = "neovim-nightly-env";
-            paths =
-              let
+      in {
+        packages =
+          rec {
+            default = pkgs.buildEnv {
+              pname = "nvim";
+              inherit (_neovim) version;
+              name = "neovim-nightly-env";
+              paths = let
                 plugins = with pkgs.vimPlugins; {
                   start = map named [
                     nvim-treesitter-package
@@ -97,14 +93,13 @@
 
                 # NOTE: bundle the parsers in a single directory
                 # so we can add it somewhere in packpath/start
-                ts-grammars =
-                  with nvim-treesitter-package.passthru;
+                ts-grammars = with nvim-treesitter-package.passthru;
                   pkgs.symlinkJoin {
                     name = "nvim-treesitter-grammars";
                     paths = dependencies;
                   };
 
-                packdir = pkgs.runCommand "neovim-nightly-env-plugins" { } ''
+                packdir = pkgs.runCommand "neovim-nightly-env-plugins" {} ''
                   mkdir -p $out/opt/pack/nightly-plugin/{start,opt}
 
                   ln -snf ${start}/* $out/opt/pack/nightly-plugin/start/
@@ -114,7 +109,7 @@
                   ln -snf ${opt}/* $out/opt/pack/nightly-plugin/opt/
                 '';
 
-                cfgdir = pkgs.runCommand "neovim-nightly-appconfig" { } ''
+                cfgdir = pkgs.runCommand "neovim-nightly-appconfig" {} ''
                   mkdir -p $out/opt/config/nvim
                   ln -snf ${./config}/nvim/* $out/opt/config/nvim/
                   ln -snf ${packdir}/opt/pack $out/opt/config/nvim/
@@ -123,8 +118,7 @@
                   ln -snf ${ts-grammars}/parser/* $out/opt/config/nvim/parser/
                   ln -snf ${ts-grammars}/queries/* $out/opt/config/nvim/queries/
                 '';
-              in
-              [
+              in [
                 _neovim
                 pkgs.tree-sitter
                 pkgs.nixfmt
@@ -138,26 +132,24 @@
                 packdir
                 cfgdir
               ];
-          };
-
-          nvim = default;
-
-        }
-        // pkgs.lib.optionalAttrs (matches "^.*-linux" system) {
-          appimage =
-            with nix-appimage.lib.${system};
-            mkAppImage {
-              program = "${nvim}/bin/nvim";
             };
 
-        };
+            nvim = default;
+          }
+          // pkgs.lib.optionalAttrs (matches "^.*-linux" system) {
+            appimage = with nix-appimage.lib.${system};
+              mkAppImage {
+                program = "${nvim}/bin/nvim";
+              };
+          };
 
         devShells = {
           default = pkgs.mkShell {
             name = "nvim-devShell";
             buildInputs = with self.outputs.packages.${system}; [
               nvim
-              (pkgs.writeScriptBin "nvim.test"
+              (
+                pkgs.writeScriptBin "nvim.test"
                 # bash
                 ''
                   export XDG_CONFIG_HOME=${nvim}/opt/config

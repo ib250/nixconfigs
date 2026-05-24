@@ -16,37 +16,39 @@
     flake-utils.url = "github:numtide/flake-utils/main";
   };
 
-  outputs =
-    {
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      darwin,
-      flake-utils,
-      neovim-configured,
-      ...
-    }:
+  outputs = {
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    darwin,
+    flake-utils,
+    neovim-configured,
+    ...
+  }:
     (
       # devshells, fmt, editor, standalone hm-configurations
       flake-utils.lib.eachDefaultSystem (
-        system:
-        let
+        system: let
           username = "ismailbello";
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
 
-          homeRoot = if pkgs.hostPlatform.isDarwin then "Users" else "home";
+          homeRoot =
+            if pkgs.hostPlatform.isDarwin
+            then "Users"
+            else "home";
 
-          _neovim-configured-packages = removeAttrs neovim-configured.packages.${system} [ "default" ];
-        in
-        rec {
-          devShell = import ./shell.nix { inherit pkgs; };
+          _neovim-configured-packages = removeAttrs neovim-configured.packages.${system} ["default"];
+        in rec {
+          devShell = import ./shell.nix {inherit pkgs;};
           formatter = pkgs.alejandra;
-          packages = _neovim-configured-packages // {
-            # if any...
-          };
+          packages =
+            _neovim-configured-packages
+            // {
+              # if any...
+            };
           legacyPackages = {
             homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
@@ -69,15 +71,14 @@
     // {
       # Darwin hosts
       darwinConfigurations = {
-        "Ismails-Laptop" =
-          let
-            username = "ismailbello";
-            system = with flake-utils.lib.system; aarch64-darwin;
-            pkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          in
+        "Ismails-Laptop" = let
+          username = "ismailbello";
+          system = with flake-utils.lib.system; aarch64-darwin;
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
           darwin.lib.darwinSystem {
             inherit pkgs system;
             modules = [

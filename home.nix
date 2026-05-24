@@ -3,11 +3,9 @@
   config,
   neovim-configured,
   ...
-}:
-{
+}: {
   home = {
-    packages =
-      with pkgs;
+    packages = with pkgs;
       [
         # Editors & Core Utilities
         neovim-configured
@@ -90,7 +88,7 @@
       enableZshIntegration = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
-      nix-direnv.package = pkgs.nix-direnv.override { nix = config.nix.package; };
+      nix-direnv.package = pkgs.nix-direnv.override {nix = config.nix.package;};
       config = {
         disable_stdin = false;
         strict_env = true;
@@ -117,8 +115,7 @@
         push.autoSetupRemote = true;
       };
 
-      includes = [ { path = "~/.gitconfig"; } ];
-
+      includes = [{path = "~/.gitconfig";}];
     };
 
     scmpuff.enable = true;
@@ -127,32 +124,32 @@
 
     tmux.enable = true;
     tmux.extraConfig =
-    # tmux
-    ''
-      set -g mouse on
-      set -g mode-keys vi
-      set -g base-index 1
-      setw -g pane-base-index 1
-      set -g history-limit 50000
+      # tmux
+      ''
+        set -g mouse on
+        set -g mode-keys vi
+        set -g base-index 1
+        setw -g pane-base-index 1
+        set -g history-limit 50000
 
-      set-option -sg escape-time 10
-      set -g focus-events on
+        set-option -sg escape-time 10
+        set -g focus-events on
 
-      bind-key -r -n M-h select-pane -L
-      bind-key -r -n M-j select-pane -U
-      bind-key -r -n M-k select-pane -D
-      bind-key -r -n M-l select-pane -R
+        bind-key -r -n M-h select-pane -L
+        bind-key -r -n M-j select-pane -U
+        bind-key -r -n M-k select-pane -D
+        bind-key -r -n M-l select-pane -R
 
-      bind-key -r -n M-. select-pane -t :.+
-      bind-key -r -n M-, select-pane -t :.-
-      bind-key -r -n M-> next-window
-      bind-key -r -n M-< previous-window
+        bind-key -r -n M-. select-pane -t :.+
+        bind-key -r -n M-, select-pane -t :.-
+        bind-key -r -n M-> next-window
+        bind-key -r -n M-< previous-window
 
-      bind-key -T prefix - split-window -h -c "#{pane_current_path}"
-      bind-key -T prefix _ split-window -c "#{pane_current_path}"
+        bind-key -T prefix - split-window -h -c "#{pane_current_path}"
+        bind-key -T prefix _ split-window -c "#{pane_current_path}"
 
-      set -g set-clipboard external
-    '';
+        set -g set-clipboard external
+      '';
 
     fzf = {
       enable = true;
@@ -215,11 +212,11 @@
       zplug = {
         enable = true;
         plugins = [
-          { name = "mafredri/zsh-async"; }
-          { name = "zsh-users/zsh-completions"; }
-          { name = "zsh-users/zsh-autosuggestions"; }
-          { name = "zsh-users/zsh-history-substring-search"; }
-          { name = "zdharma/fast-syntax-highlighting"; }
+          {name = "mafredri/zsh-async";}
+          {name = "zsh-users/zsh-completions";}
+          {name = "zsh-users/zsh-autosuggestions";}
+          {name = "zsh-users/zsh-history-substring-search";}
+          {name = "zdharma/fast-syntax-highlighting";}
         ];
       };
 
@@ -259,8 +256,7 @@
     source = "${neovim-configured}/opt/config/nvim";
   };
 
-  xdg.configFile."git/gitignore.global".text =
-  ''
+  xdg.configFile."git/gitignore.global".text = ''
     *~
     *.swp
     .vim

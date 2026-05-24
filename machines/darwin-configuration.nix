@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   users.users."ismailbello".createHome = false;
   users.users."ismailbello".home = "/Users/ismailbello";
   programs.zsh.enable = true;
