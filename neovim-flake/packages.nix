@@ -1,6 +1,7 @@
-{ pkgs, nix-appimage ? null }:
-
-let
+{
+  pkgs,
+  nix-appimage ? null,
+}: let
   named = drv: {
     name = drv.pname or drv.name;
     value = drv;
@@ -16,102 +17,102 @@ let
   # NOTE(broken): neovim-nightly-overlay.packages.${system}.default;
   _neovim = pkgs.neovim;
 in
-rec {
-  default = pkgs.buildEnv {
-    pname = "nvim";
-    inherit (_neovim) version;
-    name = "neovim-nightly-env";
-    paths = let
-      plugins = with pkgs.vimPlugins; {
-        start = map named [
-          nvim-treesitter-package
-          nvim-treesitter-context
-          nvim-treesitter-textobjects
+  rec {
+    default = pkgs.buildEnv {
+      pname = "nvim";
+      inherit (_neovim) version;
+      name = "neovim-nightly-env";
+      paths = let
+        plugins = with pkgs.vimPlugins; {
+          start = map named [
+            nvim-treesitter-package
+            nvim-treesitter-context
+            nvim-treesitter-textobjects
 
-          nvim-origami
+            nvim-origami
 
-          oil-nvim
-          guess-indent-nvim
-          rose-pine
+            oil-nvim
+            guess-indent-nvim
+            rose-pine
 
-          which-key-nvim
-          comment-nvim
-          todo-comments-nvim
+            which-key-nvim
+            comment-nvim
+            todo-comments-nvim
 
-          plenary-nvim
-        ];
+            plenary-nvim
+          ];
 
-        opt = map named [
-          gitsigns-nvim
+          opt = map named [
+            gitsigns-nvim
 
-          telescope-nvim
-          telescope-frecency-nvim
-          telescope-fzf-native-nvim
-          telescope-ui-select-nvim
+            telescope-nvim
+            telescope-frecency-nvim
+            telescope-fzf-native-nvim
+            telescope-ui-select-nvim
 
-          nvim-lspconfig
-          blink-cmp
+            nvim-lspconfig
+            blink-cmp
 
-          clangd_extensions-nvim
-          rustaceanvim
-          vim-just
+            clangd_extensions-nvim
+            rustaceanvim
+            vim-just
 
-          sqlite-lua
-        ];
-      };
-
-      start = pkgs.linkFarm "opt-start-contents" (builtins.listToAttrs plugins.start);
-
-      opt = pkgs.linkFarm "opt-opt-contents" (builtins.listToAttrs plugins.opt);
-
-      # NOTE: bundle the parsers in a single directory
-      # so we can add it somewhere in packpath/start
-      ts-grammars = with nvim-treesitter-package.passthru;
-        pkgs.symlinkJoin {
-          name = "nvim-treesitter-grammars";
-          paths = dependencies;
+            sqlite-lua
+          ];
         };
 
-      packdir = pkgs.runCommand "neovim-nightly-env-plugins" {} ''
-        mkdir -p $out/opt/pack/nightly-plugin/{start,opt}
+        start = pkgs.linkFarm "opt-start-contents" (builtins.listToAttrs plugins.start);
 
-        ln -snf ${start}/* $out/opt/pack/nightly-plugin/start/
-        ln -snf ${ts-grammars} \
-          $out/opt/pack/nightly-plugin/start/${ts-grammars.name}
+        opt = pkgs.linkFarm "opt-opt-contents" (builtins.listToAttrs plugins.opt);
 
-        ln -snf ${opt}/* $out/opt/pack/nightly-plugin/opt/
-      '';
+        # NOTE: bundle the parsers in a single directory
+        # so we can add it somewhere in packpath/start
+        ts-grammars = with nvim-treesitter-package.passthru;
+          pkgs.symlinkJoin {
+            name = "nvim-treesitter-grammars";
+            paths = dependencies;
+          };
 
-      cfgdir = pkgs.runCommand "neovim-nightly-appconfig" {} ''
-        mkdir -p $out/opt/config/nvim
-        ln -snf ${./config}/nvim/* $out/opt/config/nvim/
-        ln -snf ${packdir}/opt/pack $out/opt/config/nvim/
+        packdir = pkgs.runCommand "neovim-nightly-env-plugins" {} ''
+          mkdir -p $out/opt/pack/nightly-plugin/{start,opt}
 
-        mkdir -p $out/opt/config/nvim/{parser,queries}
-        ln -snf ${ts-grammars}/parser/* $out/opt/config/nvim/parser/
-        ln -snf ${ts-grammars}/queries/* $out/opt/config/nvim/queries/
-      '';
-    in [
-      _neovim
-      pkgs.tree-sitter
-      pkgs.nixfmt
-      pkgs.nil
-      pkgs.lua-language-server
-      pkgs.luajitPackages.luacheck
-      pkgs.stylua
-      pkgs.statix
-      pkgs.bash-language-server
-      pkgs.efm-langserver
-      packdir
-      cfgdir
-    ];
-  };
+          ln -snf ${start}/* $out/opt/pack/nightly-plugin/start/
+          ln -snf ${ts-grammars} \
+            $out/opt/pack/nightly-plugin/start/${ts-grammars.name}
 
-  nvim = default;
-}
-// pkgs.lib.optionalAttrs (matches "^.*-linux" system && nix-appimage != null) {
-  appimage = with nix-appimage.lib.${system};
-    mkAppImage {
-      program = "${nvim}/bin/nvim";
+          ln -snf ${opt}/* $out/opt/pack/nightly-plugin/opt/
+        '';
+
+        cfgdir = pkgs.runCommand "neovim-nightly-appconfig" {} ''
+          mkdir -p $out/opt/config/nvim
+          ln -snf ${./config}/nvim/* $out/opt/config/nvim/
+          ln -snf ${packdir}/opt/pack $out/opt/config/nvim/
+
+          mkdir -p $out/opt/config/nvim/{parser,queries}
+          ln -snf ${ts-grammars}/parser/* $out/opt/config/nvim/parser/
+          ln -snf ${ts-grammars}/queries/* $out/opt/config/nvim/queries/
+        '';
+      in [
+        _neovim
+        pkgs.tree-sitter
+        pkgs.nixfmt
+        pkgs.nil
+        pkgs.lua-language-server
+        pkgs.luajitPackages.luacheck
+        pkgs.stylua
+        pkgs.statix
+        pkgs.bash-language-server
+        pkgs.efm-langserver
+        packdir
+        cfgdir
+      ];
     };
-}
+
+    nvim = default;
+  }
+  // pkgs.lib.optionalAttrs (matches "^.*-linux" system && nix-appimage != null) {
+    appimage = with nix-appimage.lib.${system};
+      mkAppImage {
+        program = "${nvim}/bin/nvim";
+      };
+  }

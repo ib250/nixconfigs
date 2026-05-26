@@ -1,5 +1,7 @@
-{ pkgs, nvim }:
-
+{
+  pkgs,
+  nvim,
+}:
 pkgs.mkShell {
   name = "nvim-devShell";
   buildInputs = [

@@ -113,10 +113,12 @@
                   useUserPackages = true;
                   users.${username} = import ./home.nix;
                   extraSpecialArgs = {
-                    neovim-configured = (import ./neovim-flake/packages.nix {
-                      pkgs = pkgs-unstable;
-                      inherit nix-appimage;
-                    }).default;
+                    neovim-configured =
+                      (import ./neovim-flake/packages.nix {
+                        pkgs = pkgs-unstable;
+                        inherit nix-appimage;
+                      })
+                      .default;
                   };
                 };
               }
@@ -133,4 +135,3 @@
       };
     };
 }
-
