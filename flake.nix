@@ -6,22 +6,25 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     flake-utils.url = "github:numtide/flake-utils/main";
-    neovim-configured.url = "path:./neovim-flake";
 
     darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-appimage.url = "github:ralismark/nix-appimage";
+    nix-appimage.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = {
+    self,
     nixpkgs,
     nixpkgs-unstable,
     home-manager,
     darwin,
     flake-utils,
-    neovim-configured,
+    nix-appimage,
     ...
   }:
     (
@@ -34,12 +37,22 @@
             config.allowUnfree = true;
           };
 
+          pkgs-unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+
           homeRoot =
             if pkgs.hostPlatform.isDarwin
             then "Users"
             else "home";
 
-          _neovim-configured-packages = removeAttrs neovim-configured.packages.${system} ["default"];
+          neovim-packages = import ./neovim-flake/packages.nix {
+            pkgs = pkgs-unstable;
+            inherit nix-appimage;
+          };
+
+          _neovim-configured-packages = removeAttrs neovim-packages ["default"];
         in rec {
           devShell = import ./shell.nix {inherit pkgs;};
           formatter = pkgs.alejandra;
@@ -48,6 +61,13 @@
             // {
               # if any...
             };
+          devShells = {
+            default = devShell;
+            nvim = import ./neovim-flake/shell.nix {
+              pkgs = pkgs-unstable;
+              nvim = packages.nvim;
+            };
+          };
           legacyPackages = {
             homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
@@ -77,6 +97,10 @@
             inherit system;
             config.allowUnfree = true;
           };
+          pkgs-unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
         in
           darwin.lib.darwinSystem {
             inherit pkgs system;
@@ -89,7 +113,10 @@
                   useUserPackages = true;
                   users.${username} = import ./home.nix;
                   extraSpecialArgs = {
-                    neovim-configured = neovim-configured.packages.${system}.default;
+                    neovim-configured = (import ./neovim-flake/packages.nix {
+                      pkgs = pkgs-unstable;
+                      inherit nix-appimage;
+                    }).default;
                   };
                 };
               }
@@ -106,3 +133,4 @@
       };
     };
 }
+
