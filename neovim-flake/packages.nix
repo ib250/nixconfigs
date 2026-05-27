@@ -8,7 +8,7 @@
   };
 
   matches = regex: string: !(isNull (builtins.match regex string));
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
 
   # NOTE(treesitter): this allows the queries to be bundled into nvim-treesitter
   # for the parsers themselves, we need to handle that separately
