@@ -4,8 +4,6 @@ end
 
 vim.g.ib250_start = true
 
-require("vim._core.ui2").enable({})
-
 -- which-key
 require("which-key").setup({
   preset = "helix",
