@@ -61,6 +61,10 @@ require("Comment").setup({})
 
 require("nvim-treesitter").setup()
 
+require("treesitter-context").setup({
+  max_lines = 3
+})
+
 -- todo-comments
 require("todo-comments").setup({})
 
